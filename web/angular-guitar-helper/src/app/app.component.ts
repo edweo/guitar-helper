@@ -1,21 +1,29 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {MatToolbar} from '@angular/material/toolbar';
-import {MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
+import {Component, inject, ViewChild} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 import {MatDrawer, MatSidenavModule} from '@angular/material/sidenav';
+import {MatNavList} from '@angular/material/list';
+import {NavItemComponent} from './components/nav-item/nav-item.component';
+import {TopBarComponent} from './components/top-bar/top-bar.component';
+import {NavMenuService} from './services/nav-menu.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatToolbar, MatIcon, MatIconButton, MatDrawer, MatSidenavModule],
+  imports: [RouterOutlet, MatSidenavModule, MatNavList, TopBarComponent, NavItemComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  @ViewChild('sidenav') sidenav!: MatDrawer;
   title = 'Guitara';
-  navOpened: boolean = false;
 
-  toggleNavMenu() {
-    this.navOpened = !this.navOpened;
+  navMenuOpened: boolean = false
+
+  // Services
+  readonly navMenuService: NavMenuService = inject(NavMenuService)
+
+  ngOnInit() {
+    this.navMenuService.navMenuOpened$.subscribe((opened) => {
+      this.navMenuOpened = opened
+    })
   }
 }

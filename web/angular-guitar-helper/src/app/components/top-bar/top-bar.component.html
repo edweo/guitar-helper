@@ -1,0 +1,13 @@
+<mat-toolbar>
+  <!--Right side-->
+  <button mat-icon-button class="example-icon" aria-label="Menu toggle button" (click)="toggleNavMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!--Title-->
+  <span class="ml-2">{{title}}</span>
+  <span class="flex-auto"></span>
+
+  <!--Right side-->
+  <ng-content></ng-content>
+</mat-toolbar>

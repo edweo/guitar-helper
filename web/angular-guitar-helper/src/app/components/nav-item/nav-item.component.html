@@ -1,0 +1,6 @@
+<mat-list-item routerLinkActive="active" (click)="navMenuService.closeNavMenu()">
+  <a [routerLink]="route" class="flex flex-row justify-start items-center gap-2 select-none">
+    <mat-icon>{{matIcon}}</mat-icon>
+    <h1>{{title}}</h1>
+  </a>
+</mat-list-item>

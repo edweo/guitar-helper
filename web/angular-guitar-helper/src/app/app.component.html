@@ -1,25 +1,23 @@
-<mat-drawer-container class="example-container">
-  <mat-drawer mode="over" [(opened)]="navOpened">
-    <!-- TODO add drawer content -->
-    Drawer content
-  </mat-drawer>
-  <mat-drawer-content>
-    <div class="bg-red-500 flex flex-col h-screen">
-      <mat-toolbar>
-        <button mat-icon-button class="example-icon" aria-label="Menu toggle button" (click)="toggleNavMenu()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span>{{title}}</span>
-        <span class="flex-auto"></span>
-        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-          <mat-icon>favorite</mat-icon>
-        </button>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-          <mat-icon>share</mat-icon>
-        </button>
-      </mat-toolbar>
+<mat-sidenav-container hasBackdrop="true">
+<!--  <mat-sidenav #sidenav mode="over" style="width: 250px;">-->
+  <mat-sidenav #sidenav
+               [(opened)]="navMenuOpened"
+               mode="over"
+               class="!w-11/12 sm:!w-[360px]"
+               (closed)="navMenuService.closeNavMenu()"
+  >
+    <div class="p-4">
+      <mat-nav-list>
+        <app-nav-item title="Chords" route="/chords" matIcon="home" />
+        <app-nav-item title="Tabs" route="/tabs" matIcon="info" />
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
 
+  <mat-sidenav-content>
+    <div class="bg-red-500 flex flex-col h-screen">
+      <app-top-bar [title]="title" [toggleNavMenu]="navMenuService.toggleNavMenu.bind(navMenuService)" />
       <router-outlet />
     </div>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>
