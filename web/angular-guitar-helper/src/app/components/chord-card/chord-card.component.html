@@ -1,0 +1,49 @@
+<mat-card appearance="outlined" class="!bg-white inline-flex w-72 p-4">
+  <div class="flex flex-col items-center">
+    <h1 class="font-bold text-4xl">{{title}}</h1>
+
+    <!--TODO create fret reference point-->
+
+    <!--Open frets-->
+    @if (closedNotes !== undefined) {
+      <div class="w-full mt-2">
+        <mat-grid-list cols="6" rowHeight="1.5:1" class="w-full">
+          @for (openFret of closedNotes; track openFret) {
+            <mat-grid-tile>
+              @if (openFret) {
+                <mat-icon class="!h-full !w-full text-center !text-2xl">close</mat-icon>
+              }
+            </mat-grid-tile>
+          }
+        </mat-grid-list>
+      </div>
+    }
+
+
+    <div class="flex items-center justify-center w-full relative mt-2">
+      <!--Chords grid-->
+      <div class="w-10/12">
+        <mat-grid-list cols="5" rowHeight="1:1.1" class="bg-black 500 w-full border-t-1 border-x-1">
+          @for (tile of tiles; track tile.text) {
+            <mat-grid-tile class="bg-white" />
+          }
+        </mat-grid-list>
+      </div>
+
+      <!--Pushed frets-->
+      <div class=" flex absolute w-full h-full bottom-0 left-0">
+        <mat-grid-list cols="6" rowHeight="1:1.1" class="w-full">
+          @for (fretNote of allFrets(); track fretNote) {
+            <mat-grid-tile>
+              @if (pushedFretsNotes.has(getFret(fretNote))) {
+                <div class="bg-black flex justify-center items-center w-[90%] h-[80%] rounded-full">
+                  <p class="text-white">{{getPushedFretNumber(fretNote)}}</p>
+                </div>
+              }
+            </mat-grid-tile>
+          }
+        </mat-grid-list>
+      </div>
+    </div>
+  </div>
+</mat-card>

@@ -1,5 +1,4 @@
 <mat-sidenav-container hasBackdrop="true">
-<!--  <mat-sidenav #sidenav mode="over" style="width: 250px;">-->
   <mat-sidenav #sidenav
                [(opened)]="navMenuOpened"
                mode="over"
@@ -9,15 +8,20 @@
     <div class="p-4">
       <mat-nav-list>
         <app-nav-item title="Chords" route="/chords" matIcon="home" />
-        <app-nav-item title="Tabs" route="/tabs" matIcon="info" />
+        <app-nav-item title="Tabs" route="/tabs" matIcon="table_rows" />
+        <app-nav-item title="Recording" route="/recording" matIcon="graphic_eq" />
+        <app-nav-item title="Profile" route="/profile" matIcon="person" />
+        <app-nav-item title="About" route="/about" matIcon="info" />
       </mat-nav-list>
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <div class="bg-red-500 flex flex-col h-screen">
+    <div class="bg-gray-200 flex flex-col h-screen">
       <app-top-bar [title]="title" [toggleNavMenu]="navMenuService.toggleNavMenu.bind(navMenuService)" />
-      <router-outlet />
+      <app-page-frame>
+        <router-outlet/>
+      </app-page-frame>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

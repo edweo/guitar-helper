@@ -1,3 +1,7 @@
 .active {
   background-color: lightgray;
 }
+
+.nav-item:hover {
+  background-color: lightgray;
+}

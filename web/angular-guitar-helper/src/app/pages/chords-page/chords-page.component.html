@@ -1,1 +1,12 @@
 <p>chords-page works!</p>
+
+<div class="flex">
+
+  @for (chord of chordCards; track chord.title) {
+    <app-chord-card
+      [title]="chord.title"
+      [closedNotes]="chord.closedNotes"
+      [pushedFretsNotes]="chord.pushedFretNotes"
+    />
+  }
+</div>
