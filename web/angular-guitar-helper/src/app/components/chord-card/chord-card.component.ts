@@ -2,9 +2,10 @@ import {Component, Input} from '@angular/core';
 import {MatCard} from '@angular/material/card';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatIcon} from '@angular/material/icon';
-import {FretNote} from '../../../models/fret_note';
-import {ClosedNotes} from '../../../models/closed_notes';
-import {FretPushed} from '../../../models/fret_pushed';
+import {FretNote} from '../../models/fret_note';
+import {FretPushed} from '../../models/fret_pushed';
+import {ChordAddition, ChordOpenClose} from '../../models/chord_open_close';
+import {BarreFrets} from '../../models/barre_frets';
 
 interface Tile {
   col: number;
@@ -25,8 +26,10 @@ interface Tile {
 })
 export class ChordCardComponent {
   @Input({required: true}) title!: string
-  @Input() closedNotes: ClosedNotes | undefined = undefined
+  @Input({required: true}) chordOpenClose!: ChordOpenClose
   @Input({required: true}) pushedFretsNotes!: Map<FretNote, FretPushed>
+  @Input({required: true}) barreFrets!: BarreFrets
+  @Input({required: true}) fretStartingReference!: number
 
   tiles: Tile[] = this.generateTiles()
 
@@ -47,6 +50,8 @@ export class ChordCardComponent {
   getFret = (fret: string) => FretNote[fret as keyof typeof FretNote]
 
   getPushedFretNumber(fretNote: FretNote) {
-    return this.pushedFretsNotes.get(fretNote)?.number
+    return this.pushedFretsNotes.get(fretNote)?.fingerNumber
   }
+
+  protected readonly ChordAddition = ChordAddition;
 }

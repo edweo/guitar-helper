@@ -1,12 +1,23 @@
 <p>chords-page works!</p>
 
 <div class="flex">
-
-  @for (chord of chordCards; track chord.title) {
+  @for (chord of CHORDS_E; track chord.title) {
     <app-chord-card
       [title]="chord.title"
-      [closedNotes]="chord.closedNotes"
+      [chordOpenClose]="chord.chordOpenClose"
       [pushedFretsNotes]="chord.pushedFretNotes"
+      [barreFrets]="chord.barreFrets"
+      [fretStartingReference]="chord.fretStartingReference"
+    />
+  }
+
+  @for (chord of CHORDS_F; track chord) {
+    <app-chord-card
+      [title]="chord.title"
+      [chordOpenClose]="chord.chordOpenClose"
+      [pushedFretsNotes]="chord.pushedFretNotes"
+      [barreFrets]="chord.barreFrets"
+      [fretStartingReference]="chord.fretStartingReference"
     />
   }
 </div>
