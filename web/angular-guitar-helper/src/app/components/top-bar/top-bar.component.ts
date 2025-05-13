@@ -14,7 +14,7 @@ import {MatIcon} from '@angular/material/icon';
   styleUrl: './top-bar.component.css'
 })
 export class TopBarComponent {
-
   @Input({required: true}) title!: string
-  @Input({required: true}) toggleNavMenu!: () => void
+  @Input({required: true}) buttonIcon!: string
+  @Input({required: true}) buttonClick!: () => void
 }

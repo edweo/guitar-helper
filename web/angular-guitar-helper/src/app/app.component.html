@@ -1,8 +1,8 @@
-<mat-sidenav-container hasBackdrop="true">
+<mat-sidenav-container>
   <mat-sidenav #sidenav
+               [mode]="navMenuMode"
+               class="!w-11/12 sm:!w-[220px]"
                [(opened)]="navMenuOpened"
-               mode="over"
-               class="!w-11/12 sm:!w-[360px]"
                (closed)="navMenuService.closeNavMenu()"
   >
     <div class="p-4">
@@ -18,8 +18,16 @@
 
   <mat-sidenav-content>
     <div class="bg-gray-200 flex flex-col h-screen">
-      <app-top-bar [title]="title" [toggleNavMenu]="navMenuService.toggleNavMenu.bind(navMenuService)" />
+      <app-top-bar [title]="title"
+                   buttonIcon="menu"
+                   [buttonClick]="topBarButtonClick"
+      />
       <app-page-frame>
+        @if (isMobile()) {
+          <p>Mobile Mode</p>
+        } @else {
+          <p>Window Mode</p>
+        }
         <router-outlet/>
       </app-page-frame>
     </div>
