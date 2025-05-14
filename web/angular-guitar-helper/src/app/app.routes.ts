@@ -7,7 +7,7 @@ import {AboutPageComponent} from './pages/about-page/about-page.component';
 import {NotFoundPageComponent} from './pages/not-found-page/not-found-page.component';
 
 export const routes: Routes = [
-  { path: '',   redirectTo: 'chords', pathMatch: 'full' },
+  { path: '', redirectTo: 'chords', pathMatch: 'full' },
   { path: 'chords', component: ChordsPageComponent },
   { path: 'tabs', component: TabsPageComponent },
   { path: 'recording', component: RecordingPageComponent },

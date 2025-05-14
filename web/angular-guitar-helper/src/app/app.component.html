@@ -23,11 +23,6 @@
                    [buttonClick]="topBarButtonClick"
       />
       <app-page-frame>
-        @if (isMobile()) {
-          <p>Mobile Mode</p>
-        } @else {
-          <p>Window Mode</p>
-        }
         <router-outlet/>
       </app-page-frame>
     </div>

@@ -1,0 +1,19 @@
+<mat-card mat-ripple
+          [matRippleDisabled]="onClick === undefined"
+          class="select-none h-full"
+          (click)="_onClick()"
+          [ngStyle]="{'width.px': width, 'cursor': onClick == undefined ? 'default' : 'pointer'}"
+>
+  <mat-card-content class="!flex !flex-col !justify-center !items-center flex-1">
+    <div class="flex flex-col items-center justify-center w-full flex-1">
+      <!--TODO use ngSrc for optimized images and require img w and h in input-->
+      <img mat-card-image [src]="imgSrc" [alt]="title" class="w-1/2" />
+    </div>
+  </mat-card-content>
+  <mat-card-footer class="px-4 pb-4 mt-1">
+    <div [ngStyle]="{'height.px': heightTextArea ?? 'auto'}">
+      <h1 class="text-center text-lg font-bold">{{title}}</h1>
+      <p class="text-center">{{desc}}</p>
+    </div>
+  </mat-card-footer>
+</mat-card>

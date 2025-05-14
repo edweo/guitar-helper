@@ -1,23 +1,39 @@
-<p>chords-page works!</p>
-
 <div class="flex">
-  @for (chord of CHORDS_E; track chord.title) {
-    <app-chord-card
-      [title]="chord.title"
-      [chordOpenClose]="chord.chordOpenClose"
-      [pushedFretsNotes]="chord.pushedFretNotes"
-      [barreFrets]="chord.barreFrets"
-      [fretStartingReference]="chord.fretStartingReference"
-    />
-  }
+<!--  @for (chord of CHORDS_E; track chord.title) {-->
+<!--    <app-chord-card-->
+<!--      [title]="chord.title"-->
+<!--      [chordOpenClose]="chord.chordOpenClose"-->
+<!--      [pushedFretsNotes]="chord.pushedFretNotes"-->
+<!--      [barreFrets]="chord.barreFrets"-->
+<!--      [fretStartingReference]="chord.fretStartingReference"-->
+<!--    />-->
+<!--  }-->
 
-  @for (chord of CHORDS_F; track chord) {
-    <app-chord-card
-      [title]="chord.title"
-      [chordOpenClose]="chord.chordOpenClose"
-      [pushedFretsNotes]="chord.pushedFretNotes"
-      [barreFrets]="chord.barreFrets"
-      [fretStartingReference]="chord.fretStartingReference"
-    />
-  }
+<!--  @for (chord of CHORDS_F; track chord) {-->
+<!--    <app-chord-card-->
+<!--      [title]="chord.title"-->
+<!--      [chordOpenClose]="chord.chordOpenClose"-->
+<!--      [pushedFretsNotes]="chord.pushedFretNotes"-->
+<!--      [barreFrets]="chord.barreFrets"-->
+<!--      [fretStartingReference]="chord.fretStartingReference"-->
+<!--    />-->
+<!--  }-->
+
+  <app-card-info-image
+    title="Practice"
+    desc="Practice playing guitar chords"
+    imgSrc="/person_playing.webp"
+  />
+
+  <app-card-info-image
+    title="Chords"
+    desc="Add, Edit and Remove chords"
+    imgSrc="/chords_overview.webp"
+  />
+
+  <app-chords-main-page></app-chords-main-page>
+
+<!--  <button mat-raised-button>Practice Chords</button>-->
+
+<!--  <button mat-raised-button>All Chords</button>-->
 </div>
