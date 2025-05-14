@@ -12,15 +12,6 @@ import {ChordsMainPageComponent} from './sub-pages/chords-main-page/chords-main-
 @Component({
   selector: 'app-chords-page',
   imports: [
-    ChordCardComponent,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardFooter,
-    NgOptimizedImage,
-    MatCardHeader,
-    MatRipple,
-    MatCardImage,
     CardInfoImageComponent,
     ChordsMainPageComponent,
   ],

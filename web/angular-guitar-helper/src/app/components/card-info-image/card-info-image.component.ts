@@ -12,7 +12,6 @@ import {MatRipple} from '@angular/material/core';
     MatCardImage,
     MatRipple,
     NgStyle,
-    NgOptimizedImage,
   ],
   templateUrl: './card-info-image.component.html',
   styleUrl: './card-info-image.component.css'

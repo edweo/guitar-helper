@@ -9,7 +9,7 @@ import {NotFoundPageComponent} from './pages/not-found-page/not-found-page.compo
 export const routes: Routes = [
   { path: '', redirectTo: 'chords', pathMatch: 'full' },
   { path: 'chords', component: ChordsPageComponent },
-  { path: 'tabs', component: TabsPageComponent },
+  { path: 'tablature', component: TabsPageComponent },
   { path: 'recording', component: RecordingPageComponent },
   { path: 'profile', component: ProfilePageComponent },
   { path: 'about', component: AboutPageComponent },
