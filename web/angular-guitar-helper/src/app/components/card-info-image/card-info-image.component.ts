@@ -23,6 +23,7 @@ export class CardInfoImageComponent {
   @Input({required: true}) imgSrc!: string
 
   @Input() width?: number = 256
+  @Input() height?: number = 256
   @Input() heightTextArea?: number
   @Input() onClick?: () => void
 

@@ -1,1 +1,17 @@
-<p>chords-main-page works!</p>
+<div class="flex flex-1 justify-center items-center">
+  <div class="flex justify-center flex-wrap flex-row gap-4">
+    <app-card-info-image
+      title="Practice"
+      desc="Practice playing guitar chords"
+      imgSrc="/person_playing.webp"
+      [onClick]="navigateToChordsPractice"
+    />
+
+    <app-card-info-image
+      title="All Chords"
+      desc="Add, Edit and Remove chords"
+      imgSrc="/chords_overview.webp"
+      [onClick]="navigateToChordsOverview"
+    />
+  </div>
+</div>
