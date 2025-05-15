@@ -18,6 +18,7 @@ export class NavItemComponent {
   @Input({required: true}) title!: string
   @Input({required: true}) route!: string
   @Input({required: true}) matIcon!: string
+  @Input() textShown: boolean = true
 
   // Services
   readonly navMenuService: NavMenuService = inject(NavMenuService)

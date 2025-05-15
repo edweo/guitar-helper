@@ -1,27 +1,44 @@
-<mat-sidenav-container>
+<mat-sidenav-container autosize>
   <mat-sidenav #sidenav
                [mode]="navMenuMode"
-               class="!w-11/12 sm:!w-[220px]"
                [(opened)]="navMenuOpened"
+               class="!w-[250px] sm:!w-fit"
                (closed)="navMenuService.closeNavMenu()"
   >
-    <div class="p-4">
+    <div class="p-2 w-full flex flex-col justify-between h-full">
       <mat-nav-list>
-        <app-nav-item title="Chords" route="/chords" matIcon="music_note" />
-        <app-nav-item title="Tablature" route="/tablature" matIcon="wysiwyg" />
-        <app-nav-item title="Recording" route="/recording" matIcon="graphic_eq" />
-        <app-nav-item title="Profile" route="/profile" matIcon="person" />
-        <app-nav-item title="About" route="/about" matIcon="info" />
+        <app-nav-item title="Chords" route="/chords" matIcon="music_note" [textShown]="navItemsTextShown" />
+        <app-nav-item title="Tablature" route="/tablature" matIcon="wysiwyg" [textShown]="navItemsTextShown" />
+        <app-nav-item title="Recording" route="/recording" matIcon="graphic_eq" [textShown]="navItemsTextShown" />
+        <app-nav-item title="Profile" route="/profile" matIcon="person" [textShown]="navItemsTextShown" />
+        <app-nav-item title="About" route="/about" matIcon="info" [textShown]="navItemsTextShown" />
       </mat-nav-list>
+
+      @if (!mobileModeService.isMobile()) {
+        <button mat-icon-button
+                (click)="toggleNavItemsTextShown()"
+                class="self-end"
+                [ngStyle]="{
+                  'align-self': navItemsTextShown ? 'end' : 'center'
+                }"
+        >
+          <mat-icon>
+            @if (navItemsTextShown) {chevron_left}
+            @else {chevron_right}
+          </mat-icon>
+        </button>
+      }
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <div class="bg-gray-200 flex flex-col h-screen">
-      <app-top-bar [title]="title"
-                   buttonIcon="menu"
-                   [buttonClick]="topBarButtonClick"
-      />
+      @if (mobileModeService.isMobile()) {
+        <app-top-bar [title]="title"
+                     buttonIcon="menu"
+                     [buttonClick]="topBarButtonClick"
+        />
+      }
       <app-page-frame>
         <router-outlet/>
       </app-page-frame>
