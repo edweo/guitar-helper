@@ -8,6 +8,7 @@ import {NavMenuService} from './services/nav-menu-service/nav-menu.service';
 import {PageFrameComponent} from './components/page-frame/page-frame.component';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Subscription} from 'rxjs';
+import {MobileModeService} from './services/mobile-mode-service/mobile-mode.service';
 
 @Component({
   selector: 'app-root',
@@ -24,39 +25,32 @@ export class AppComponent {
 
   // Services
   readonly navMenuService: NavMenuService = inject(NavMenuService)
+  readonly mobileModeService: MobileModeService = inject(MobileModeService)
 
-  protected readonly isMobile = signal(true);
-
-  private readonly _mobileQuery: MediaQueryList;
-  private readonly _mobileQueryListener: () => void;
+  // Subscriptions RxJS
   private navMenuSubscription!: Subscription
+  private mobileModeSubscription!: Subscription
 
   constructor() {
+
     this.navMenuSubscription = this.navMenuService.navMenuOpened$.subscribe((opened) => {
       this.navMenuOpened = opened
     })
 
-    const media = inject(MediaMatcher);
+    this.mobileModeSubscription = this.mobileModeService.isMobile$.subscribe((isMobile) => {
+      this.transformNavMenu(isMobile)
+    })
 
-    this._mobileQuery = media.matchMedia('(max-width: 640px)');
-    this.transformNavMenu(this._mobileQuery.matches)
-    this.isMobile.set(this._mobileQuery.matches);
-
-    this._mobileQueryListener = () => {
-      const newIsMobile = this._mobileQuery.matches
-      this.transformNavMenu(newIsMobile)
-      this.isMobile.set(newIsMobile);
-    }
-    this._mobileQuery.addEventListener('change', this._mobileQueryListener);
+    this.transformNavMenu(this.mobileModeService.isMobile().valueOf())
   }
 
   ngOnDestroy(): void {
-    this._mobileQuery.removeEventListener('change', this._mobileQueryListener);
     this.navMenuSubscription.unsubscribe()
+    this.mobileModeSubscription.unsubscribe()
   }
 
   topBarButtonClick = () => {
-    if (this.isMobile()) {
+    if (this.mobileModeService.isMobile()) {
       console.log('tolgge button mobile')
       console.log(this.navMenuOpened)
       this.navMenuService.toggleNavMenu()
@@ -67,8 +61,6 @@ export class AppComponent {
   }
 
   transformNavMenu(isMobile: boolean) {
-    if (isMobile === this.isMobile()) return
-
     if (isMobile) {
       this.navMenuMode = 'over'
       this.navMenuSubscription = this.navMenuService.navMenuOpened$.subscribe((opened) => {
