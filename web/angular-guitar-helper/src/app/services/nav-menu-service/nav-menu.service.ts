@@ -12,7 +12,7 @@ export class NavMenuService {
   navMenuOpened$ = this.navMenuOpenedSubject.asObservable();
 
   // Method to toggle the nav menu
-  toggleNavMenu() {
+   toggleNavMenu() {
     this.navMenuOpenedSubject.next(!this.navMenuOpenedSubject.value);
   }
 

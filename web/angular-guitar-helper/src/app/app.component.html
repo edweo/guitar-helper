@@ -33,11 +33,8 @@
 
   <mat-sidenav-content>
     <div class="bg-gray-200 flex flex-col h-screen">
-      @if (mobileModeService.isMobile()) {
-        <app-top-bar [title]="title"
-                     buttonIcon="menu"
-                     [buttonClick]="topBarButtonClick"
-        />
+      @if (mobileModeService.isMobile() || topBarService.isTopBarShown()) {
+        <app-top-bar />
       }
       <app-page-frame>
         <router-outlet/>

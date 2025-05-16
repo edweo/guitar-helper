@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {CardInfoImageComponent} from "../../../../components/card-info-image/card-info-image.component";
 import {Router} from '@angular/router';
+import {TopBarService} from '../../../../services/top-bar-service/top-bar.service';
 
 @Component({
   selector: 'app-chords-main-page',
@@ -12,7 +13,13 @@ import {Router} from '@angular/router';
 })
 export class ChordsMainPageComponent {
 
-  private router: Router = inject(Router)
+  // Services
+  private readonly topBarService = inject(TopBarService)
+  private readonly router: Router = inject(Router)
+
+  constructor() {
+    this.topBarService.setTopBarShown(false)
+  }
 
   navigateToChordsOverview = () => {
     this.router.navigate(['chords/overview'])

@@ -1,13 +1,14 @@
 <mat-toolbar>
   <!--Right side-->
-  <button mat-icon-button (click)="buttonClick()">
-    <mat-icon>{{buttonIcon}}</mat-icon>
-  </button>
+  <div #leftContent></div>
 
   <!--Title-->
-  <span class="ml-2">{{title}}</span>
+  @if (topBarService.title() !== null) {
+    <span class="ml-2">{{topBarService.title()}}</span>
+  }
+
   <span class="flex-auto"></span>
 
   <!--Right side-->
-  <ng-content></ng-content>
+  <div #rightContent></div>
 </mat-toolbar>
