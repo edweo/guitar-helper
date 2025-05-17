@@ -12,7 +12,6 @@ import {MatIcon} from '@angular/material/icon';
 import {NgStyle} from '@angular/common';
 import {TopBarService} from './services/top-bar-service/top-bar.service';
 import {MenuButtonComponent} from './components/menu-button/menu-button.component';
-import {ComponentType} from '@angular/cdk/portal';
 import {TopBarComponent} from './components/top-bar/top-bar.component';
 
 @Component({

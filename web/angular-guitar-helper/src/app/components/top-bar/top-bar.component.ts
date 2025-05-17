@@ -1,4 +1,11 @@
-import {Component, ElementRef, inject, Input, OnDestroy, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {MatToolbar} from '@angular/material/toolbar';
 import {TopBarService} from '../../services/top-bar-service/top-bar.service';
 import {Subscription} from 'rxjs';
@@ -11,7 +18,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.css'
 })
-export class TopBarComponent implements OnDestroy{
+export class TopBarComponent implements OnDestroy, AfterViewInit {
   @ViewChild('leftContent', { read: ViewContainerRef, static: true }) leftContent!: ViewContainerRef
   @ViewChild('rightContent', { read: ViewContainerRef, static: true }) rightContent!: ViewContainerRef
 
@@ -23,19 +30,15 @@ export class TopBarComponent implements OnDestroy{
   private leftContentSubscription!: Subscription
   private rightContentSubscription!: Subscription
 
-  constructor() {
-
-  }
+  constructor() {}
 
   ngAfterViewInit() {
     // Left content Listener
     this.leftContentSubscription = this.topBarService.leftContent$.subscribe((content) => {
       console.log('content:', content)
-      // this.leftContent.nativeElement.innerHTML = '';
       this.leftContent.clear()
       if (content !== null) {
         for (const contentElement of content) {
-          // this.leftContent.nativeElement.append(contentElement.location.nativeElement)
           this.leftContent.createComponent(contentElement)
         }
       }
@@ -43,11 +46,9 @@ export class TopBarComponent implements OnDestroy{
 
     // Right content Listener
     this.rightContentSubscription = this.topBarService.rightContent$.subscribe((content) => {
-      // this.rightContent.nativeElement.innerHTML = '';
       this.rightContent.clear()
       if (content !== null) {
         for (const contentElement of content) {
-          // this.rightContent.nativeElement.append(contentElement.location.nativeElement)
           this.rightContent.createComponent(contentElement)
         }
       }

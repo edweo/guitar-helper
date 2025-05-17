@@ -26,7 +26,7 @@
 
   <div class="h-full overflow-scroll">
     <div class="flex flex-wrap flex-row justify-center items-center gap-3 max-h-0">
-      @for (chord of CHORDS_E; let i = $index; track i) {
+      @for (chord of chordsService.CHORDS_E(); let i = $index; track i) {
         <div class="flex w-[144px] h-[179px]">
           <app-chord-card
             [title]="chord.title"

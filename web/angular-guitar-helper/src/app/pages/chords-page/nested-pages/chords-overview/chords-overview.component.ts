@@ -1,9 +1,8 @@
-import {Component, inject, ViewContainerRef} from '@angular/core';
-import {CHORDS_E} from '../../../../constants/chords/chords_e';
-import {CHORDS_F} from '../../../../constants/chords/chords_f';
+import {Component, inject} from '@angular/core';
 import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
 import {TopBarService} from '../../../../services/top-bar-service/top-bar.service';
 import {PageBackButtonComponent} from '../../../../components/page-back-button/page-back-button.component';
+import {ChordsService} from '../../../../services/chords-service/chords.service';
 
 @Component({
   selector: 'app-chords-overview',
@@ -14,10 +13,8 @@ import {PageBackButtonComponent} from '../../../../components/page-back-button/p
   styleUrl: './chords-overview.component.css'
 })
 export class ChordsOverviewComponent {
-  readonly CHORDS_E = CHORDS_E;
-  readonly CHORDS_F = CHORDS_F;
-
   // Services
+  readonly chordsService = inject(ChordsService)
   private readonly topBarService = inject(TopBarService)
 
   constructor() {

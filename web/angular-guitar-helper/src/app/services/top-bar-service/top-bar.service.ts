@@ -1,4 +1,4 @@
-import {ComponentRef, Injectable, signal} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ComponentType} from '@angular/cdk/portal';
 
