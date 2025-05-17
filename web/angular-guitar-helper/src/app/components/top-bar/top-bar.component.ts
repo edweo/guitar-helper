@@ -12,11 +12,12 @@ import {Subscription} from 'rxjs';
   styleUrl: './top-bar.component.css'
 })
 export class TopBarComponent implements OnDestroy{
-  @ViewChild('leftContent') leftContent!: ElementRef
-  @ViewChild('rightContent') rightContent!: ElementRef
+  @ViewChild('leftContent', { read: ViewContainerRef, static: true }) leftContent!: ViewContainerRef
+  @ViewChild('rightContent', { read: ViewContainerRef, static: true }) rightContent!: ViewContainerRef
 
   // Services
   readonly topBarService = inject(TopBarService)
+  private readonly vcr = inject(ViewContainerRef)
 
   // Subscriptions
   private leftContentSubscription!: Subscription
@@ -30,20 +31,24 @@ export class TopBarComponent implements OnDestroy{
     // Left content Listener
     this.leftContentSubscription = this.topBarService.leftContent$.subscribe((content) => {
       console.log('content:', content)
-      this.leftContent.nativeElement.innerHTML = '';
+      // this.leftContent.nativeElement.innerHTML = '';
+      this.leftContent.clear()
       if (content !== null) {
         for (const contentElement of content) {
-          this.leftContent.nativeElement.append(contentElement.location.nativeElement)
+          // this.leftContent.nativeElement.append(contentElement.location.nativeElement)
+          this.leftContent.createComponent(contentElement)
         }
       }
     })
 
     // Right content Listener
     this.rightContentSubscription = this.topBarService.rightContent$.subscribe((content) => {
-      this.rightContent.nativeElement.innerHTML = '';
+      // this.rightContent.nativeElement.innerHTML = '';
+      this.rightContent.clear()
       if (content !== null) {
         for (const contentElement of content) {
-          this.rightContent.nativeElement.append(contentElement.location.nativeElement)
+          // this.rightContent.nativeElement.append(contentElement.location.nativeElement)
+          this.rightContent.createComponent(contentElement)
         }
       }
     })

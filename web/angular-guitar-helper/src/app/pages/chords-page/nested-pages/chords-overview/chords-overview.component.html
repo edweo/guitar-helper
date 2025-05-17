@@ -1,56 +1,43 @@
-<div class="w-full">
-  <div class="flex flex-row justify-between items-center bg-red-300"
-       [ngStyle]="{
-          'height.px': topBarHeight
-       }"
-  >
-    <h1 class="font-bold text-4xl">E</h1>
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Redial</span>
-      </button>
-      <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voice mail</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon>
-        <span>Disable alerts</span>
-      </button>
-    </mat-menu>
-  </div>
+<div class="flex flex-1 flex-col">
+<!--  <div class="flex flex-row justify-between items-center bg-red-300 w-full"-->
+<!--       [ngStyle]="{-->
+<!--          'height.px': topBarHeight-->
+<!--       }"-->
+<!--  >-->
+<!--    <h1 class="font-bold text-4xl">E</h1>-->
+<!--    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">-->
+<!--      <mat-icon>more_vert</mat-icon>-->
+<!--    </button>-->
+<!--    <mat-menu #menu="matMenu">-->
+<!--      <button mat-menu-item>-->
+<!--        <mat-icon>dialpad</mat-icon>-->
+<!--        <span>Redial</span>-->
+<!--      </button>-->
+<!--      <button mat-menu-item disabled>-->
+<!--        <mat-icon>voicemail</mat-icon>-->
+<!--        <span>Check voice mail</span>-->
+<!--      </button>-->
+<!--      <button mat-menu-item>-->
+<!--        <mat-icon>notifications_off</mat-icon>-->
+<!--        <span>Disable alerts</span>-->
+<!--      </button>-->
+<!--    </mat-menu>-->
+<!--  </div>-->
 
-  <div class="flex flex-row flex-wrap justify-start gap-3 overflow-scroll"
-       [ngStyle]="{
-          'height.px': 200
-       }"
-  >
-    @for (chord of CHORDS_E; let i = $index; track i) {
-      <div class="flex w-[144px] h-[179px]">
-        <app-chord-card
-          [title]="chord.title"
-          [chordOpenClose]="chord.chordOpenClose"
-          [pushedFretsNotes]="chord.pushedFretNotes"
-          [barreFrets]="chord.barreFrets"
-          [fretStartingReference]="chord.fretStartingReference"
-          class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
-        />
-      </div>
-    }
+  <div class="h-full overflow-scroll">
+    <div class="flex flex-wrap flex-row justify-center items-center gap-3 max-h-0">
+      @for (chord of CHORDS_E; let i = $index; track i) {
+        <div class="flex w-[144px] h-[179px]">
+          <app-chord-card
+            [title]="chord.title"
+            [chordOpenClose]="chord.chordOpenClose"
+            [pushedFretsNotes]="chord.pushedFretNotes"
+            [barreFrets]="chord.barreFrets"
+            [fretStartingReference]="chord.fretStartingReference"
+            class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
+          />
+        </div>
+      }
+    </div>
   </div>
 </div>
-
-
-<!--@for (chord of CHORDS_F; track chord) {-->
-<!--  <app-chord-card-->
-<!--    [title]="chord.title"-->
-<!--    [chordOpenClose]="chord.chordOpenClose"-->
-<!--    [pushedFretsNotes]="chord.pushedFretNotes"-->
-<!--    [barreFrets]="chord.barreFrets"-->
-<!--    [fretStartingReference]="chord.fretStartingReference"-->
-<!--  />-->
-<!--}-->

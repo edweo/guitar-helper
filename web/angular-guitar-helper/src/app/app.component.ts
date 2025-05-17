@@ -1,9 +1,8 @@
-import {Component, inject, OnDestroy, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, inject, OnDestroy, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatDrawer, MatDrawerMode, MatSidenavModule} from '@angular/material/sidenav';
 import {MatNavList} from '@angular/material/list';
 import {NavItemComponent} from './components/nav-item/nav-item.component';
-import {TopBarComponent} from './components/top-bar/top-bar.component';
 import {NavMenuService} from './services/nav-menu-service/nav-menu.service';
 import {PageFrameComponent} from './components/page-frame/page-frame.component';
 import {Subscription} from 'rxjs';
@@ -13,6 +12,8 @@ import {MatIcon} from '@angular/material/icon';
 import {NgStyle} from '@angular/common';
 import {TopBarService} from './services/top-bar-service/top-bar.service';
 import {MenuButtonComponent} from './components/menu-button/menu-button.component';
+import {ComponentType} from '@angular/cdk/portal';
+import {TopBarComponent} from './components/top-bar/top-bar.component';
 
 @Component({
   selector: 'app-root',
@@ -20,12 +21,12 @@ import {MenuButtonComponent} from './components/menu-button/menu-button.componen
     RouterOutlet,
     MatSidenavModule,
     MatNavList,
-    TopBarComponent,
     NavItemComponent,
     PageFrameComponent,
     MatIcon,
     MatIconButton,
     NgStyle,
+    TopBarComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -43,7 +44,6 @@ export class AppComponent implements OnDestroy {
   readonly navMenuService: NavMenuService = inject(NavMenuService)
   readonly mobileModeService: MobileModeService = inject(MobileModeService)
   readonly topBarService: TopBarService = inject(TopBarService)
-  private readonly vcr = inject(ViewContainerRef);
 
   // Subscriptions RxJS
   private navMenuSubscription!: Subscription
@@ -78,8 +78,7 @@ export class AppComponent implements OnDestroy {
       this.navMenuSubscription = this.navMenuService.navMenuOpened$.subscribe((opened) => {
         this.navMenuOpened = opened
       })
-      const menuButton = this.vcr.createComponent(MenuButtonComponent)
-      this.topBarService.setLeftContent([menuButton])
+      this.topBarService.setLeftContent([MenuButtonComponent])
     } else {
       this.navMenuMode = 'side'
       this.navMenuService.openNavMenu()
