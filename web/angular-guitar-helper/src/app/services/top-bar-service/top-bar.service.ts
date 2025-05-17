@@ -1,6 +1,6 @@
 import {Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {ComponentType} from '@angular/cdk/portal';
+import {DynamicComponent} from '../../types/dynamic_component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +11,19 @@ export class TopBarService {
 
   readonly title = signal<string | null>("Guitara")
 
-  readonly leftContent = signal<ComponentType<any>[] | null>(null)
+  readonly leftContent = signal<DynamicComponent<any>[] | null>(null)
   readonly leftContent$ = toObservable(this.leftContent)
 
-  readonly rightContent = signal<ComponentType<any>[] | null>(null)
+  readonly rightContent = signal<DynamicComponent<any>[] | null>(null)
   readonly rightContent$ = toObservable(this.rightContent)
 
   constructor() { }
 
-  setLeftContent = (components: ComponentType<any>[] | null) => {
+  setLeftContent = (components: DynamicComponent<any>[] | null) => {
     this.leftContent.set(components)
   }
 
-  setRightContent = (components: ComponentType<any>[] | null) => {
+  setRightContent = (components: DynamicComponent<any>[] | null) => {
     this.rightContent.set(components)
   }
 

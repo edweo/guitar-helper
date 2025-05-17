@@ -1,0 +1,12 @@
+<button mat-flat-button [matMenuTriggerFor]="menu">
+  <p>{{text}}</p>
+  <mat-icon>{{matIcon}}</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  @for (menuItem of menuItems; let i = $index; track i) {
+    <button mat-menu-item (click)="menuItem.onClick()">
+      <mat-icon>{{menuItem.matIcon}}</mat-icon>
+      <span>{{menuItem.text}}</span>
+    </button>
+  }
+</mat-menu>

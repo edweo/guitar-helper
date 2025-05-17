@@ -9,6 +9,7 @@ import {
 import {MatToolbar} from '@angular/material/toolbar';
 import {TopBarService} from '../../services/top-bar-service/top-bar.service';
 import {Subscription} from 'rxjs';
+import {DynamicComponent} from '../../types/dynamic_component';
 
 @Component({
   selector: 'app-top-bar',
@@ -24,7 +25,6 @@ export class TopBarComponent implements OnDestroy, AfterViewInit {
 
   // Services
   readonly topBarService = inject(TopBarService)
-  private readonly vcr = inject(ViewContainerRef)
 
   // Subscriptions
   private leftContentSubscription!: Subscription
@@ -34,29 +34,31 @@ export class TopBarComponent implements OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     // Left content Listener
-    this.leftContentSubscription = this.topBarService.leftContent$.subscribe((content) => {
-      console.log('content:', content)
-      this.leftContent.clear()
-      if (content !== null) {
-        for (const contentElement of content) {
-          this.leftContent.createComponent(contentElement)
-        }
-      }
+    this.leftContentSubscription = this.topBarService.leftContent$.subscribe((components) => {
+      this._replaceComponentOnSide(this.leftContent, components)
     })
 
     // Right content Listener
-    this.rightContentSubscription = this.topBarService.rightContent$.subscribe((content) => {
-      this.rightContent.clear()
-      if (content !== null) {
-        for (const contentElement of content) {
-          this.rightContent.createComponent(contentElement)
-        }
-      }
+    this.rightContentSubscription = this.topBarService.rightContent$.subscribe((components) => {
+      this._replaceComponentOnSide(this.rightContent, components)
     })
   }
 
   ngOnDestroy() {
     this.leftContentSubscription.unsubscribe()
     this.rightContentSubscription.unsubscribe()
+  }
+
+  private _replaceComponentOnSide(vcr: ViewContainerRef, components: DynamicComponent<any>[] | null) {
+    vcr.clear()
+    if (components !== null) {
+      for (const dynamicComponent of components) {
+        if (dynamicComponent.init !== undefined) {
+          dynamicComponent.init(vcr, dynamicComponent.component)
+        } else {
+          vcr.createComponent(dynamicComponent.component)
+        }
+      }
+    }
   }
 }

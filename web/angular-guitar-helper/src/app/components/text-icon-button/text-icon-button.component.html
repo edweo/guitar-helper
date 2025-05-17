@@ -1,0 +1,8 @@
+<button mat-flat-button
+        (click)="onClick()"
+>
+  <p>{{text}}</p>
+  @if (matIcon !== undefined) {
+    <mat-icon>{{matIcon}}</mat-icon>
+  }
+</button>

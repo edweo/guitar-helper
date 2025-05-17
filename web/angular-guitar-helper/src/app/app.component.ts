@@ -38,7 +38,6 @@ export class AppComponent implements OnDestroy {
   navItemsTextShown: boolean = true
   navMenuMode!: MatDrawerMode
 
-
   // Services
   readonly navMenuService: NavMenuService = inject(NavMenuService)
   readonly mobileModeService: MobileModeService = inject(MobileModeService)
@@ -77,7 +76,9 @@ export class AppComponent implements OnDestroy {
       this.navMenuSubscription = this.navMenuService.navMenuOpened$.subscribe((opened) => {
         this.navMenuOpened = opened
       })
-      this.topBarService.setLeftContent([MenuButtonComponent])
+      this.topBarService.setLeftContent([
+        {component: MenuButtonComponent}
+      ])
     } else {
       this.navMenuMode = 'side'
       this.navMenuService.openNavMenu()
