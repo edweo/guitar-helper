@@ -5,6 +5,7 @@ import {PageBackButtonComponent} from '../../../../components/page-back-button/p
 import {ChordsService} from '../../../../services/chords-service/chords.service';
 import {ChordsSelectionButtonComponent} from './components/chords-selection-button/chords-selection-button.component';
 import {ComponentType} from '@angular/cdk/portal';
+import {TopBarLifecycleComponent} from '../../../../types/top_bar_lifecycle_component';
 
 @Component({
   selector: 'app-chords-overview',
@@ -14,15 +15,16 @@ import {ComponentType} from '@angular/cdk/portal';
   templateUrl: './chords-overview.component.html',
   styleUrl: './chords-overview.component.css'
 })
-export class ChordsOverviewComponent {
+export class ChordsOverviewComponent extends TopBarLifecycleComponent {
   // Services
   readonly chordsService = inject(ChordsService)
-  private readonly topBarService = inject(TopBarService)
 
   constructor() {
-    this.topBarService.setTopBarShown(true)
+    super();
+  }
 
-    this.topBarService.setRightContent([
+  override setTopBarContent(topBarService:TopBarService): void {
+    topBarService.setRightContent([
       {component: PageBackButtonComponent},
       {
         component: ChordsSelectionButtonComponent,

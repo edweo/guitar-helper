@@ -18,7 +18,7 @@ export class ChordsMainPageComponent {
   private readonly router: Router = inject(Router)
 
   constructor() {
-    this.topBarService.setTopBarShown(false)
+    this.topBarService.hideTopBar()
   }
 
   navigateToChordsOverview = () => {

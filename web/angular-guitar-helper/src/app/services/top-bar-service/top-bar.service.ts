@@ -27,11 +27,22 @@ export class TopBarService {
     this.rightContent.set(components)
   }
 
-  setTopBarShown = (shown: boolean) => {
-    this.isTopBarShown.set(shown)
-  }
-
   setTopBarTitle = (title: string | null) => {
     this.title.set(title)
+  }
+
+  showTopBar = () => {
+    this.isTopBarShown.set(true)
+  }
+
+  hideTopBar = () => {
+    this.isTopBarShown.set(false)
+  }
+
+  resetAll = () => {
+    this.setTopBarTitle(null)
+    this.setLeftContent(null)
+    this.setRightContent(null)
+    this.hideTopBar()
   }
 }
