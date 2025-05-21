@@ -1,11 +1,13 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnDestroy, signal, WritableSignal} from '@angular/core';
 import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
 import {TopBarService} from '../../../../services/top-bar-service/top-bar.service';
 import {PageBackButtonComponent} from '../../../../components/page-back-button/page-back-button.component';
 import {ChordsService} from '../../../../services/chords-service/chords.service';
 import {ChordsSelectionButtonComponent} from './components/chords-selection-button/chords-selection-button.component';
 import {ComponentType} from '@angular/cdk/portal';
-import {TopBarLifecycleComponent} from '../../../../types/top_bar_lifecycle_component';
+import {ChordGroup} from '../../../../types/chord_group';
+import {DefaultChordGroups} from '../../../../types/default_chord_groups';
+import {ChordsSelectionMenuItem} from './types/chords_selection_menu_item';
 
 @Component({
   selector: 'app-chords-overview',
@@ -15,16 +17,16 @@ import {TopBarLifecycleComponent} from '../../../../types/top_bar_lifecycle_comp
   templateUrl: './chords-overview.component.html',
   styleUrl: './chords-overview.component.css'
 })
-export class ChordsOverviewComponent extends TopBarLifecycleComponent {
+export class ChordsOverviewComponent implements OnDestroy {
+  readonly currentChordGroup: WritableSignal<ChordGroup | undefined> = signal(undefined)
+
   // Services
   readonly chordsService = inject(ChordsService)
+  readonly topBarService = inject(TopBarService)
 
   constructor() {
-    super();
-  }
-
-  override setTopBarContent(topBarService:TopBarService): void {
-    topBarService.setRightContent([
+    this.topBarService.showTopBar()
+    this.topBarService.setRightContent([
       {component: PageBackButtonComponent},
       {
         component: ChordsSelectionButtonComponent,
@@ -32,16 +34,34 @@ export class ChordsOverviewComponent extends TopBarLifecycleComponent {
           const created = vcr.createComponent(component)
           created.instance.text = 'Chords'
           created.instance.matIcon = 'library_books'
-          created.instance.menuItems = [
-            // TODO add menu items for each chrod group and actions when clicking to change the diplayed hords gallery
-            {matIcon: 'dialpad', text: 'redial', onClick: this.click},
-          ]
+
+          const menuItems: ChordsSelectionMenuItem[] = []
+
+          // Add default chord values in menu
+          Object.values(DefaultChordGroups).forEach(defaultMenuItem => {
+            menuItems.push({
+              matIcon: 'dialpad',
+              text: defaultMenuItem,
+              onClick: () => this._changeCurrentChordGroup(defaultMenuItem)
+            })
+          })
+
+          // TODO Add custom menu item values
+
+          created.instance.menuItems = menuItems
         }
       }
     ])
+
+    this._changeCurrentChordGroup(DefaultChordGroups.CHORDS_A)
   }
 
-  click = () => {
-    console.log('clicking button!')
+  ngOnDestroy(): void {
+    this.topBarService.resetAll()
+  }
+
+  private _changeCurrentChordGroup = (groupName: string) => {
+    this.currentChordGroup.set(this.chordsService.getChordGroup(groupName)!.asReadonly()())
+    this.topBarService.setTopBarTitle(groupName)
   }
 }

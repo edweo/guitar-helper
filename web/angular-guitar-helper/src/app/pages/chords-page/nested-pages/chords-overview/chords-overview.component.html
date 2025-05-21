@@ -1,17 +1,27 @@
 <div class="flex flex-1 flex-col">
   <div class="h-full overflow-scroll">
     <div class="flex flex-wrap flex-row justify-center items-center gap-3 max-h-0">
-      @for (chord of chordsService.CHORDS_E(); let i = $index; track i) {
-        <div class="flex w-[144px] h-[179px]">
-          <app-chord-card
-            [title]="chord.title"
-            [chordOpenClose]="chord.chordOpenClose"
-            [pushedFretsNotes]="chord.pushedFretNotes"
-            [barreFrets]="chord.barreFrets"
-            [fretStartingReference]="chord.fretStartingReference"
-            class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
-          />
-        </div>
+
+      <!--Display chord group-->
+      @if (currentChordGroup() !== undefined) {
+        @if (currentChordGroup()!.chords.length === 0) {
+          <h1>Chord group has no chords yet</h1>
+        } @else {
+          @for (chord of currentChordGroup()!.chords; let i = $index; track i) {
+            <div class="flex w-[144px] h-[179px]">
+              <app-chord-card
+                [title]="chord.title"
+                [chordOpenClose]="chord.chordOpenClose"
+                [pushedFretsNotes]="chord.pushedFretNotes"
+                [barreFrets]="chord.barreFrets"
+                [fretStartingReference]="chord.fretStartingReference"
+                class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
+              />
+            </div>
+          }
+        }
+      } @else {
+        <h1>Select a chord group</h1>
       }
     </div>
   </div>
