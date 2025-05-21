@@ -10,11 +10,14 @@ import {MatToolbar} from '@angular/material/toolbar';
 import {TopBarService} from '../../services/top-bar-service/top-bar.service';
 import {Subscription} from 'rxjs';
 import {DynamicComponent} from '../../types/dynamic_component';
+import {MenuButtonComponent} from '../menu-button/menu-button.component';
+import {MobileModeService} from '../../services/mobile-mode-service/mobile-mode.service';
 
 @Component({
   selector: 'app-top-bar',
   imports: [
     MatToolbar,
+    MenuButtonComponent,
   ],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.css'
@@ -25,6 +28,7 @@ export class TopBarComponent implements OnDestroy, AfterViewInit {
 
   // Services
   readonly topBarService = inject(TopBarService)
+  readonly mobileModeService = inject(MobileModeService)
 
   // Subscriptions
   private leftContentSubscription!: Subscription

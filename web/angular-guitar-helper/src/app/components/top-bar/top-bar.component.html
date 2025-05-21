@@ -1,4 +1,8 @@
 <mat-toolbar>
+  @if (mobileModeService.isMobile()) {
+    <app-menu-button />
+  }
+
   <!--Right side-->
   <div #leftContent></div>
 

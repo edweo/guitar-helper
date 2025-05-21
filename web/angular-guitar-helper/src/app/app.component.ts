@@ -76,14 +76,10 @@ export class AppComponent implements OnDestroy {
       this.navMenuSubscription = this.navMenuService.navMenuOpened$.subscribe((opened) => {
         this.navMenuOpened = opened
       })
-      this.topBarService.setLeftContent([
-        {component: MenuButtonComponent}
-      ])
     } else {
       this.navMenuMode = 'side'
       this.navMenuService.openNavMenu()
       this.navMenuSubscription.unsubscribe()
-      this.topBarService.setLeftContent(null)
     }
   }
 }

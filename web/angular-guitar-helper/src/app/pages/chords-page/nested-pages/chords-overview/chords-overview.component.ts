@@ -26,8 +26,10 @@ export class ChordsOverviewComponent implements OnDestroy {
 
   constructor() {
     this.topBarService.showTopBar()
-    this.topBarService.setRightContent([
+    this.topBarService.setLeftContent([
       {component: PageBackButtonComponent},
+    ])
+    this.topBarService.setRightContent([
       {
         component: ChordsSelectionButtonComponent,
         init: (vcr, component: ComponentType<ChordsSelectionButtonComponent>) => {
@@ -62,6 +64,6 @@ export class ChordsOverviewComponent implements OnDestroy {
 
   private _changeCurrentChordGroup = (groupName: string) => {
     this.currentChordGroup.set(this.chordsService.getChordGroup(groupName)!.asReadonly()())
-    this.topBarService.setTopBarTitle(groupName)
+    this.topBarService.setTopBarTitle('Group: ' + groupName)
   }
 }
