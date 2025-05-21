@@ -1,5 +1,5 @@
 export interface ChordsSelectionMenuItem {
-  matIcon: string,
+  matIcon?: string,
   text: string,
   onClick: () => void
 }

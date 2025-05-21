@@ -9,6 +9,8 @@ import {DefaultChordGroups} from '../../types/default_chord_groups';
 })
 export class ChordsService {
 
+  // TODO refactor into default groups and custom user chord groups
+
   readonly chordsGroupEntries = signal<Array<string>>([])
   private readonly chordGroups = new Map<string, WritableSignal<ChordGroup>>
 

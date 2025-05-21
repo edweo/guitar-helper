@@ -76,4 +76,148 @@ export const CHORDS_E: Chord[] = [
     ],
     fretStartingReference: 1,
   },
+  {
+    title: 'E',
+    chordOpenClose: [
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.OPEN_NOTE
+    ],
+    pushedFretNotes: new Map<FretNote, FretPushed>([
+      [FretNote.f1_G, {fretNote: FretNote.f1_G, fingerNumber: GuitarFinger.INDEX}],
+      [FretNote.f2_A, {fretNote: FretNote.f2_A, fingerNumber: GuitarFinger.MIDDLE}],
+      [FretNote.f2_D, {fretNote: FretNote.f2_D, fingerNumber: GuitarFinger.RING}],
+    ]),
+    barreFrets: [
+      null,
+      null,
+      null,
+      null,
+      null,
+    ],
+    fretStartingReference: 1,
+  },
+  {
+    title: 'E',
+    chordOpenClose: [
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.OPEN_NOTE
+    ],
+    pushedFretNotes: new Map<FretNote, FretPushed>([
+      [FretNote.f1_G, {fretNote: FretNote.f1_G, fingerNumber: GuitarFinger.INDEX}],
+      [FretNote.f2_A, {fretNote: FretNote.f2_A, fingerNumber: GuitarFinger.MIDDLE}],
+      [FretNote.f2_D, {fretNote: FretNote.f2_D, fingerNumber: GuitarFinger.RING}],
+    ]),
+    barreFrets: [
+      null,
+      null,
+      null,
+      null,
+      null,
+    ],
+    fretStartingReference: 1,
+  },
+  {
+    title: 'E',
+    chordOpenClose: [
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.OPEN_NOTE
+    ],
+    pushedFretNotes: new Map<FretNote, FretPushed>([
+      [FretNote.f1_G, {fretNote: FretNote.f1_G, fingerNumber: GuitarFinger.INDEX}],
+      [FretNote.f2_A, {fretNote: FretNote.f2_A, fingerNumber: GuitarFinger.MIDDLE}],
+      [FretNote.f2_D, {fretNote: FretNote.f2_D, fingerNumber: GuitarFinger.RING}],
+    ]),
+    barreFrets: [
+      null,
+      null,
+      null,
+      null,
+      null,
+    ],
+    fretStartingReference: 1,
+  },
+  {
+    title: 'E',
+    chordOpenClose: [
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.OPEN_NOTE
+    ],
+    pushedFretNotes: new Map<FretNote, FretPushed>([
+      [FretNote.f1_G, {fretNote: FretNote.f1_G, fingerNumber: GuitarFinger.INDEX}],
+      [FretNote.f2_A, {fretNote: FretNote.f2_A, fingerNumber: GuitarFinger.MIDDLE}],
+      [FretNote.f2_D, {fretNote: FretNote.f2_D, fingerNumber: GuitarFinger.RING}],
+    ]),
+    barreFrets: [
+      null,
+      null,
+      null,
+      null,
+      null,
+    ],
+    fretStartingReference: 1,
+  },
+  {
+    title: 'E',
+    chordOpenClose: [
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.OPEN_NOTE
+    ],
+    pushedFretNotes: new Map<FretNote, FretPushed>([
+      [FretNote.f1_G, {fretNote: FretNote.f1_G, fingerNumber: GuitarFinger.INDEX}],
+      [FretNote.f2_A, {fretNote: FretNote.f2_A, fingerNumber: GuitarFinger.MIDDLE}],
+      [FretNote.f2_D, {fretNote: FretNote.f2_D, fingerNumber: GuitarFinger.RING}],
+    ]),
+    barreFrets: [
+      null,
+      null,
+      null,
+      null,
+      null,
+    ],
+    fretStartingReference: 1,
+  },
+  {
+    title: 'E',
+    chordOpenClose: [
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.NO_CHANGE,
+      ChordAddition.OPEN_NOTE,
+      ChordAddition.OPEN_NOTE
+    ],
+    pushedFretNotes: new Map<FretNote, FretPushed>([
+      [FretNote.f1_G, {fretNote: FretNote.f1_G, fingerNumber: GuitarFinger.INDEX}],
+      [FretNote.f2_A, {fretNote: FretNote.f2_A, fingerNumber: GuitarFinger.MIDDLE}],
+      [FretNote.f2_D, {fretNote: FretNote.f2_D, fingerNumber: GuitarFinger.RING}],
+    ]),
+    barreFrets: [
+      null,
+      null,
+      null,
+      null,
+      null,
+    ],
+    fretStartingReference: 1,
+  },
 ]

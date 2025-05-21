@@ -42,7 +42,6 @@ export class ChordsOverviewComponent implements OnDestroy {
           // Add default chord values in menu
           Object.values(DefaultChordGroups).forEach(defaultMenuItem => {
             menuItems.push({
-              matIcon: 'dialpad',
               text: defaultMenuItem,
               onClick: () => this._changeCurrentChordGroup(defaultMenuItem)
             })

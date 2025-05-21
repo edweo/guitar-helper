@@ -1,1 +1,42 @@
-<p>chords-practice works!</p>
+<div class="flex flex-1 flex-col">
+  <!--Select chords container-->
+  <div class="flex flex-col w-full">
+    <h1 class="font-bold text-xl mb-2">Selected</h1>
+    <div class="bg-blue-300 p-3 rounded">
+      <div class="flex flex-row overflow-scroll">
+        <div class="flex max-w-0 gap-3">
+          @for (selectedChord of setup().chords; let i = $index; track i) {
+            <div class="flex w-[144px] h-[179px]">
+              <app-chord-card
+                [title]="selectedChord.title"
+                [chordOpenClose]="selectedChord.chordOpenClose"
+                [pushedFretsNotes]="selectedChord.pushedFretNotes"
+                [barreFrets]="selectedChord.barreFrets"
+                [fretStartingReference]="selectedChord.fretStartingReference"
+                class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
+              />
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--All chords container-->
+  <div class="flex flex-col flex-1 mt-4">
+    <h1 class="font-bold text-xl mb-2">All Chords</h1>
+    <div class="h-full rounded bg-gray-300">
+      <mat-grid-list cols="1" rowHeight="100%">
+        <mat-grid-tile>
+          <div class="flex flex-1 h-full w-full">
+            <mat-tab-group animationDuration="0ms">
+              @for (tab of lotsOfTabs; track tab) {
+                <mat-tab [label]="tab">Content</mat-tab>
+              }
+            </mat-tab-group>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>
