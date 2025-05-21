@@ -9,6 +9,7 @@ import {ChordCardComponent} from '../../../../components/chord-card/chord-card.c
 import {CHORDS_E} from '../../../../data/chords/chords_e';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
+import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-chords-practice',
@@ -17,12 +18,15 @@ import {MatGridList, MatGridTile} from '@angular/material/grid-list';
     MatTabGroup,
     MatTab,
     MatGridList,
-    MatGridTile
+    MatGridTile,
+    MatButtonToggleGroup,
+    MatButtonToggle,
   ],
   templateUrl: './chords-practice.component.html',
   styleUrl: './chords-practice.component.css'
 })
 export class ChordsPracticeComponent implements OnDestroy {
+
 
   private readonly isPreparingPractice = signal<boolean>(true)
   readonly setup = signal<ChordsPracticeSetup>({chords: new Set<Chord>(CHORDS_E)})
@@ -59,4 +63,6 @@ export class ChordsPracticeComponent implements OnDestroy {
   private _startPractice = () => {
     console.log('starting practice')
   }
+
+  protected readonly CHORDS_E = CHORDS_E;
 }

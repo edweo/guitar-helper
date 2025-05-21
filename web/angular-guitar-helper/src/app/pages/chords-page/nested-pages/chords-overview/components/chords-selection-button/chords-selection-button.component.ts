@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, WritableSignal} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatIcon} from '@angular/material/icon';
@@ -19,5 +19,6 @@ import {ChordsSelectionMenuItem} from '../../types/chords_selection_menu_item';
 export class ChordsSelectionButtonComponent {
   @Input({required: true}) matIcon!: string
   @Input({required: true}) text!: string
-  @Input({required: true}) menuItems!: ChordsSelectionMenuItem[]
+  @Input({required: true}) menuItemsDefault!: Readonly<WritableSignal<ChordsSelectionMenuItem[]>>
+  @Input({required: true}) menuItemsCustom!: Readonly<WritableSignal<ChordsSelectionMenuItem[]>>
 }

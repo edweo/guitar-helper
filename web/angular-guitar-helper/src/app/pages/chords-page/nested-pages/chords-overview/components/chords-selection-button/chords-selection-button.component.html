@@ -3,7 +3,18 @@
   <mat-icon>{{matIcon}}</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  @for (menuItem of menuItems; let i = $index; track i) {
+  <!--Default chord groups-->
+  @for (menuItem of menuItemsDefault.asReadonly()(); let i = $index; track i) {
+    <button mat-menu-item (click)="menuItem.onClick()">
+      @if (menuItem.matIcon !== undefined) {
+        <mat-icon>{{menuItem.matIcon}}</mat-icon>
+      }
+      <span>{{menuItem.text}}</span>
+    </button>
+  }
+
+  <!--Custom chord groups-->
+  @for (menuItem of menuItemsCustom.asReadonly()(); let i = $index; track i) {
     <button mat-menu-item (click)="menuItem.onClick()">
       @if (menuItem.matIcon !== undefined) {
         <mat-icon>{{menuItem.matIcon}}</mat-icon>

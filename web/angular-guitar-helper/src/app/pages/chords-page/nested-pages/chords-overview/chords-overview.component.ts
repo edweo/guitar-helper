@@ -6,8 +6,8 @@ import {ChordsService} from '../../../../services/chords-service/chords.service'
 import {ChordsSelectionButtonComponent} from './components/chords-selection-button/chords-selection-button.component';
 import {ComponentType} from '@angular/cdk/portal';
 import {ChordGroup} from '../../../../types/chord_group';
-import {DefaultChordGroups} from '../../../../types/default_chord_groups';
 import {ChordsSelectionMenuItem} from './types/chords_selection_menu_item';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-chords-overview',
@@ -19,10 +19,16 @@ import {ChordsSelectionMenuItem} from './types/chords_selection_menu_item';
 })
 export class ChordsOverviewComponent implements OnDestroy {
   readonly currentChordGroup: WritableSignal<ChordGroup | undefined> = signal(undefined)
+  private readonly chordMenuItemsGroupDefault: WritableSignal<ChordsSelectionMenuItem[]> = signal([])
+  private readonly chordMenuItemsGroupCustom: WritableSignal<ChordsSelectionMenuItem[]> = signal([])
 
   // Services
   readonly chordsService = inject(ChordsService)
   readonly topBarService = inject(TopBarService)
+
+  // Subscriptions
+  private readonly subKeysChordsGroupDefault!: Subscription
+  private readonly subKeysChordsGroupCustom!: Subscription
 
   constructor() {
     this.topBarService.showTopBar()
@@ -36,33 +42,40 @@ export class ChordsOverviewComponent implements OnDestroy {
           const created = vcr.createComponent(component)
           created.instance.text = 'Chords'
           created.instance.matIcon = 'library_books'
-
-          const menuItems: ChordsSelectionMenuItem[] = []
-
-          // Add default chord values in menu
-          Object.values(DefaultChordGroups).forEach(defaultMenuItem => {
-            menuItems.push({
-              text: defaultMenuItem,
-              onClick: () => this._changeCurrentChordGroup(defaultMenuItem)
-            })
-          })
-
-          // TODO Add custom menu item values
-
-          created.instance.menuItems = menuItems
+          created.instance.menuItemsCustom = this.chordMenuItemsGroupCustom
+          created.instance.menuItemsDefault = this.chordMenuItemsGroupDefault
         }
       }
     ])
 
-    this._changeCurrentChordGroup(DefaultChordGroups.CHORDS_A)
+    this.subKeysChordsGroupDefault = this._subscribeMenuItems(this.chordsService.keysChordGroupsDefault$, this.chordMenuItemsGroupDefault)
+    this.subKeysChordsGroupCustom = this._subscribeMenuItems(this.chordsService.keysChordGroupsCustom$, this.chordMenuItemsGroupCustom)
   }
 
   ngOnDestroy(): void {
     this.topBarService.resetAll()
+    this.subKeysChordsGroupDefault.unsubscribe()
+    this.subKeysChordsGroupCustom.unsubscribe()
   }
 
   private _changeCurrentChordGroup = (groupName: string) => {
-    this.currentChordGroup.set(this.chordsService.getChordGroup(groupName)!.asReadonly()())
+    this.currentChordGroup.set(this.chordsService.getChordGroupDefault(groupName)!.asReadonly()())
     this.topBarService.setTopBarTitle('Group: ' + groupName)
+  }
+
+  private _subscribeMenuItems(
+    menuItemsObs: Observable<string[]>,
+    chordsMenuSignal: WritableSignal<ChordsSelectionMenuItem[]>
+  ): Subscription {
+    return menuItemsObs.subscribe(menuItems => {
+      const newMenuItems: ChordsSelectionMenuItem[] = []
+      menuItems.forEach(menuItem => {
+        newMenuItems.push({
+          text: menuItem,
+          onClick: () => this._changeCurrentChordGroup(menuItem)
+        })
+      })
+      chordsMenuSignal.set(newMenuItems)
+    })
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {MatCard} from '@angular/material/card';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatIcon} from '@angular/material/icon';
@@ -22,7 +22,8 @@ interface Tile {
     MatIcon,
   ],
   templateUrl: './chord-card.component.html',
-  styleUrl: './chord-card.component.css'
+  styleUrl: './chord-card.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChordCardComponent {
   @Input({required: true}) title!: string

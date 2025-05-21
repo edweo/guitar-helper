@@ -24,14 +24,35 @@
 
   <!--All chords container-->
   <div class="flex flex-col flex-1 mt-4">
-    <h1 class="font-bold text-xl mb-2">All Chords</h1>
+    <div class="flex flex-row justify-between items-center mb-2">
+      <h1 class="font-bold text-xl">Chords</h1>
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="scale-75 mr-[-18px]">
+        <mat-button-toggle value="bold">Default</mat-button-toggle>
+        <mat-button-toggle value="italic">Custom</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
     <div class="h-full rounded bg-gray-300">
       <mat-grid-list cols="1" rowHeight="100%">
         <mat-grid-tile>
           <div class="flex flex-1 h-full w-full">
-            <mat-tab-group animationDuration="0ms">
+            <mat-tab-group preserveContent animationDuration="0ms">
               @for (tab of lotsOfTabs; track tab) {
-                <mat-tab [label]="tab">Content</mat-tab>
+                <mat-tab [label]="tab">
+                  <div class="flex flex-row flex-wrap gap-3 justify-start items-center p-3">
+                    @for (chord of CHORDS_E; let i = $index; track i) {
+                      <div class="flex w-[144px] h-[179px]">
+                        <app-chord-card
+                          [title]="chord.title"
+                          [chordOpenClose]="chord.chordOpenClose"
+                          [pushedFretsNotes]="chord.pushedFretNotes"
+                          [barreFrets]="chord.barreFrets"
+                          [fretStartingReference]="chord.fretStartingReference"
+                          class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
+                        />
+                      </div>
+                    }
+                  </div>
+                </mat-tab>
               }
             </mat-tab-group>
           </div>
