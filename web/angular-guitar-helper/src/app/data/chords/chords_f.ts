@@ -7,6 +7,7 @@ import {GuitarFinger} from '../../models/guitar_finger';
 
 export const CHORDS_F: Chord[] = [
   {
+    id: 'fosfang',
     title: 'F',
     chordOpenClose: [
       ChordAddition.NO_CHANGE,

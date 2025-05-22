@@ -10,15 +10,14 @@ import {toObservable} from '@angular/core/rxjs-interop';
 })
 export class ChordsService {
   // Default chord groups
-  private readonly chordGroupsDefault = new Map<string, WritableSignal<ChordGroup>>
+  readonly chordGroupsDefault = new Map<string, WritableSignal<ChordGroup>>
   readonly keysChordGroupsDefault = signal<string[]>([])
   readonly keysChordGroupsDefault$ = toObservable(this.keysChordGroupsDefault)
 
   // Custom chord groups
-  private readonly chordGroupsCustom = new Map<string, WritableSignal<ChordGroup>>
+  readonly chordGroupsCustom = new Map<string, WritableSignal<ChordGroup>>
   readonly keysChordGroupsCustom = signal<string[]>([])
   readonly keysChordGroupsCustom$ = toObservable(this.keysChordGroupsCustom)
-
 
   constructor() {
      // Default chord groups - A B C D E F G

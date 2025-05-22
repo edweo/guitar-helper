@@ -4,7 +4,8 @@ import {FretNote} from './fret_note';
 import {BarreFrets} from './barre_frets';
 
 export interface Chord {
-  title: string
+  id: string,
+  title: string,
   chordOpenClose: ChordOpenClose,
   pushedFretNotes: Map<FretNote, FretPushed>,
   barreFrets: BarreFrets,

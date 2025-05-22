@@ -1,24 +1,38 @@
 <div class="flex flex-1 flex-col">
   <!--Select chords container-->
   <div class="flex flex-col w-full">
-    <h1 class="font-bold text-xl mb-2">Selected</h1>
-    <div class="bg-blue-300 p-3 rounded">
-      <div class="flex flex-row overflow-scroll">
-        <div class="flex max-w-0 gap-3">
-          @for (selectedChord of setup().chords; let i = $index; track i) {
-            <div class="flex w-[144px] h-[179px]">
-              <app-chord-card
-                [title]="selectedChord.title"
-                [chordOpenClose]="selectedChord.chordOpenClose"
-                [pushedFretsNotes]="selectedChord.pushedFretNotes"
-                [barreFrets]="selectedChord.barreFrets"
-                [fretStartingReference]="selectedChord.fretStartingReference"
-                class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
-              />
-            </div>
-          }
-        </div>
+    <div class="flex flex-row justify-between items-center mb-2">
+      <div class="flex flex-row gap-3 items-center">
+        <h1 class="font-bold text-xl">Selected</h1>
+        <mat-chip-set aria-label="Fish selection">
+          <mat-chip disableRipple class="!hover:bg-transparent">{{setup().chords.size}} / {{MAX_CHORDS_PRACTICE}}</mat-chip>
+        </mat-chip-set>
       </div>
+      <app-text-icon-button text="Library" matIcon="folder_check" [onClick]="testFunc" />
+    </div>
+    <div class="border-2 border-dashed p-3 rounded">
+      @if (setup().chords.size > 0) {
+        <div class="flex flex-row overflow-scroll">
+          <div class="flex max-w-0 gap-3">
+              @for (selectedChord of setup().chords; let i = $index; track i) {
+                <div class="flex w-[144px] h-[179px]" (click)="removeChordFromSelection(selectedChord)">
+                  <app-chord-card
+                    [title]="selectedChord.title"
+                    [chordOpenClose]="selectedChord.chordOpenClose"
+                    [pushedFretsNotes]="selectedChord.pushedFretNotes"
+                    [barreFrets]="selectedChord.barreFrets"
+                    [fretStartingReference]="selectedChord.fretStartingReference"
+                    class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
+                  />
+                </div>
+              }
+          </div>
+        </div>
+      } @else {
+        <div class="flex h-[179px] w-full justify-center items-center">
+          <h1>Select {{MIN_CHORDS_REQUIRED}} or more chords</h1>
+        </div>
+      }
     </div>
   </div>
 
@@ -26,9 +40,14 @@
   <div class="flex flex-col flex-1 mt-4">
     <div class="flex flex-row justify-between items-center mb-2">
       <h1 class="font-bold text-xl">Chords</h1>
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="scale-75 mr-[-18px]">
-        <mat-button-toggle value="bold">Default</mat-button-toggle>
-        <mat-button-toggle value="italic">Custom</mat-button-toggle>
+      <mat-button-toggle-group name="chordsGaller"
+                               aria-label="Chords Gallery"
+                               class="scale-75 mr-[-18px]"
+                               [value]="selectedChordsGallery()"
+                               (change)="handleChordsGalleryChange($event)"
+      >
+        <mat-button-toggle [value]="GalleryChordsOption.DEFAULT">Default</mat-button-toggle>
+        <mat-button-toggle [value]="GalleryChordsOption.CUSTOM">Custom</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
     <div class="h-full rounded bg-gray-300">
@@ -36,20 +55,26 @@
         <mat-grid-tile>
           <div class="flex flex-1 h-full w-full">
             <mat-tab-group preserveContent animationDuration="0ms">
-              @for (tab of lotsOfTabs; track tab) {
+              @for (tab of (selectedChordsGallery() === GalleryChordsOption.DEFAULT
+                  ? chordsService.keysChordGroupsDefault()
+                  : chordsService.keysChordGroupsCustom()); let i = $index; track i) {
                 <mat-tab [label]="tab">
                   <div class="flex flex-row flex-wrap gap-3 justify-start items-center p-3">
-                    @for (chord of CHORDS_E; let i = $index; track i) {
-                      <div class="flex w-[144px] h-[179px]">
-                        <app-chord-card
-                          [title]="chord.title"
-                          [chordOpenClose]="chord.chordOpenClose"
-                          [pushedFretsNotes]="chord.pushedFretNotes"
-                          [barreFrets]="chord.barreFrets"
-                          [fretStartingReference]="chord.fretStartingReference"
-                          class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
-                        />
-                      </div>
+                    @for (chord of (selectedChordsGallery() === GalleryChordsOption.DEFAULT
+                        ? chordsService.chordGroupsDefault.get(tab)!().chords
+                        : chordsService.chordGroupsCustom.get(tab)!().chords); let i = $index; track i) {
+                      @if (!setup().chords.has(chord)) {
+                        <div class="flex w-[144px] h-[179px] cursor-pointer" (click)="addChordToSelection(chord)">
+                          <app-chord-card
+                            [title]="chord.title"
+                            [chordOpenClose]="chord.chordOpenClose"
+                            [pushedFretsNotes]="chord.pushedFretNotes"
+                            [barreFrets]="chord.barreFrets"
+                            [fretStartingReference]="chord.fretStartingReference"
+                            class="scale-50 mt-[-60px] ml-[-72px]"
+                          />
+                        </div>
+                      }
                     }
                   </div>
                 </mat-tab>

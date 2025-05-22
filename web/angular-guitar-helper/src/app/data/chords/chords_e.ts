@@ -6,6 +6,7 @@ import {GuitarFinger} from '../../models/guitar_finger';
 
 export const CHORDS_E: Chord[] = [
   {
+    id: 'foagn2p',
     title: 'E',
     chordOpenClose: [
       ChordAddition.OPEN_NOTE,
@@ -30,6 +31,7 @@ export const CHORDS_E: Chord[] = [
     fretStartingReference: 1,
   },
   {
+    id: 'faofng23',
     title: 'Em',
     chordOpenClose: [
       ChordAddition.OPEN_NOTE,
@@ -53,6 +55,7 @@ export const CHORDS_E: Chord[] = [
     fretStartingReference: 1,
   },
   {
+    id: 'uagpba24',
     title: 'Emaj7',
     chordOpenClose: [
       ChordAddition.OPEN_NOTE,

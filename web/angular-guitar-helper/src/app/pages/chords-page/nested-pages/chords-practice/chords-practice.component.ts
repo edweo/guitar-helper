@@ -6,10 +6,17 @@ import {ComponentType} from '@angular/cdk/portal';
 import {ChordsPracticeSetup} from '../../../../types/chords_practice_setup';
 import {Chord} from '../../../../models/chord';
 import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
-import {CHORDS_E} from '../../../../data/chords/chords_e';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
-import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
+import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from '@angular/material/button-toggle';
+import {MatChip, MatChipSet} from '@angular/material/chips';
+import {ChordsService} from '../../../../services/chords-service/chords.service';
+import {CHORDS_SKELETON} from '../../../../data/chords/chords_skeleton';
+
+enum GalleryChordsOption {
+  DEFAULT = 'default',
+  CUSTOM = 'custom'
+}
 
 @Component({
   selector: 'app-chords-practice',
@@ -21,20 +28,23 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
     MatGridTile,
     MatButtonToggleGroup,
     MatButtonToggle,
+    MatChipSet,
+    MatChip,
+    TextIconButtonComponent,
   ],
   templateUrl: './chords-practice.component.html',
   styleUrl: './chords-practice.component.css'
 })
 export class ChordsPracticeComponent implements OnDestroy {
-
-
-  private readonly isPreparingPractice = signal<boolean>(true)
-  readonly setup = signal<ChordsPracticeSetup>({chords: new Set<Chord>(CHORDS_E)})
-
-  lotsOfTabs = new Array(30).fill(0).map((_, index) => `Tab ${index}`);
+  private readonly isInsufficientChordsSelected = signal<boolean>(true)
+  readonly setup = signal<ChordsPracticeSetup>({chords: new Set<Chord>()})
+  readonly MAX_CHORDS_PRACTICE= 20
+  readonly MIN_CHORDS_REQUIRED= 3
+  selectedChordsGallery = signal<GalleryChordsOption>(GalleryChordsOption.DEFAULT)
 
   // Services
   readonly topBarService = inject(TopBarService)
+  readonly chordsService = inject(ChordsService)
 
   constructor() {
     this.topBarService.showTopBar()
@@ -50,7 +60,7 @@ export class ChordsPracticeComponent implements OnDestroy {
           btn.instance.matIcon = 'play_arrow'
           btn.instance.text = 'Start'
           btn.instance.onClick = this._startPractice
-          btn.instance.disabled = this.isPreparingPractice
+          btn.instance.disabled = this.isInsufficientChordsSelected
         }
       }
     ])
@@ -60,9 +70,35 @@ export class ChordsPracticeComponent implements OnDestroy {
     this.topBarService.resetAll()
   }
 
+  handleChordsGalleryChange = (event: MatButtonToggleChange) => {
+    this.selectedChordsGallery.set(event.value)
+  }
+
   private _startPractice = () => {
     console.log('starting practice')
   }
 
-  protected readonly CHORDS_E = CHORDS_E;
+  addChordToSelection = (chord: Chord) => {
+    this.setup.update(current => {
+      const newSet = new Set(current.chords)
+      newSet.add(chord)
+      if (newSet.size >= this.MIN_CHORDS_REQUIRED) this.isInsufficientChordsSelected.set(false)
+      return {chords: newSet}
+    })
+  }
+
+  removeChordFromSelection = (chord: Chord) => {
+    this.setup.update(current => {
+      const newSet = new Set(current.chords)
+      newSet.delete(chord)
+      if (newSet.size < this.MIN_CHORDS_REQUIRED) this.isInsufficientChordsSelected.set(true)
+      return {chords: newSet}
+    })
+  }
+
+  testFunc = () => {
+    console.log('test button')
+  }
+
+  protected readonly GalleryChordsOption = GalleryChordsOption;
 }
