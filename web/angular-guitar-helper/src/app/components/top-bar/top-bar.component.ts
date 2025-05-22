@@ -34,8 +34,6 @@ export class TopBarComponent implements OnDestroy, AfterViewInit {
   private leftContentSubscription!: Subscription
   private rightContentSubscription!: Subscription
 
-  constructor() {}
-
   ngAfterViewInit() {
     // Left content Listener
     this.leftContentSubscription = this.topBarService.leftContent$.subscribe((components) => {

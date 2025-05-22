@@ -1,11 +1,11 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable, OnDestroy, signal} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {toObservable} from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MobileModeService {
+export class MobileModeService implements OnDestroy {
   readonly isMobile = signal(true);
   readonly isMobile$ = toObservable(this.isMobile)
 

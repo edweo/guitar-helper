@@ -11,7 +11,6 @@ import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {NgStyle} from '@angular/common';
 import {TopBarService} from './services/top-bar-service/top-bar.service';
-import {MenuButtonComponent} from './components/menu-button/menu-button.component';
 import {TopBarComponent} from './components/top-bar/top-bar.component';
 
 @Component({
@@ -35,7 +34,7 @@ export class AppComponent implements OnDestroy {
 
   title = 'Guitara';
   navMenuOpened!: boolean
-  navItemsTextShown: boolean = true
+  navItemsTextShown = true
   navMenuMode!: MatDrawerMode
 
   // Services

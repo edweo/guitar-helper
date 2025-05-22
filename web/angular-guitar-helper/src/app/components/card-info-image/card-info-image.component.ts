@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {MatCard, MatCardContent, MatCardFooter, MatCardImage} from '@angular/material/card';
-import {NgOptimizedImage, NgStyle} from '@angular/common';
+import {NgStyle} from '@angular/common';
 import {MatRipple} from '@angular/material/core';
 
 @Component({
