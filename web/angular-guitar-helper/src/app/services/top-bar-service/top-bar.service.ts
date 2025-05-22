@@ -9,17 +9,17 @@ export class TopBarService {
   readonly isTopBarShown = signal<boolean>(true)
   readonly title = signal<string | null>("Guitara")
 
-  readonly leftContent = signal<DynamicComponent<unknown>[] | null>(null)
+  readonly leftContent = signal<DynamicComponent<any>[] | null>(null)
   readonly leftContent$ = toObservable(this.leftContent)
 
-  readonly rightContent = signal<DynamicComponent<unknown>[] | null>(null)
+  readonly rightContent = signal<DynamicComponent<any>[] | null>(null)
   readonly rightContent$ = toObservable(this.rightContent)
 
-  setLeftContent = (components: DynamicComponent<unknown>[] | null) => {
+  setLeftContent = (components: DynamicComponent<any>[] | null) => {
     this.leftContent.set(components)
   }
 
-  setRightContent = (components: DynamicComponent<unknown>[] | null) => {
+  setRightContent = (components: DynamicComponent<any>[] | null) => {
     this.rightContent.set(components)
   }
 
