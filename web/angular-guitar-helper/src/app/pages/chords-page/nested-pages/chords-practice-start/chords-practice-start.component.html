@@ -1,3 +1,19 @@
 <div class="flex flex-1 flex-col bg-red-400">
-  <p>chords-practice-start works!</p>
+  <mat-sidenav-container autosize class="h-full">
+    @if (!mobileModeService.isMobile()) {
+      <mat-sidenav mode="side"
+                   position="end"
+                   opened
+                   class="!bg-[#faf9fd] !w-64 !rounded-none p-3"
+      >
+        <div class="bg-blue-400">
+          <h1 class="">Start</h1>
+        </div>
+      </mat-sidenav>
+    }
+    <mat-sidenav-content class="bg-green-400 p-3">
+      Main
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
+
