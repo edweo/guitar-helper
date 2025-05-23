@@ -48,7 +48,7 @@ export class ChordsPracticeComponent implements OnDestroy {
 
   constructor() {
     this.topBarService.showTopBar()
-    this.topBarService.setTopBarTitle('Practice')
+    this.topBarService.setTopBarTitle('Practice Setup')
     this.topBarService.setLeftContent([
       {component: PageBackButtonComponent}
     ])

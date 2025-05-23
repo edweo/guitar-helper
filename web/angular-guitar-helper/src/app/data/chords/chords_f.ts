@@ -23,7 +23,7 @@ export const CHORDS_F: Chord[] = [
       [FretNote.f3_A, {fretNote: FretNote.f3_A, fingerNumber: GuitarFinger.PINKY}],
     ]),
     barreFrets: [
-      {startNote: GuitarNote.A, endNote: GuitarNote.E, fingerNumber: GuitarFinger.INDEX},
+      {startNote: GuitarNote.e, endNote: GuitarNote.E, fingerNumber: GuitarFinger.INDEX},
       null,
       null,
       null,

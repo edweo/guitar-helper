@@ -8,6 +8,9 @@ import {NotFoundPageComponent} from './pages/not-found-page/not-found-page.compo
 import {ChordsMainPageComponent} from './pages/chords-page/nested-pages/chords-main-page/chords-main-page.component';
 import {ChordsPracticeComponent} from './pages/chords-page/nested-pages/chords-practice/chords-practice.component';
 import {ChordsOverviewComponent} from './pages/chords-page/nested-pages/chords-overview/chords-overview.component';
+import {
+  ChordsPracticeStartComponent
+} from './pages/chords-page/nested-pages/chords-practice-start/chords-practice-start.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'chords', pathMatch: 'full' },
@@ -15,8 +18,9 @@ export const routes: Routes = [
     path: 'chords', component: ChordsPageComponent,
     children: [
       {path: '', component: ChordsMainPageComponent},
-      {path: 'practice', component: ChordsPracticeComponent},
       {path: 'overview', component: ChordsOverviewComponent},
+      {path: 'practice', component: ChordsPracticeComponent},
+      {path: 'practice/start', component: ChordsPracticeStartComponent},
     ]
   },
   { path: 'tablature', component: TabsPageComponent },
