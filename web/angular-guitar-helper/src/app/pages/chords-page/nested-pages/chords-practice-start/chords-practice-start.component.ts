@@ -84,7 +84,6 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
     this.resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
         this.containerWidth.set(entry.contentRect.width)
-        console.log(this.containerWidth)
       }
     });
 
@@ -112,7 +111,8 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
   }
 
   private _calculateChordsGalleryScale(widthParent: number) {
-    const a: number = widthParent / 3
+    const width = widthParent <= 784 ? widthParent : 784
+    const a: number = width / 3
     const scale = a / 288
     return scale * 100
   }
