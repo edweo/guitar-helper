@@ -1,8 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  computed,
-  ElementRef,
   inject,
   Input,
   OnDestroy,
@@ -19,30 +17,29 @@ import {ComponentType} from '@angular/cdk/portal';
 import {IconButtonComponent} from '../../../../components/icon-button/icon-button.component';
 import {CHORDS_E} from '../../../../data/chords/chords_e';
 import {Chord} from '../../../../models/chord';
-import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
 import {NgStyle} from '@angular/common';
+import {ChordsCarouselComponent} from '../../../../components/chords-carousel/chords-carousel.component';
 
 @Component({
   selector: 'app-chords-practice-start',
   imports: [
     MatSidenavModule,
     PageFrameComponent,
-    ChordCardComponent,
     NgStyle,
+    ChordsCarouselComponent,
   ],
   templateUrl: './chords-practice-start.component.html',
   styleUrl: './chords-practice-start.component.css'
 })
 export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
+  @ViewChild('chordsCarousel') chordsCarousel!: ChordsCarouselComponent
+
   @Input({required: true}) setup: ChordsPracticeSetup = {
     name: 'Test',
     chords: new Set<Chord>(CHORDS_E)
   }
 
-  @ViewChild('container') container!: ElementRef<HTMLDivElement>
-  private resizeObserver!: ResizeObserver;
-  readonly containerWidth = signal(0)
-  readonly chordsDivScale = computed(() => this._calculateChordsGalleryScale(this.containerWidth()))
+  testNum = signal(1)
 
   // Signals
   readonly displayChords = signal(Array.from(this.setup.chords))
@@ -78,21 +75,10 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.containerWidth.set(this.container.nativeElement.offsetWidth)
-
-    // Create a ResizeObserver to monitor width changes
-    this.resizeObserver = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        this.containerWidth.set(entry.contentRect.width)
-      }
-    });
-
-    // Start observing the div element
-    this.resizeObserver.observe(this.container.nativeElement);
-
     setInterval(() => {
       this.increaseProgressBar(5)
-    }, 200)
+      this.chordsCarousel.nextChord()
+    }, 2000)
   }
 
   ngOnDestroy(): void {
@@ -110,10 +96,13 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
     else this.progressBar.set(newPercent)
   }
 
-  private _calculateChordsGalleryScale(widthParent: number) {
-    const width = widthParent <= 784 ? widthParent : 784
-    const a: number = width / 3
-    const scale = a / 288
-    return scale * 100
+  increase = () => {
+    const newNum = this.testNum() + 1
+    this.testNum.set(newNum)
+  }
+
+  decrease = () => {
+    const newNum = this.testNum() - 1
+    this.testNum.set(newNum)
   }
 }
