@@ -20,7 +20,6 @@ import {TopBarComponent} from './components/top-bar/top-bar.component';
     MatSidenavModule,
     MatNavList,
     NavItemComponent,
-    PageFrameComponent,
     MatIcon,
     MatIconButton,
     NgStyle,
@@ -30,8 +29,6 @@ import {TopBarComponent} from './components/top-bar/top-bar.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnDestroy {
-  @ViewChild('sidenav') sidenav!: MatDrawer;
-
   title = 'Guitara';
   navMenuOpened!: boolean
   navItemsTextShown = true

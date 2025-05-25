@@ -6,6 +6,7 @@ import {FretNote} from '../../models/fret_note';
 import {FretPushed} from '../../models/fret_pushed';
 import {ChordAddition, ChordOpenClose} from '../../models/chord_open_close';
 import {BarreFrets} from '../../models/barre_frets';
+import {Chord} from '../../models/chord';
 
 interface Tile {
   col: number;
@@ -26,11 +27,7 @@ interface Tile {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChordCardComponent {
-  @Input({required: true}) title!: string
-  @Input({required: true}) chordOpenClose!: ChordOpenClose
-  @Input({required: true}) pushedFretsNotes!: Map<FretNote, FretPushed>
-  @Input({required: true}) barreFrets!: BarreFrets
-  @Input({required: true}) fretStartingReference!: number
+  @Input({required: true}) chord!: Chord
 
   tiles: Tile[] = this.generateTiles()
 
@@ -51,7 +48,7 @@ export class ChordCardComponent {
   getFret = (fret: string) => FretNote[fret as keyof typeof FretNote]
 
   getPushedFretNumber(fretNote: FretNote) {
-    return this.pushedFretsNotes.get(fretNote)?.fingerNumber
+    return this.chord.pushedFretNotes.get(fretNote)?.fingerNumber
   }
 
   protected readonly ChordAddition = ChordAddition;

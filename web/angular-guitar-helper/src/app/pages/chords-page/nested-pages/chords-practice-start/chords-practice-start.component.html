@@ -1,19 +1,61 @@
-<div class="flex flex-1 flex-col bg-red-400">
-  <mat-sidenav-container autosize class="h-full">
-    @if (!mobileModeService.isMobile()) {
-      <mat-sidenav mode="side"
-                   position="end"
-                   opened
-                   class="!bg-[#faf9fd] !w-64 !rounded-none p-3"
-      >
-        <div class="bg-blue-400">
-          <h1 class="">Start</h1>
-        </div>
-      </mat-sidenav>
-    }
-    <mat-sidenav-content class="bg-green-400 p-3">
-      Main
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
+  <div class="flex flex-1 flex-col">
+    <mat-sidenav-container autosize class="h-full !bg-transparent">
+      @if (!mobileModeService.isMobile()) {
+        <mat-sidenav mode="side"
+                     position="end"
+                     [opened]="tuneMenuOpened()"
+                     class="!bg-green-400 !w-64 !rounded-none p-3"
+        >
+          <div class="bg-blue-400">
+            <h1 class="">Start</h1>
+          </div>
+        </mat-sidenav>
+      }
+      <mat-sidenav-content class="!h-full">
+        <app-page-frame class="!h-full overflow-hidden">
 
+
+          <div #container class="flex flex-1">
+            <!--Chords display-->
+            <div class=" flex flex-1 flex-col items-center justify-center max-w-0">
+              <div class="flex flex-col gap-4"
+                   [ngStyle]="{
+                    'margin-left.px': containerWidth(),
+                    'scale.%': chordsDivScale()
+                   }"
+              >
+                <!--Progress bar before switching chord-->
+                <div class="bg-gray-400 rounded-2xl h-2">
+                  <div class="bg-blue-500 h-full rounded-2xl" [ngStyle]="{'width.%': progressBar()}"></div>
+                </div>
+
+                <!--Chords playing-->
+                <div class="">
+                  <div class="flex flex-row items-center justify-center">
+                    <!--Previous chords-->
+                    <app-chord-card
+                      [chord]="displayChords()[0]"
+                      class="scale-80 opacity-50"
+                    />
+
+                    <!--Current Chord-->
+                    <app-chord-card
+                      [chord]="displayChords()[1]"
+                      class=""
+                    />
+
+                    <!--Next Chord-->
+                    <app-chord-card
+                      [chord]="displayChords()[2]"
+                      class="scale-80 opacity-50"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </app-page-frame>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

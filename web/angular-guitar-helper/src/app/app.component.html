@@ -36,9 +36,7 @@
       @if (mobileModeService.isMobile() || topBarService.isTopBarShown()) {
         <app-top-bar />
       }
-      <app-page-frame>
-        <router-outlet/>
-      </app-page-frame>
+      <router-outlet/>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

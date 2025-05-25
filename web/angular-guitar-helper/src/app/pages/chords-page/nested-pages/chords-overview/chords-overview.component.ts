@@ -8,11 +8,13 @@ import {ComponentType} from '@angular/cdk/portal';
 import {ChordGroup} from '../../../../types/chord_group';
 import {ChordsSelectionMenuItem} from './types/chords_selection_menu_item';
 import {Observable, Subscription} from 'rxjs';
+import {PageFrameComponent} from '../../../../components/page-frame/page-frame.component';
 
 @Component({
   selector: 'app-chords-overview',
   imports: [
     ChordCardComponent,
+    PageFrameComponent,
   ],
   templateUrl: './chords-overview.component.html',
   styleUrl: './chords-overview.component.css'

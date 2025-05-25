@@ -5,7 +5,7 @@
     <!--Open frets-->
     <div class="w-full">
       <mat-grid-list cols="6" rowHeight="1:1" class="w-full mb-[-8px]">
-        @for (chordAddition of chordOpenClose; let i = $index; track i) {
+        @for (chordAddition of chord.chordOpenClose; let i = $index; track i) {
           <mat-grid-tile>
             @if (chordAddition === ChordAddition.MUTED_NOTE) {
               <mat-icon class="!h-full !w-full text-center !text-4xl">close</mat-icon>
@@ -32,7 +32,7 @@
         <mat-grid-list cols="6" rowHeight="1:1.1" class="w-full">
           @for (fretNote of allFrets(); let i = $index; track i) {
             <mat-grid-tile>
-              @if (pushedFretsNotes.has(getFret(fretNote))) {
+              @if (chord.pushedFretNotes.has(getFret(fretNote))) {
                 <div class="bg-black flex justify-center items-center w-[85%] h-[77.15%] rounded-full">
                   <p class="text-white">{{getPushedFretNumber(fretNote)}}</p>
                 </div>
@@ -45,7 +45,7 @@
       <!--Barre frets-->
       <div class="flex absolute w-10/12 h-full bottom-0 left-[22px]">
         <mat-grid-list cols="5" rowHeight="1:1.1" class=" w-full">
-          @for (barre of barreFrets; let i = $index; track i) {
+          @for (barre of chord.barreFrets; let i = $index; track i) {
             @if (barre !== null) {
               <!--Padding left-->
               @if (barre.startNote > 0) {
@@ -70,6 +70,6 @@
       </div>
     </div>
 
-    <h1 class="font-bold text-4xl mt-2">{{title}}</h1>
+    <h1 class="font-bold text-4xl mt-2">{{chord.title}}</h1>
   </div>
 </mat-card>

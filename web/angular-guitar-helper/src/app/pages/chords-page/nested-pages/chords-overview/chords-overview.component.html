@@ -1,31 +1,29 @@
-<div class="flex flex-1 flex-col">
-  <div class="h-full overflow-scroll">
-    @if (currentChordGroup() !== undefined) {
-      @if (currentChordGroup()!.chords.length === 0) {
-        <div class="flex h-full items-center justify-center">
-          <h1>Chord group has no chords yet</h1>
-        </div>
+<app-page-frame>
+  <div class="flex flex-1 flex-col">
+    <div class="h-full overflow-scroll">
+      @if (currentChordGroup() !== undefined) {
+        @if (currentChordGroup()!.chords.length === 0) {
+          <div class="flex h-full items-center justify-center">
+            <h1>Chord group has no chords yet</h1>
+          </div>
+        } @else {
+          <!--Display chord group-->
+          <div class="flex flex-wrap flex-row justify-center items-center gap-3 max-h-0">
+            @for (chord of currentChordGroup()!.chords; let i = $index; track i) {
+              <div class="flex w-[144px] h-[179px]">
+                <app-chord-card
+                  [chord]="chord"
+                  class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
+                />
+              </div>
+            }
+          </div>
+        }
       } @else {
-        <!--Display chord group-->
-        <div class="flex flex-wrap flex-row justify-center items-center gap-3 max-h-0">
-          @for (chord of currentChordGroup()!.chords; let i = $index; track i) {
-            <div class="flex w-[144px] h-[179px]">
-              <app-chord-card
-                [title]="chord.title"
-                [chordOpenClose]="chord.chordOpenClose"
-                [pushedFretsNotes]="chord.pushedFretNotes"
-                [barreFrets]="chord.barreFrets"
-                [fretStartingReference]="chord.fretStartingReference"
-                class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
-              />
-            </div>
-          }
+        <div class="flex h-full items-center justify-center">
+          <h1>Select a chord group</h1>
         </div>
       }
-    } @else {
-      <div class="flex h-full items-center justify-center">
-        <h1>Select a chord group</h1>
-      </div>
-    }
+    </div>
   </div>
-</div>
+</app-page-frame>

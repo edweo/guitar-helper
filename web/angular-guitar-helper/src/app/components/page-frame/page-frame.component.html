@@ -1,3 +1,7 @@
-<div class="p-4 flex flex-1">
+<div class="flex flex-1"
+     [ngStyle]="{
+        'padding.px': padding === true ? 16 : 0
+     }"
+>
   <ng-content></ng-content>
 </div>

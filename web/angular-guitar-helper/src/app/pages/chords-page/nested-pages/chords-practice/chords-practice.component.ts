@@ -12,6 +12,7 @@ import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from '@ang
 import {MatChip, MatChipSet} from '@angular/material/chips';
 import {ChordsService} from '../../../../services/chords-service/chords.service';
 import {CHORDS_SKELETON} from '../../../../data/chords/chords_skeleton';
+import {PageFrameComponent} from '../../../../components/page-frame/page-frame.component';
 
 enum GalleryChordsOption {
   DEFAULT = 'default',
@@ -31,6 +32,7 @@ enum GalleryChordsOption {
     MatChipSet,
     MatChip,
     TextIconButtonComponent,
+    PageFrameComponent,
   ],
   templateUrl: './chords-practice.component.html',
   styleUrl: './chords-practice.component.css'
