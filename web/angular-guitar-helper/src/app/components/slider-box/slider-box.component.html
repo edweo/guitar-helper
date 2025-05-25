@@ -1,0 +1,15 @@
+<div class="bg-gray-200 flex flex-col w-full justify-start px-3 py-1 rounded-2xl">
+  <div class="flex flex-row justify-between items-center">
+    <label class="">{{title}}</label>
+    <label class="font-semibold">{{value()}}</label>
+  </div>
+  <mat-slider
+    [max]="max"
+    [min]="min"
+    [step]="step"
+    showTickMarks
+    class="slider"
+  >
+    <input matSliderThumb [value]="value()" (valueChange)="handleChange($event)">
+  </mat-slider>
+</div>

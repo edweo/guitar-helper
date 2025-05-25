@@ -3,9 +3,7 @@ import {MatCard} from '@angular/material/card';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatIcon} from '@angular/material/icon';
 import {FretNote} from '../../models/fret_note';
-import {FretPushed} from '../../models/fret_pushed';
-import {ChordAddition, ChordOpenClose} from '../../models/chord_open_close';
-import {BarreFrets} from '../../models/barre_frets';
+import {ChordAddition} from '../../models/chord_open_close';
 import {Chord} from '../../models/chord';
 
 interface Tile {

@@ -17,19 +17,23 @@ import {ComponentType} from '@angular/cdk/portal';
 import {IconButtonComponent} from '../../../../components/icon-button/icon-button.component';
 import {CHORDS_E} from '../../../../data/chords/chords_e';
 import {Chord} from '../../../../models/chord';
-import {NgStyle} from '@angular/common';
 import {ChordsCarouselComponent} from '../../../../components/chords-carousel/chords-carousel.component';
+import {MatProgressBar} from '@angular/material/progress-bar';
+import {NgStyle} from '@angular/common';
+import {SliderBoxComponent} from '../../../../components/slider-box/slider-box.component';
 
 @Component({
   selector: 'app-chords-practice-start',
   imports: [
     MatSidenavModule,
     PageFrameComponent,
-    NgStyle,
     ChordsCarouselComponent,
+    MatProgressBar,
+    NgStyle,
+    SliderBoxComponent,
   ],
   templateUrl: './chords-practice-start.component.html',
-  styleUrl: './chords-practice-start.component.css'
+  styleUrl: './chords-practice-start.component.scss'
 })
 export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
   @ViewChild('chordsCarousel') chordsCarousel!: ChordsCarouselComponent
@@ -39,12 +43,16 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
     chords: new Set<Chord>(CHORDS_E)
   }
 
-  testNum = signal(1)
 
   // Signals
   readonly displayChords = signal(Array.from(this.setup.chords))
   readonly tuneMenuOpened = signal(false)
   readonly progressBar = signal(0)
+
+  // Tuning parameters
+  readonly widthProgressBar = signal(0)
+  readonly previousChordsCount = signal(1)
+  readonly nextChordsCount = signal(1)
 
   // Services
   readonly topBarService = inject(TopBarService)
@@ -75,10 +83,11 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    // TODO change to two nested settimeout
     setInterval(() => {
       this.increaseProgressBar(5)
-      this.chordsCarousel.nextChord()
-    }, 2000)
+    }, 100)
   }
 
   ngOnDestroy(): void {
@@ -90,19 +99,26 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
   }
 
   increaseProgressBar = (percent: number) => {
-    if (this.progressBar() >= 100) return
+    if (this.progressBar() >= 100) {
+      this.chordsCarousel.nextChord()
+      this.progressBar.set(0)
+      return
+    }
+
     const newPercent = this.progressBar() + percent
     if (newPercent > 100) this.progressBar.set(100)
     else this.progressBar.set(newPercent)
   }
 
-  increase = () => {
-    const newNum = this.testNum() + 1
-    this.testNum.set(newNum)
+  handleCarouselWidth(width: number) {
+    this.widthProgressBar.set(width)
   }
 
-  decrease = () => {
-    const newNum = this.testNum() - 1
-    this.testNum.set(newNum)
+  handlePreviousChordTune = (value: number) => {
+    this.previousChordsCount.set(value)
+  }
+
+  handleNextChordTune = (value: number) => {
+    this.nextChordsCount.set(value)
   }
 }

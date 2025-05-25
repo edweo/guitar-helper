@@ -4,30 +4,44 @@
         <mat-sidenav mode="side"
                      position="end"
                      [opened]="tuneMenuOpened()"
-                     class="!bg-green-400 !w-64 !rounded-none p-3"
+                     class="!w-64 !rounded-none p-3 !bg-blue-200"
         >
-          <div class="bg-blue-400">
-            <h1 class="">Start</h1>
-            <button (click)="increase()">Increase</button>
-            <button (click)="decrease()">Decrease</button>
+          <div class="flex flex-col items-center justify-center w-full gap-2">
+            <app-slider-box
+              title="Previous Chords"
+              (onChange)="handlePreviousChordTune($event)"
+            />
+            <app-slider-box
+              title="Next Chords"
+              (onChange)="handleNextChordTune($event)"
+            />
           </div>
         </mat-sidenav>
       }
       <mat-sidenav-content class="!h-full">
         <app-page-frame class="!h-full overflow-hidden">
           <div class="flex flex-col flex-1">
-            <!--Progress bar before switching chord-->
-            <div class="bg-gray-400 rounded-2xl h-2">
-              <div class="bg-blue-500 h-full rounded-2xl" [ngStyle]="{'width.%': progressBar()}"></div>
-            </div>
-
-            <!--Chords carousel-->
             <div class="flex flex-col flex-1 w-full justify-center">
-              <app-chords-carousel #chordsCarousel
-                                   [chords]="displayChords()"
-                                   [previousChordsCount]="testNum()"
-                                   [nextChordsCount]="1"
+
+              <h1 class="font-bold text-center text-3xl mb-3">00:00</h1>
+
+              <!--Progress bar before switching chord-->
+              <mat-progress-bar mode="determinate"
+                                [value]="progressBar()"
+                                class="progress-bar mb-4 self-center"
+                                [ngStyle]="{
+                                  'max-width.px': widthProgressBar()
+                                }"
               />
+              <!--Chords carousel-->
+              <div class="flex flex-col">
+                <app-chords-carousel #chordsCarousel
+                                     [chords]="displayChords()"
+                                     [previousChordsCount]="previousChordsCount()"
+                                     [nextChordsCount]="nextChordsCount()"
+                                     (carouselWidthEvent)="handleCarouselWidth($event)"
+                />
+              </div>
             </div>
           </div>
         </app-page-frame>

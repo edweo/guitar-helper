@@ -1,45 +1,44 @@
-<!--Chords display-->
-<div #container class="flex flex-1">
-  <div class="flex flex-1 flex-col items-center justify-center max-w-0">
-    <div class="flex flex-col gap-4"
+<div #container class="w-full">
+  <div class="flex flex-1 flex-col items-center justify-center max-w-0"
+       [ngStyle]="{
+         'height.px': containerHeight(),
+       }"
+  >
+    <div class="flex flex-row flex-1 items-center justify-center"
          [ngStyle]="{
-                      'margin-left.px': containerWidth(),
-                      'scale.%': chordsDivScale()
-                     }"
+            'margin-left.px': containerWidth(),
+            'scale.%': chordsDivScale(),
+         }"
     >
-      <!--Chords playing-->
-      <div class="">
-        <div class="flex flex-row items-center justify-center">
-          <!--Previous chords-->
-          @if (previousChords().length < previousChordsCount) {
-            @for (placeholder of [].constructor(previousChordsCount - previousChords().length); let i = $index; track i) {
-              <app-chord-card
-                [chord]="chords[0]"
-                class="scale-80 invisible"
-              />
-            }
-          }
-          @for (chord of previousChords(); let i = $index; track i) {
-            <app-chord-card
-              [chord]="chord"
-              class="scale-80 opacity-50"
-            />
-          }
-
-          <!--Current Chord-->
+      <!--Placeholder Previous chords-->
+      @if (previousChords().length < previousChordsCount) {
+        @for (placeholder of [].constructor(previousChordsCount - previousChords().length); let i = $index; track i) {
           <app-chord-card
-            [chord]="currentChord()!"
+            [chord]="chords[0]"
+            class="scale-80 opacity-30"
           />
+        }
+      }
+      <!--Previous chords-->
+      @for (chord of previousChords(); let i = $index; track i) {
+        <app-chord-card
+          [chord]="chord"
+          class="scale-80 opacity-30"
+        />
+      }
 
-          <!--Next Chord-->
-          @for (chord of nextChords(); let i = $index; track i) {
-            <app-chord-card
-              [chord]="chord"
-              class="scale-80 opacity-50"
-            />
-          }
-        </div>
-      </div>
+      <!--Current Chord-->
+      <app-chord-card
+        [chord]="currentChord()!"
+      />
+
+      <!--Next Chord-->
+      @for (chord of nextChords(); let i = $index; track i) {
+        <app-chord-card
+          [chord]="chord"
+          class="scale-80 opacity-30"
+        />
+      }
     </div>
   </div>
 </div>

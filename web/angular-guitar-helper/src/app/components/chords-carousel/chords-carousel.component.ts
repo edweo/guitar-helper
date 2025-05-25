@@ -2,9 +2,9 @@ import {
   AfterViewInit,
   Component,
   computed,
-  ElementRef,
+  ElementRef, EventEmitter,
   Input, OnChanges, OnDestroy,
-  OnInit,
+  OnInit, Output,
   signal, SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -21,7 +21,7 @@ enum CarouselNextOrder {
   selector: 'app-chords-carousel',
   imports: [
     ChordCardComponent,
-    NgStyle
+    NgStyle,
   ],
   templateUrl: './chords-carousel.component.html',
   styleUrl: './chords-carousel.component.css'
@@ -32,6 +32,8 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
   @Input() nextChordsCount = 1
   @Input() carouselNextOrder? = CarouselNextOrder.IN_ORDER
 
+  @Output() carouselWidthEvent = new EventEmitter<number>();
+
   private currentChordIndex = 0
 
   readonly previousChords = signal<Chord[]>([])
@@ -41,8 +43,12 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
   // Listener variables to react to width and scale up/down responsive design
   @ViewChild('container') container!: ElementRef<HTMLDivElement>
   private resizeObserver!: ResizeObserver;
-  readonly containerWidth = signal(0)
   readonly chordsDivScale = computed(() => this._calculateChordsGalleryScale(this.containerWidth()))
+  readonly containerWidth = signal(0)
+  readonly containerHeight = computed(() => 357.33 * this.chordsDivScale() / 100)
+  readonly carouselWidth = computed(
+    () => (288 * this.chordsDivScale() * (this.previousChordsCount + this.nextChordsCount + 1)  / 100)
+  )
 
   ngOnInit(): void {
     // Initialize starting values
@@ -57,6 +63,7 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
     this.resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
         this.containerWidth.set(entry.contentRect.width)
+        this.carouselWidthEvent.emit(this.carouselWidth())
       }
     })
 
@@ -152,11 +159,9 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
   }
 
   private _calculateChordsGalleryScale(widthParent: number) {
-    const width = widthParent <= 784 ? widthParent : 784
-    const a: number = width / (this.previousChordsCount + this.nextChordsCount + 1)
-    const scale = a / 288
-    return scale * 100
+    // const width = widthParent <= 850 ? widthParent : 850
+    const a: number = widthParent / (this.previousChordsCount + this.nextChordsCount + 1)
+    const scale = a / 288 * 100
+    return scale > 100 ? 100 : scale
   }
-
-  protected readonly Array = Array;
 }

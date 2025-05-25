@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: flex;
+  flex: 1;
+}
+
+.progress-bar {
+  border-radius: 10px !important;
+ @include mat.progress-bar-overrides((
+   track-color: #bcbcbc,
+   active-indicator-height: 10px,
+   track-height: 10px
+ ));
+}

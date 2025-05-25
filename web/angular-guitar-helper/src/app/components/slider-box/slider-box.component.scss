@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+:host {
+  width: 100%;
+}
+
+.slider {
+  @include mat.slider-overrides((
+    //ripple-color: orange,
+    //hover-state-layer-color: red,
+    //active-track-color: red,
+    inactive-track-color: gray,
+  ));
+}
