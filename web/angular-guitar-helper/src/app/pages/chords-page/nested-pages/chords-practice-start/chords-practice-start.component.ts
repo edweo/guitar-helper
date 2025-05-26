@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   inject,
-  Input,
   OnDestroy, OnInit,
   signal,
   ViewChild
@@ -12,19 +11,22 @@ import {PageBackButtonComponent} from '../../../../components/page-back-button/p
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MobileModeService} from '../../../../services/mobile-mode-service/mobile-mode.service';
 import {PageFrameComponent} from '../../../../components/page-frame/page-frame.component';
-import {ChordsPracticeSetup} from '../../../../types/chords_practice_setup';
 import {ComponentType} from '@angular/cdk/portal';
 import {IconButtonComponent} from '../../../../components/icon-button/icon-button.component';
-import {CHORDS_E} from '../../../../data/chords/chords_e';
 import {
   ChordsCarouselComponent,
-  ChordsDisplaySequence
 } from '../../../../components/chords-carousel/chords-carousel.component';
 import {MatProgressBar} from '@angular/material/progress-bar';
 import {NgStyle} from '@angular/common';
 import {SliderBoxComponent} from '../../../../components/slider-box/slider-box.component';
-import {ActivatedRoute} from '@angular/router';
 import {ChordsPracticeService} from '../../../../services/chords-pratice-service/chords-practice.service';
+import {
+  ChordsPracticeTuneService
+} from '../../../../services/chords-practice-tune-service/chords-practice-tune.service';
+import {Subscription} from 'rxjs';
+import {
+  ChordsTuneMenuGroupComponent
+} from '../../../../components/chords-tune-menu-group/chords-tune-menu-group.component';
 
 @Component({
   selector: 'app-chords-practice-start',
@@ -32,30 +34,28 @@ import {ChordsPracticeService} from '../../../../services/chords-pratice-service
     MatSidenavModule,
     PageFrameComponent,
     ChordsCarouselComponent,
-    MatProgressBar,
     NgStyle,
     SliderBoxComponent,
+    ChordsTuneMenuGroupComponent,
   ],
   templateUrl: './chords-practice-start.component.html',
   styleUrl: './chords-practice-start.component.scss'
 })
-export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit, OnInit {
+export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
   @ViewChild('chordsCarousel') chordsCarousel!: ChordsCarouselComponent
-
-  // Signals
-  readonly tuneMenuOpened = signal(false)
-  readonly progressBar = signal(0)
 
   // Tuning parameters
   // TODO create a service to handle tuning parameters
-  readonly widthProgressBar = signal(0)
-  readonly previousChordsCount = signal(1)
-  readonly nextChordsCount = signal(1)
+
+  // Signals
+  readonly tuneMenuOpened = signal(false)
+  readonly widthCarousel = signal(0)
 
   // Services
   readonly topBarService = inject(TopBarService)
   readonly mobileModeService = inject(MobileModeService)
   readonly chordsPracticeService = inject(ChordsPracticeService)
+  readonly chordsPracticeTuneService = inject(ChordsPracticeTuneService)
 
   constructor() {
     this.topBarService.showTopBar()
@@ -81,16 +81,8 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit, O
     // TODO subscription transiotion mobile to desktop and close/open tune menu
   }
 
-  ngOnInit(): void {
-    console.log('SETUP', this.chordsPracticeService.practiceSetup().chords)
-  }
-
   ngAfterViewInit(): void {
-
-    // TODO change to two nested settimeout
-    setInterval(() => {
-      this.increaseProgressBar(10)
-    }, 350)
+    this.chordsPracticeService.startPractice(async () => this.chordsCarousel.nextChord())
   }
 
   ngOnDestroy(): void {
@@ -101,28 +93,7 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit, O
     this.tuneMenuOpened.set(!this.tuneMenuOpened())
   }
 
-  increaseProgressBar = (percent: number) => {
-    if (this.progressBar() >= 100) {
-      this.chordsCarousel.nextChord()
-      this.progressBar.set(0)
-      return
-    }
-
-    const newPercent = this.progressBar() + percent
-    if (newPercent > 100) this.progressBar.set(100)
-    else this.progressBar.set(newPercent)
-  }
-
   handleCarouselWidth(width: number) {
-    this.widthProgressBar.set(width)
+    this.widthCarousel.set(width)
   }
-
-  handlePreviousChordTune = (value: number) => {
-    this.previousChordsCount.set(value)
-  }
-
-  handleNextChordTune = (value: number) => {
-    this.nextChordsCount.set(value)
-  }
-  protected readonly ChordsDisplaySequence = ChordsDisplaySequence;
 }

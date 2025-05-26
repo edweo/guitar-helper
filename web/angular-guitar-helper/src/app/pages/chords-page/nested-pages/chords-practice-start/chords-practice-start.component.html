@@ -1,4 +1,4 @@
-  <div class="flex flex-1 flex-col">
+  <div class="flex flex-1 flex-col w-full">
     <mat-sidenav-container autosize class="h-full !bg-transparent">
       @if (!mobileModeService.isMobile()) {
         <mat-sidenav mode="side"
@@ -7,14 +7,29 @@
                      class="!w-64 !rounded-none p-3 !bg-blue-200"
         >
           <div class="flex flex-col items-center justify-center w-full gap-2">
-            <app-slider-box
-              title="Previous Chords"
-              (onChange)="handlePreviousChordTune($event)"
-            />
-            <app-slider-box
-              title="Next Chords"
-              (onChange)="handleNextChordTune($event)"
-            />
+
+            <app-chords-tune-menu-group title="Display">
+              <app-slider-box
+                title="Previous Chords"
+                (onChange)="chordsPracticeTuneService.setPreviousChordsCount($event)"
+              />
+              <app-slider-box
+                title="Next Chords"
+                (onChange)="chordsPracticeTuneService.setNextChordsCount($event)"
+              />
+            </app-chords-tune-menu-group>
+
+            <app-chords-tune-menu-group title="Timer">
+              <app-slider-box
+                title="Speed (s)"
+                [min]="1"
+                [max]="5"
+                (onChange)="chordsPracticeTuneService.setTimerSpeed($event)"
+              />
+            </app-chords-tune-menu-group>
+
+            <!--TODO add PAUSE - START buttons-->
+            <!--TODO add skip to next chord button-->
           </div>
         </mat-sidenav>
       }
@@ -22,25 +37,20 @@
         <app-page-frame class="!h-full overflow-hidden">
           <div class="flex flex-col flex-1">
             <div class="flex flex-col flex-1 w-full justify-center">
-
-              <h1 class="font-bold text-center text-3xl mb-3">00:00</h1>
-
-              <!--Progress bar before switching chord-->
-              <mat-progress-bar mode="determinate"
-                                [value]="progressBar()"
-                                class="progress-bar mb-4 self-center"
-                                [ngStyle]="{
-                                  'max-width.px': widthProgressBar()
-                                }"
-              />
-              <!--Chords carousel-->
-              <div class="flex flex-col">
+              <div class="flex flex-col w-11/12 self-center">
+                <h1 class="font-bold text-center text-3xl mb-3">00:00</h1>
+                <!--Progress bar before switching chord-->
+                <div class="bg-gray-400 flex h-3 rounded-2xl mb-4 self-center" [ngStyle]="{'width.px': widthCarousel()}">
+                  <div class="bg-blue-500 flex rounded-2xl"
+                       [ngStyle]="{'width.px': chordsPracticeService.progressBarValue() * widthCarousel() / 100}"
+                  ></div>
+                </div>
+                <!--Chords carousel-->
                 <app-chords-carousel #chordsCarousel
                                      [chords]="chordsPracticeService.practiceSetup().chords"
                                      (carouselWidthEvent)="handleCarouselWidth($event)"
-                                     [previousChordsDisplay]="previousChordsCount()"
-                                     [nextChordsDisplay]="nextChordsCount()"
-                                     [chordsDisplaySequence]="ChordsDisplaySequence.IN_ORDER"
+                                     [previousChordsDisplay]="chordsPracticeTuneService.previousChordsCount()"
+                                     [nextChordsDisplay]="chordsPracticeTuneService.nextChordsCount()"
                 />
               </div>
             </div>

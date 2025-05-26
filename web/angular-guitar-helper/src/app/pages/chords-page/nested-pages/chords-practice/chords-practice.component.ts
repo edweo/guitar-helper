@@ -38,6 +38,8 @@ enum GalleryChordsOption {
   styleUrl: './chords-practice.component.css'
 })
 export class ChordsPracticeComponent implements OnDestroy {
+  protected readonly GalleryChordsOption = GalleryChordsOption;
+
   // Constants
   readonly MAX_CHORDS_PRACTICE= 20
   readonly MIN_CHORDS_REQUIRED= 3
@@ -108,6 +110,4 @@ export class ChordsPracticeComponent implements OnDestroy {
   testFunc = () => {
     console.log('test button')
   }
-
-  protected readonly GalleryChordsOption = GalleryChordsOption;
 }

@@ -197,6 +197,4 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
     const scale = a / 288 * 100
     return scale > 100 ? 100 : scale
   }
-
-  protected readonly console = console;
 }
