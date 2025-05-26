@@ -6,16 +6,16 @@
         <div class="flex flex-row gap-3 items-center">
           <h1 class="font-bold text-xl">Selected</h1>
           <mat-chip-set aria-label="Fish selection">
-            <mat-chip disableRipple class="!hover:bg-transparent">{{setup().chords.size}} / {{MAX_CHORDS_PRACTICE}}</mat-chip>
+            <mat-chip disableRipple class="!hover:bg-transparent">{{selectedChords().size}} / {{MAX_CHORDS_PRACTICE}}</mat-chip>
           </mat-chip-set>
         </div>
         <app-text-icon-button text="Library" matIcon="folder_check" [onClick]="testFunc" />
       </div>
       <div class="border-2 border-dashed p-3 rounded">
-        @if (setup().chords.size > 0) {
+        @if (selectedChords().size > 0) {
           <div class="flex flex-row overflow-scroll">
             <div class="flex max-w-0 gap-3">
-                @for (selectedChord of setup().chords; let i = $index; track i) {
+                @for (selectedChord of selectedChords(); let i = $index; track i) {
                   <div class="flex w-[144px] h-[179px]" (click)="removeChordFromSelection(selectedChord)">
                     <app-chord-card
                       [chord]="selectedChord"
@@ -60,7 +60,7 @@
                       @for (chord of (selectedChordsGallery() === GalleryChordsOption.DEFAULT
                           ? chordsService.chordGroupsDefault.get(tab)!().chords
                           : chordsService.chordGroupsCustom.get(tab)!().chords); let i = $index; track i) {
-                        @if (!setup().chords.has(chord)) {
+                        @if (!selectedChords().has(chord)) {
                           <div class="flex w-[144px] h-[179px] cursor-pointer" (click)="addChordToSelection(chord)">
                             <app-chord-card
                               [chord]="chord"

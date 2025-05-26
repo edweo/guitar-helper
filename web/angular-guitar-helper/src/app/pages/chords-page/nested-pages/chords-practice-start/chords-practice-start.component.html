@@ -36,10 +36,11 @@
               <!--Chords carousel-->
               <div class="flex flex-col">
                 <app-chords-carousel #chordsCarousel
-                                     [chords]="displayChords()"
-                                     [previousChordsCount]="previousChordsCount()"
-                                     [nextChordsCount]="nextChordsCount()"
+                                     [chords]="chordsPracticeService.practiceSetup().chords"
                                      (carouselWidthEvent)="handleCarouselWidth($event)"
+                                     [previousChordsDisplay]="previousChordsCount()"
+                                     [nextChordsDisplay]="nextChordsCount()"
+                                     [chordsDisplaySequence]="ChordsDisplaySequence.IN_ORDER"
                 />
               </div>
             </div>

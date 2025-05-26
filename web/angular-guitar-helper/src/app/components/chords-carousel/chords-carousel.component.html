@@ -10,21 +10,19 @@
             'scale.%': chordsDivScale(),
          }"
     >
-      <!--Placeholder Previous chords-->
-      @if (previousChords().length < previousChordsCount) {
-        @for (placeholder of [].constructor(previousChordsCount - previousChords().length); let i = $index; track i) {
+      <!--Previous chords-->
+      @for (chord of previousChords().slice(PREVIOUS_CHORDS_COUNT - previousChordsDisplay); let i = $index; track i) {
+        @if (chord === undefined) {
           <app-chord-card
             [chord]="chords[0]"
+            class="scale-80 invisible"
+          />
+        } @else {
+          <app-chord-card
+            [chord]="chord"
             class="scale-80 opacity-30"
           />
         }
-      }
-      <!--Previous chords-->
-      @for (chord of previousChords(); let i = $index; track i) {
-        <app-chord-card
-          [chord]="chord"
-          class="scale-80 opacity-30"
-        />
       }
 
       <!--Current Chord-->
@@ -33,11 +31,18 @@
       />
 
       <!--Next Chord-->
-      @for (chord of nextChords(); let i = $index; track i) {
-        <app-chord-card
-          [chord]="chord"
-          class="scale-80 opacity-30"
-        />
+      @for (chord of nextChords().slice(0, nextChordsDisplay); let i = $index; track i) {
+        @if (chord === undefined) {
+          <app-chord-card
+            [chord]="chords[0]"
+            class="scale-80 invisible"
+          />
+        } @else {
+          <app-chord-card
+            [chord]="chord"
+            class="scale-80 opacity-30"
+          />
+        }
       }
     </div>
   </div>

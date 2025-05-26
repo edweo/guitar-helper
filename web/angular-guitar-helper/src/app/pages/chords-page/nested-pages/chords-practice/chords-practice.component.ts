@@ -3,7 +3,6 @@ import {TopBarService} from '../../../../services/top-bar-service/top-bar.servic
 import {PageBackButtonComponent} from '../../../../components/page-back-button/page-back-button.component';
 import {TextIconButtonComponent} from '../../../../components/text-icon-button/text-icon-button.component';
 import {ComponentType} from '@angular/cdk/portal';
-import {ChordsPracticeSetup} from '../../../../types/chords_practice_setup';
 import {Chord} from '../../../../models/chord';
 import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
@@ -11,8 +10,9 @@ import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatChip, MatChipSet} from '@angular/material/chips';
 import {ChordsService} from '../../../../services/chords-service/chords.service';
-import {CHORDS_SKELETON} from '../../../../data/chords/chords_skeleton';
 import {PageFrameComponent} from '../../../../components/page-frame/page-frame.component';
+import {Router} from '@angular/router';
+import {ChordsPracticeService} from '../../../../services/chords-pratice-service/chords-practice.service';
 
 enum GalleryChordsOption {
   DEFAULT = 'default',
@@ -38,15 +38,20 @@ enum GalleryChordsOption {
   styleUrl: './chords-practice.component.css'
 })
 export class ChordsPracticeComponent implements OnDestroy {
-  private readonly isInsufficientChordsSelected = signal<boolean>(true)
-  readonly setup = signal<ChordsPracticeSetup>({chords: new Set<Chord>()})
+  // Constants
   readonly MAX_CHORDS_PRACTICE= 20
   readonly MIN_CHORDS_REQUIRED= 3
-  selectedChordsGallery = signal<GalleryChordsOption>(GalleryChordsOption.DEFAULT)
+
+  // Signals
+  private readonly isInsufficientChordsSelected = signal<boolean>(true)
+  readonly selectedChordsGallery = signal<GalleryChordsOption>(GalleryChordsOption.DEFAULT)
+  readonly selectedChords = signal<Set<Chord>>(new Set())
 
   // Services
   readonly topBarService = inject(TopBarService)
   readonly chordsService = inject(ChordsService)
+  private readonly chordsPracticeService = inject(ChordsPracticeService)
+  private readonly router = inject(Router);
 
   constructor() {
     this.topBarService.showTopBar()
@@ -77,24 +82,26 @@ export class ChordsPracticeComponent implements OnDestroy {
   }
 
   private _startPractice = () => {
-    console.log('starting practice')
+    // Navigate to the practice page with the selected chords
+    this.chordsPracticeService.setChords(Array.from(this.selectedChords()));
+    this.router.navigate(['/chords/practice/start'])
   }
 
   addChordToSelection = (chord: Chord) => {
-    this.setup.update(current => {
-      const newSet = new Set(current.chords)
+    this.selectedChords.update(current => {
+      const newSet = current
       newSet.add(chord)
       if (newSet.size >= this.MIN_CHORDS_REQUIRED) this.isInsufficientChordsSelected.set(false)
-      return {chords: newSet}
+      return current
     })
   }
 
   removeChordFromSelection = (chord: Chord) => {
-    this.setup.update(current => {
-      const newSet = new Set(current.chords)
+    this.selectedChords.update(current => {
+      const newSet = current
       newSet.delete(chord)
       if (newSet.size < this.MIN_CHORDS_REQUIRED) this.isInsufficientChordsSelected.set(true)
-      return {chords: newSet}
+      return current
     })
   }
 
