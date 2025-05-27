@@ -13,6 +13,7 @@ import {ChordsService} from '../../../../services/chords-service/chords.service'
 import {PageFrameComponent} from '../../../../components/page-frame/page-frame.component';
 import {Router} from '@angular/router';
 import {ChordsPracticeService} from '../../../../services/chords-pratice-service/chords-practice.service';
+import {ChordsGalleryComponent} from '../../../../components/chords-gallery/chords-gallery.component';
 
 enum GalleryChordsOption {
   DEFAULT = 'default',
@@ -33,6 +34,7 @@ enum GalleryChordsOption {
     MatChip,
     TextIconButtonComponent,
     PageFrameComponent,
+    ChordsGalleryComponent,
   ],
   templateUrl: './chords-practice.component.html',
   styleUrl: './chords-practice.component.css'
@@ -107,7 +109,14 @@ export class ChordsPracticeComponent implements OnDestroy {
     })
   }
 
+  predicateIsChordNotSelected = (chord: Chord): boolean => {
+    return !this.selectedChords().has(chord);
+  }
+
+  // TODO delete this test function
   testFunc = () => {
     console.log('test button')
   }
+
+  protected readonly Array = Array;
 }

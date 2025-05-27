@@ -1,0 +1,19 @@
+<div class="flex flex-row gap-3 justify-start items-center w-fit"
+  [ngStyle]="{
+     'flex-wrap': wrapChords ? 'wrap' : 'nowrap',
+  }"
+>
+  @for (chord of chords; let i = $index; track i) {
+    @if (filterChordsPredicate === undefined || filterChordsPredicate(chord)) {
+      <div class="flex w-[144px] h-[179px] cursor-pointer"
+           (click)="chordOnClick !== undefined ? chordOnClick!(chord) : null"
+           [ngClass]="{'cursor-pointer': chordOnClick !== undefined}"
+       >
+        <app-chord-card
+          [chord]="chord"
+          class="scale-50 mt-[-60px] ml-[-72px]"
+        />
+      </div>
+    }
+  }
+</div>

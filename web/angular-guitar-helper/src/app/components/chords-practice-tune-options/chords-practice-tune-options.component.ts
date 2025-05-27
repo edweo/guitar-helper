@@ -9,6 +9,8 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
 import {ChordsPracticeService} from '../../services/chords-pratice-service/chords-practice.service';
 import {NgStyle} from '@angular/common';
 import {MobileModeService} from '../../services/mobile-mode-service/mobile-mode.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ChordsReorderComponent} from '../chords-reorder/chords-reorder.component';
 
 @Component({
   selector: 'app-chords-practice-tune-options',
@@ -30,6 +32,15 @@ export class ChordsPracticeTuneOptionsComponent {
   readonly chordsPracticeTuneService = inject(ChordsPracticeTuneService);
   readonly chordsPracticeService = inject(ChordsPracticeService);
   readonly mobileModeService = inject(MobileModeService);
+  readonly dialog = inject(MatDialog);
 
   protected readonly ChordsDisplaySequence = ChordsDisplaySequence;
+
+
+  openReorderChordsDialog(): void {
+    this.dialog.open(ChordsReorderComponent, {
+      minWidth: this.mobileModeService.isMobile() ? '90%' : '600px',
+      maxHeight: '80vh',
+    });
+  }
 }

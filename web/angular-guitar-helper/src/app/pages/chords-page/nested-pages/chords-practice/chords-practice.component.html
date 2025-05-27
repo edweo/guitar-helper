@@ -14,15 +14,11 @@
       <div class="border-2 border-dashed p-3 rounded">
         @if (selectedChords().size > 0) {
           <div class="flex flex-row overflow-scroll">
-            <div class="flex max-w-0 gap-3">
-                @for (selectedChord of selectedChords(); let i = $index; track i) {
-                  <div class="flex w-[144px] h-[179px]" (click)="removeChordFromSelection(selectedChord)">
-                    <app-chord-card
-                      [chord]="selectedChord"
-                      class="scale-50 cursor-pointer mt-[-60px] ml-[-72px]"
-                    />
-                  </div>
-                }
+            <div class="flex flex-row w-0">
+              <app-chords-gallery
+                [chords]="Array.from(selectedChords())"
+                [chordOnClick]="removeChordFromSelection"
+              />
             </div>
           </div>
         } @else {
@@ -56,19 +52,15 @@
                     ? chordsService.keysChordGroupsDefault()
                     : chordsService.keysChordGroupsCustom()); let i = $index; track i) {
                   <mat-tab [label]="tab">
-                    <div class="flex flex-row flex-wrap gap-3 justify-start items-center p-3">
-                      @for (chord of (selectedChordsGallery() === GalleryChordsOption.DEFAULT
+                    <div class="p-3">
+                      <app-chords-gallery
+                        [chords]="(selectedChordsGallery() === GalleryChordsOption.DEFAULT
                           ? chordsService.chordGroupsDefault.get(tab)!().chords
-                          : chordsService.chordGroupsCustom.get(tab)!().chords); let i = $index; track i) {
-                        @if (!selectedChords().has(chord)) {
-                          <div class="flex w-[144px] h-[179px] cursor-pointer" (click)="addChordToSelection(chord)">
-                            <app-chord-card
-                              [chord]="chord"
-                              class="scale-50 mt-[-60px] ml-[-72px]"
-                            />
-                          </div>
-                        }
-                      }
+                          : chordsService.chordGroupsCustom.get(tab)!().chords)"
+                        [wrapChords]="true"
+                        [chordOnClick]="addChordToSelection"
+                        [filterChordsPredicate]="predicateIsChordNotSelected"
+                      />
                     </div>
                   </mat-tab>
                 }
