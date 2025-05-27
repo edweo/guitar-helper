@@ -4,9 +4,9 @@
          'height.px': containerHeight(),
        }"
   >
-    <div class="flex flex-row flex-1 items-center justify-center"
+    <div #carouselContainer class="flex flex-row flex-1 items-center justify-center"
          [ngStyle]="{
-            'margin-left.px': containerWidth(),
+            'margin-left.px': carouselContainerWidth(),
             'scale.%': chordsDivScale(),
          }"
     >

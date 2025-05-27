@@ -14,9 +14,11 @@ export class ChordsPracticeService {
 
   // Timer
   private chordRoundTimer: ReturnType<typeof setTimeout> | null = null;
-  readonly timerRunning = signal(false)
   readonly timerIncrement = signal(1)
-  readonly timerIntervalMs = signal(100)
+  readonly timerIntervalMs = signal(10)
+
+  // Start and Pause
+  readonly isPracticeStarted = signal(false)
 
   // TODO switch back to chords []
   // Practice setup
@@ -36,7 +38,7 @@ export class ChordsPracticeService {
   }
 
   pausePractice(): void {
-    this.timerRunning.set(false);
+    this.isPracticeStarted.set(false);
     if (this.chordRoundTimer !== null) {
       clearTimeout(this.chordRoundTimer);
       this.chordRoundTimer = null;
@@ -46,7 +48,7 @@ export class ChordsPracticeService {
   startPractice(
     onProgressBarFinished: () => Promise<void>
   ): void {
-    this.timerRunning.set(true)
+    this.isPracticeStarted.set(true)
     this._startTimerRound(onProgressBarFinished);
   }
 
@@ -57,7 +59,6 @@ export class ChordsPracticeService {
     const ms = seconds * 1000;
     // Calculate the interval in milliseconds based on the timer increment
     const interval = Math.floor(ms / 100 * this.timerIncrement())
-    const secondsActual = (100 / this.timerIncrement()) * interval;
     this.timerIntervalMs.set(interval)
   }
 
@@ -86,10 +87,10 @@ export class ChordsPracticeService {
         await delayAwait(300) // Wait for the UI to update before calling the callback
         await onProgressBarFinished(); // Call the provided callback when the progress bar reaches 100%
         this.progressBarValue.set(0); // Reset progress bar for the next round
-        await delayAwait(300) // Wait for the UI to update before starting the next round
+        await delayAwait(150) // Wait for the UI to update before starting the next round
       }
       // Continue the timer if it is still running
-      if (this.timerRunning()) {
+      if (this.isPracticeStarted()) {
         this._startTimerRound(onProgressBarFinished);
       }
     }, this.timerIntervalMs())

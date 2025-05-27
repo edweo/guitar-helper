@@ -1,8 +1,7 @@
 import {
-  AfterViewInit,
   Component,
   inject,
-  OnDestroy, OnInit,
+  OnDestroy,
   signal,
   ViewChild
 } from '@angular/core';
@@ -14,19 +13,21 @@ import {PageFrameComponent} from '../../../../components/page-frame/page-frame.c
 import {ComponentType} from '@angular/cdk/portal';
 import {IconButtonComponent} from '../../../../components/icon-button/icon-button.component';
 import {
-  ChordsCarouselComponent,
+  ChordsCarouselComponent, ChordsDisplaySequence,
 } from '../../../../components/chords-carousel/chords-carousel.component';
-import {MatProgressBar} from '@angular/material/progress-bar';
 import {NgStyle} from '@angular/common';
 import {SliderBoxComponent} from '../../../../components/slider-box/slider-box.component';
 import {ChordsPracticeService} from '../../../../services/chords-pratice-service/chords-practice.service';
 import {
   ChordsPracticeTuneService
 } from '../../../../services/chords-practice-tune-service/chords-practice-tune.service';
-import {Subscription} from 'rxjs';
 import {
   ChordsTuneMenuGroupComponent
 } from '../../../../components/chords-tune-menu-group/chords-tune-menu-group.component';
+import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
+import {MatIcon} from '@angular/material/icon';
+import {MatButton} from '@angular/material/button';
+import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
 
 @Component({
   selector: 'app-chords-practice-start',
@@ -37,11 +38,16 @@ import {
     NgStyle,
     SliderBoxComponent,
     ChordsTuneMenuGroupComponent,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+    MatIcon,
+    MatButton,
+    ChordCardComponent,
   ],
   templateUrl: './chords-practice-start.component.html',
   styleUrl: './chords-practice-start.component.scss'
 })
-export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
+export class ChordsPracticeStartComponent implements OnDestroy {
   @ViewChild('chordsCarousel') chordsCarousel!: ChordsCarouselComponent
 
   // Tuning parameters
@@ -81,10 +87,6 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
     // TODO subscription transiotion mobile to desktop and close/open tune menu
   }
 
-  ngAfterViewInit(): void {
-    this.chordsPracticeService.startPractice(async () => this.chordsCarousel.nextChord())
-  }
-
   ngOnDestroy(): void {
     this.topBarService.resetAll()
   }
@@ -96,4 +98,10 @@ export class ChordsPracticeStartComponent implements OnDestroy, AfterViewInit {
   handleCarouselWidth(width: number) {
     this.widthCarousel.set(width)
   }
+
+  nextChord = async () => {
+    this.chordsCarousel.nextChord()
+  }
+
+  protected readonly ChordsDisplaySequence = ChordsDisplaySequence;
 }

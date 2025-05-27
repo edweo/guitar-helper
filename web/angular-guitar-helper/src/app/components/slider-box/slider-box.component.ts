@@ -15,10 +15,8 @@ export class SliderBoxComponent {
   @Input() min: number = 1
   @Input() max: number = 3
   @Input() step: number = 1
-
+  @Input() value = signal(this.min)
   @Output() onChange = new EventEmitter<number>
-
-  readonly value = signal(this.min)
 
   handleChange = (value: number) => {
     this.value.set(value)

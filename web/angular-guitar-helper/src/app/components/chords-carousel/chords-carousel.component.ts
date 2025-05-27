@@ -45,9 +45,10 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
 
   // Listener variables to react to width and scale up/down responsive design
   @ViewChild('container') container!: ElementRef<HTMLDivElement>
+  @ViewChild('carouselContainer') carouselContainer!: ElementRef<HTMLDivElement>
   private resizeObserver!: ResizeObserver;
-  readonly chordsDivScale = computed(() => this._calculateChordsGalleryScale(this.containerWidth()))
-  readonly containerWidth = signal(0)
+  readonly carouselContainerWidth = signal(0)
+  readonly chordsDivScale = computed(() => this._calculateChordsGalleryScale(this.carouselContainerWidth()))
   readonly containerHeight = computed(() => 357.33 * this.chordsDivScale() / 100)
   readonly carouselWidth = computed(
     () => (288 * this.chordsDivScale() * (this.previousChordsDisplay + this.nextChordsDisplay + 1)  / 100)
@@ -64,12 +65,12 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
   }
 
   ngAfterViewInit(): void {
-    this.containerWidth.set(this.container.nativeElement.offsetWidth)
+    this.carouselContainerWidth.set(this.container.nativeElement.offsetWidth)
 
     // Create a ResizeObserver to monitor width changes
     this.resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
-        this.containerWidth.set(entry.contentRect.width)
+        this.carouselContainerWidth.set(entry.contentRect.width)
         this.carouselWidthEvent.emit(this.carouselWidth())
       }
     })
@@ -96,24 +97,21 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
    * Refreshes the component to apply new scaling of chord cards
    */
   refreshContainer(): void {
-    if (this.container !== undefined) {
-      // Temporarily change the width to force a reflow
-      const originalWidth = this.container.nativeElement.style.width;
-      this.container.nativeElement.style.width = '99%'; // Change to a different value
-      setTimeout(() => {
-        this.container.nativeElement.style.width = originalWidth; // Reset to original
-      }, 0);
+    if (this.carouselContainer !== undefined) {
+      this.carouselContainerWidth.set(this.carouselContainer.nativeElement.offsetWidth)
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // TODO handle changes
     if (changes['previousChordsCount']) {
     }
 
     if (changes['nextChordsCount']) {
     }
 
-    if (changes['carouselNextOrder']) {
+    if (changes['chordsDisplaySequence']) {
+
     }
 
     this.refreshContainer()
