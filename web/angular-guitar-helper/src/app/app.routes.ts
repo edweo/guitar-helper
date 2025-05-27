@@ -23,9 +23,9 @@ export const routes: Routes = [
       {path: 'practice/start', component: ChordsPracticeStartComponent},
     ]
   },
-  { path: 'tablature', component: TabsPageComponent },
-  { path: 'recording', component: RecordingPageComponent },
-  { path: 'profile', component: ProfilePageComponent },
+  // { path: 'tablature', component: TabsPageComponent },
+  // { path: 'recording', component: RecordingPageComponent },
+  // { path: 'profile', component: ProfilePageComponent },
   { path: 'about', component: AboutPageComponent },
   { path: '**', component: NotFoundPageComponent },
 ];

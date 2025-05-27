@@ -15,7 +15,7 @@ import {NgClass, NgStyle} from '@angular/common';
 })
 export class ChordsGalleryComponent {
   @Input({required: true}) chords!: Chord[]
-  @Input() chordOnClick?: (chord: Chord) => void;
-  @Input() filterChordsPredicate?: (chord: Chord) => boolean;
-  @Input() wrapChords = false;
+  @Input() chordOnClick?: (chord: Chord) => void
+  @Input() filterChordsPredicate?: (chord: Chord) => boolean
+  @Input() wrapChords = false
 }

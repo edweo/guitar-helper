@@ -10,7 +10,7 @@ import {ChordsPracticeService} from '../../services/chords-pratice-service/chord
 import {NgStyle} from '@angular/common';
 import {MobileModeService} from '../../services/mobile-mode-service/mobile-mode.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ChordsReorderComponent} from '../chords-reorder/chords-reorder.component';
+import {ChordsReorderDialogComponent} from '../chords-reorder-dialog/chords-reorder-dialog.component';
 
 @Component({
   selector: 'app-chords-practice-tune-options',
@@ -36,10 +36,9 @@ export class ChordsPracticeTuneOptionsComponent {
 
   protected readonly ChordsDisplaySequence = ChordsDisplaySequence;
 
-
   openReorderChordsDialog(): void {
-    this.dialog.open(ChordsReorderComponent, {
-      minWidth: this.mobileModeService.isMobile() ? '90%' : '600px',
+    this.dialog.open(ChordsReorderDialogComponent, {
+      minWidth: this.mobileModeService.isMobile() ? '90%' : '704px',
       maxHeight: '80vh',
     });
   }

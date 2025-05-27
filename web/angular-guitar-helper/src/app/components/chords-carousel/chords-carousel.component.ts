@@ -30,7 +30,7 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
   @Input({required: true}) chords!: Chord[]
   @Input() previousChordsDisplay = 3
   @Input() nextChordsDisplay = 3
-  @Input() chordsDisplaySequence? = ChordsDisplaySequence.IN_ORDER
+  @Input() chordsDisplaySequence = ChordsDisplaySequence.IN_ORDER
   @Output() carouselWidthEvent = new EventEmitter<number>();
 
   // Constants
@@ -39,9 +39,14 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
 
   // Chords state
   private currentChordIndex = 0
+  private lastNextChordIndex = 0
   readonly previousChords = signal<(Chord | undefined)[]>(new Array(this.PREVIOUS_CHORDS_COUNT).fill(undefined))
   readonly currentChord = signal<Chord | undefined>(undefined)
   readonly nextChords = signal<(Chord | undefined)[]>(new Array(this.NEXT_CHORDS_SIZE).fill(undefined))
+
+  // Signals
+  private readonly _chordsDisplaySequence = signal(this.chordsDisplaySequence);
+  // TODO maybe siganl array of chords
 
   // Listener variables to react to width and scale up/down responsive design
   @ViewChild('container') container!: ElementRef<HTMLDivElement>
@@ -57,11 +62,23 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
   ngOnInit(): void {
     this._validateInputs()
 
-    // Initialize starting values
+    // Initialize starting chord
     this.currentChord.set(this.chords[0])
-    for (let i = 0; i < (this.NEXT_CHORDS_SIZE); i++) {
-      this._nextChordRandom()
+
+    // Initialize next chords
+    const initialNextChords: Chord[] = [];
+    for (let i = 0; i < this.NEXT_CHORDS_SIZE; i++) {
+      switch (this._chordsDisplaySequence()) {
+        case ChordsDisplaySequence.IN_ORDER:
+          initialNextChords.push(this._getNextChordByIndex(this.currentChordIndex + i));
+          this.lastNextChordIndex++
+          break
+        case ChordsDisplaySequence.RANDOM:
+          initialNextChords.push(this._getRandomChord());
+          break
+      }
     }
+    this.nextChords.set(initialNextChords)
   }
 
   ngAfterViewInit(): void {
@@ -111,7 +128,7 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     if (changes['chordsDisplaySequence']) {
-
+      this._chordsDisplaySequence.set(this.chordsDisplaySequence)
     }
 
     this.refreshContainer()
@@ -121,14 +138,14 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
     this.resizeObserver.disconnect()
   }
 
-  nextChord = () => {
+  moveNextChord = () => {
     // Update Previous chords
     this._updatePreviousChords()
 
     const newCurrentChord = this.nextChords()[0];
 
     // Update Next chords
-    this._updateNextChords()
+    this._moveNextChord()
 
     // Update Current chord
     this.currentChord.set(newCurrentChord)
@@ -138,33 +155,24 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
     this.previousChords.set([...this.previousChords().slice(1), this.currentChord()!])
   }
 
-  private _updateNextChords = () => {
-    switch (this.chordsDisplaySequence) {
+  private _moveNextChord = () => {
+    switch (this._chordsDisplaySequence()) {
       case ChordsDisplaySequence.IN_ORDER:
-        this._nextChordInOrder()
+        this._moveNextChordInOrder()
         break
       case ChordsDisplaySequence.RANDOM:
-        this._nextChordRandom()
+        this._moveNextChordRandom()
         break
     }
   }
 
-  private _nextChordInOrder() {
-    const newNextChords: Chord[] = []
-    let currentIndex = this.currentChordIndex
-    for (let i = 0; i < this.NEXT_CHORDS_SIZE; i++) {
-      currentIndex = (currentIndex + 1) % this.chords.length
-      newNextChords.push(this.chords[currentIndex])
-    }
-    this.nextChords.set(newNextChords)
-    this.currentChordIndex = (this.currentChordIndex + 1) % this.chords.length
+  private _moveNextChordInOrder() {
+    const nextChord = this._getNextChordByIndex(this.lastNextChordIndex);
+    this.lastNextChordIndex = this._wrapIndex(this.lastNextChordIndex + 1);
+    this._addLastNextChords(nextChord)
   }
 
-  private _nextChordRandom() {
-    // Generate random next chord
-    let randomIndex: number;
-    randomIndex = Math.floor(Math.random() * this.chords.length)
-
+  private _moveNextChordRandom() {
     let comparisonChord: Chord | undefined;
     if (this.nextChords().length > 0) {
       comparisonChord = this.nextChords()[this.nextChords().length - 1];
@@ -174,20 +182,29 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     // Find chord until not the same as previous in line
-    let newCord: Chord = this.chords[randomIndex];
+    let newCord: Chord = this._getRandomChord();
     while (newCord === comparisonChord) {
-      randomIndex = Math.floor(Math.random() * this.chords.length)
-      newCord = this.chords[randomIndex];
+      newCord = this._getRandomChord();
     }
 
-    // If there are not enough chords, fill the nextChords with random chords
-    if (this.nextChords().length < this.NEXT_CHORDS_SIZE) {
-      this.nextChords.set([...this.nextChords(), newCord]);
-    }
-    // Remove first chord and add the new random chord at the end
-    else {
-      this.nextChords.set([...this.nextChords().slice(1), newCord!]);
-    }
+    this._addLastNextChords(newCord!)
+  }
+
+  private _addLastNextChords(chord: Chord): void {
+    this.nextChords.set([...this.nextChords().slice(1), chord]);
+  }
+
+  private _getRandomChord(): Chord {
+    let randomIndex= Math.floor(Math.random() * this.chords.length)
+    return this.chords[randomIndex];
+  }
+
+  private _getNextChordByIndex(index: number): Chord {
+    return this.chords[this._wrapIndex(index + 1)]
+  }
+
+  private _wrapIndex(index: number): number {
+    return index % this.chords.length;
   }
 
   private _calculateChordsGalleryScale(widthParent: number) {

@@ -1,7 +1,7 @@
 import {
   Component,
   inject,
-  OnDestroy,
+  OnDestroy, OnInit,
   signal,
   ViewChild
 } from '@angular/core';
@@ -115,6 +115,6 @@ export class ChordsPracticeStartComponent implements OnDestroy {
   }
 
   nextChord = async () => {
-    this.chordsCarousel.nextChord()
+    this.chordsCarousel.moveNextChord()
   }
 }

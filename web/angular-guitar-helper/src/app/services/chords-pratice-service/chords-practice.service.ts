@@ -24,7 +24,7 @@ export class ChordsPracticeService {
   // Practice setup
   readonly practiceSetup = signal<ChordsPracticeSetup>({
     name: '',
-    chords: CHORDS_E
+    chords: [...CHORDS_E]
     // chords: []
   })
 

@@ -23,7 +23,6 @@ enum GalleryChordsOption {
 @Component({
   selector: 'app-chords-practice',
   imports: [
-    ChordCardComponent,
     MatTabGroup,
     MatTab,
     MatGridList,

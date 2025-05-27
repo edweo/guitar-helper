@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChordsReorderComponent } from './chords-reorder.component';
+import { ChordsReorderDialogComponent } from './chords-reorder-dialog.component';
 
 describe('ChordsReorderComponent', () => {
-  let component: ChordsReorderComponent;
-  let fixture: ComponentFixture<ChordsReorderComponent>;
+  let component: ChordsReorderDialogComponent;
+  let fixture: ComponentFixture<ChordsReorderDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChordsReorderComponent]
+      imports: [ChordsReorderDialogComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChordsReorderComponent);
+    fixture = TestBed.createComponent(ChordsReorderDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

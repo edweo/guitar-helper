@@ -1,0 +1,28 @@
+<div cdkInitialFocus class="flex flex-col p-8">
+  <h1 class="font-semibold text-2xl mb-4">Reorder chords</h1>
+
+  <div class="bg-gray-200 flex justify-start border-2 border-dashed rounded h-[395px] px-3 overflow-scroll">
+    <div
+      class="flex flex-col"
+      [ngStyle]="{
+        'width': mobileModeService.isMobile() ? '300px' : 'auto'
+      }"
+    >
+      <div class="invisible text-[10px]">padding</div>
+      <app-chords-gallery-reorder #chordsReorder
+        [chords]="chordsPracticeService.practiceSetup().chords"
+        [wrapChords]="true"
+      />
+      <div class="invisible text-[10px]">padding</div>
+    </div>
+  </div>
+
+  <button mat-raised-button
+          color="blue"
+          class="mt-4 !bg-blue-300"
+          (click)="onSave()"
+  >
+    <mat-icon>save</mat-icon>
+    Save
+  </button>
+</div>

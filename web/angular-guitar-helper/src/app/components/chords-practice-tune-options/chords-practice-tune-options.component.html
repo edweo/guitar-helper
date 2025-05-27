@@ -55,7 +55,7 @@
            (click)="openReorderChordsDialog()"
       >
         <div class="flex flex-row w-0 ml-[-220px] mt-[0px] gap-0.5">
-          @for (chord of chordsPracticeService.practiceSetup().chords.slice(0, 3); track chord.id) {
+          @for (chord of chordsPracticeService.practiceSetup().chords.slice(0, 3); let i = $index; track i) {
             <div class="flex w-[73px] h-[82px]">
               <app-chord-card
                 [chord]="chord"
