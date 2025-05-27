@@ -28,6 +28,9 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
+import {
+  ChordsPracticeTuneOptionsComponent
+} from '../../../../components/chords-practice-tune-options/chords-practice-tune-options.component';
 
 @Component({
   selector: 'app-chords-practice-start',
@@ -43,6 +46,7 @@ import {ChordCardComponent} from '../../../../components/chord-card/chord-card.c
     MatIcon,
     MatButton,
     ChordCardComponent,
+    ChordsPracticeTuneOptionsComponent,
   ],
   templateUrl: './chords-practice-start.component.html',
   styleUrl: './chords-practice-start.component.scss'
@@ -82,9 +86,10 @@ export class ChordsPracticeStartComponent implements OnDestroy {
       }
     ])
 
-    if (!this.mobileModeService.isMobile()) this.tuneMenuOpened.set(true)
+    this.chordsPracticeService.pausePractice()
 
     // TODO subscription transiotion mobile to desktop and close/open tune menu
+    if (!this.mobileModeService.isMobile()) this.tuneMenuOpened.set(true)
   }
 
   ngOnDestroy(): void {

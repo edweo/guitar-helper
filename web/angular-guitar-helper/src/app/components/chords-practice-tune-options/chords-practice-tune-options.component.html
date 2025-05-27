@@ -1,0 +1,60 @@
+<div class="flex flex-col items-center justify-center w-full gap-2">
+  <app-chords-tune-menu-group title="Display">
+    <app-slider-box
+      title="Previous Chords"
+      (onChange)="chordsPracticeTuneService.setPreviousChordsCount($event)"
+    />
+    <app-slider-box
+      title="Next Chords"
+      (onChange)="chordsPracticeTuneService.setNextChordsCount($event)"
+    />
+  </app-chords-tune-menu-group>
+
+  <app-chords-tune-menu-group title="Timer">
+    <app-slider-box
+      title="Speed (s)"
+      [min]="1"
+      [max]="5"
+      [step]="1"
+      [value]="chordsPracticeTuneService.timerSpeedSeconds"
+      (onChange)="chordsPracticeTuneService.setTimerSpeed($event)"
+    />
+  </app-chords-tune-menu-group>
+
+  <app-chords-tune-menu-group title="Sequence">
+    <div class="flex flex-row items-center justify-center">
+      <mat-button-toggle-group name="displayOrder"
+                               aria-label="Display order"
+                               hideSingleSelectionIndicator
+                               class="w-full flex flex-row items-center justify-center"
+                               [value]="chordsPracticeTuneService.chordsDisplaySequence()"
+                               (change)="chordsPracticeTuneService.setChordsDisplaySequence($event.value)"
+      >
+        <mat-button-toggle [value]="ChordsDisplaySequence.IN_ORDER" class="w-full">
+          <mat-icon>sort</mat-icon>
+          Ordered
+        </mat-button-toggle>
+        <mat-button-toggle [value]="ChordsDisplaySequence.RANDOM" class="w-full">
+          <mat-icon>casino</mat-icon>
+          Random
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    @if (chordsPracticeTuneService.chordsDisplaySequence() === ChordsDisplaySequence.IN_ORDER) {
+      <div class="flex flex-col items-center justify-center bg-blue-100 pt-2 rounded-2xl cursor-pointer hover:bg-blue-150">
+        <div class="flex flex-row w-0 ml-[-220px] mt-[0px] gap-0.5">
+          @for (chord of chordsPracticeService.practiceSetup().chords.slice(0, 3); track chord.id) {
+            <div class="flex w-[73px] h-[82px]">
+              <app-chord-card
+                [chord]="chord"
+                class="scale-23 mt-[-51px] ml-[-108px]"
+              />
+            </div>
+          }
+        </div>
+        <h1 class="font-semibold text-sm py-1">Re-order</h1>
+      </div>
+    }
+  </app-chords-tune-menu-group>
+</div>
