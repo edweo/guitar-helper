@@ -7,6 +7,8 @@ import {ChordsPracticeTuneService} from '../../services/chords-practice-tune-ser
 import {MatIcon} from '@angular/material/icon';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {ChordsPracticeService} from '../../services/chords-pratice-service/chords-practice.service';
+import {NgStyle} from '@angular/common';
+import {MobileModeService} from '../../services/mobile-mode-service/mobile-mode.service';
 
 @Component({
   selector: 'app-chords-practice-tune-options',
@@ -16,7 +18,8 @@ import {ChordsPracticeService} from '../../services/chords-pratice-service/chord
     MatButtonToggle,
     MatButtonToggleGroup,
     MatIcon,
-    SliderBoxComponent
+    SliderBoxComponent,
+    NgStyle
   ],
   templateUrl: './chords-practice-tune-options.component.html',
   styleUrl: './chords-practice-tune-options.component.css'
@@ -26,6 +29,7 @@ export class ChordsPracticeTuneOptionsComponent {
   // Services
   readonly chordsPracticeTuneService = inject(ChordsPracticeTuneService);
   readonly chordsPracticeService = inject(ChordsPracticeService);
+  readonly mobileModeService = inject(MobileModeService);
 
   protected readonly ChordsDisplaySequence = ChordsDisplaySequence;
 }

@@ -13,24 +13,20 @@ import {PageFrameComponent} from '../../../../components/page-frame/page-frame.c
 import {ComponentType} from '@angular/cdk/portal';
 import {IconButtonComponent} from '../../../../components/icon-button/icon-button.component';
 import {
-  ChordsCarouselComponent, ChordsDisplaySequence,
+  ChordsCarouselComponent,
 } from '../../../../components/chords-carousel/chords-carousel.component';
 import {NgStyle} from '@angular/common';
-import {SliderBoxComponent} from '../../../../components/slider-box/slider-box.component';
 import {ChordsPracticeService} from '../../../../services/chords-pratice-service/chords-practice.service';
 import {
   ChordsPracticeTuneService
 } from '../../../../services/chords-practice-tune-service/chords-practice-tune.service';
-import {
-  ChordsTuneMenuGroupComponent
-} from '../../../../components/chords-tune-menu-group/chords-tune-menu-group.component';
-import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
-import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
 import {
   ChordsPracticeTuneOptionsComponent
 } from '../../../../components/chords-practice-tune-options/chords-practice-tune-options.component';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-chords-practice-start',
@@ -39,13 +35,8 @@ import {
     PageFrameComponent,
     ChordsCarouselComponent,
     NgStyle,
-    SliderBoxComponent,
-    ChordsTuneMenuGroupComponent,
-    MatButtonToggleGroup,
-    MatButtonToggle,
     MatIcon,
     MatButton,
-    ChordCardComponent,
     ChordsPracticeTuneOptionsComponent,
   ],
   templateUrl: './chords-practice-start.component.html',
@@ -53,9 +44,6 @@ import {
 })
 export class ChordsPracticeStartComponent implements OnDestroy {
   @ViewChild('chordsCarousel') chordsCarousel!: ChordsCarouselComponent
-
-  // Tuning parameters
-  // TODO create a service to handle tuning parameters
 
   // Signals
   readonly tuneMenuOpened = signal(false)
@@ -66,6 +54,13 @@ export class ChordsPracticeStartComponent implements OnDestroy {
   readonly mobileModeService = inject(MobileModeService)
   readonly chordsPracticeService = inject(ChordsPracticeService)
   readonly chordsPracticeTuneService = inject(ChordsPracticeTuneService)
+  private readonly bottomSheetService = inject(MatBottomSheet);
+
+  // Variables
+  private _bottomSheetOpened: MatBottomSheetRef | null = null;
+
+  // Subscriptions
+  private _bottomSheetSubscription: Subscription;
 
   constructor() {
     this.topBarService.showTopBar()
@@ -88,16 +83,31 @@ export class ChordsPracticeStartComponent implements OnDestroy {
 
     this.chordsPracticeService.pausePractice()
 
-    // TODO subscription transiotion mobile to desktop and close/open tune menu
     if (!this.mobileModeService.isMobile()) this.tuneMenuOpened.set(true)
+
+    this._bottomSheetSubscription =this.mobileModeService.isMobile$.subscribe((isMobile) => {
+      // If we are on mobile, we want to close the tune menu if it is opened when switching to desktop mode
+      if (!isMobile) {
+        if (this._bottomSheetOpened) {
+          this._bottomSheetOpened.dismiss();
+          this._bottomSheetOpened = null;
+        }
+        this.tuneMenuOpened.set(true);
+      }
+    })
   }
 
   ngOnDestroy(): void {
     this.topBarService.resetAll()
+    this._bottomSheetSubscription.unsubscribe()
   }
 
   toggleTuneNav = () => {
-    this.tuneMenuOpened.set(!this.tuneMenuOpened())
+    if (this.mobileModeService.isMobile()) {
+      this._bottomSheetOpened = this.bottomSheetService.open(ChordsPracticeTuneOptionsComponent);
+    } else {
+      this.tuneMenuOpened.set(!this.tuneMenuOpened())
+    }
   }
 
   handleCarouselWidth(width: number) {
@@ -107,6 +117,4 @@ export class ChordsPracticeStartComponent implements OnDestroy {
   nextChord = async () => {
     this.chordsCarousel.nextChord()
   }
-
-  protected readonly ChordsDisplaySequence = ChordsDisplaySequence;
 }
