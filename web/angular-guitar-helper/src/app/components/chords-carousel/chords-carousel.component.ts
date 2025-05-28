@@ -61,24 +61,7 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
 
   ngOnInit(): void {
     this._validateInputs()
-
-    // Initialize starting chord
-    this.currentChord.set(this.chords[0])
-
-    // Initialize next chords
-    const initialNextChords: Chord[] = [];
-    for (let i = 0; i < this.NEXT_CHORDS_SIZE; i++) {
-      switch (this._chordsDisplaySequence()) {
-        case ChordsDisplaySequence.IN_ORDER:
-          initialNextChords.push(this._getNextChordByIndex(this.currentChordIndex + i));
-          this.lastNextChordIndex++
-          break
-        case ChordsDisplaySequence.RANDOM:
-          initialNextChords.push(this._getRandomChord());
-          break
-      }
-    }
-    this.nextChords.set(initialNextChords)
+    this._initChords()
   }
 
   ngAfterViewInit(): void {
@@ -100,22 +83,11 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
     if (this.chords! === undefined || this.chords.length === 0) {
       throw new Error('Chords must be provided to the ChordsCarouselComponent');
     }
-
     if (this.previousChordsDisplay < 0 || this.nextChordsDisplay < 0) {
       throw new Error('Previous and next chords display counts must be non-negative');
     }
-
     if (this.previousChordsDisplay > 3 || this.nextChordsDisplay > 3) {
       throw new Error('Previous and next chords display counts must be less than or equal to 3');
-    }
-  }
-
-  /**
-   * Refreshes the component to apply new scaling of chord cards
-   */
-  refreshContainer(): void {
-    if (this.carouselContainer !== undefined) {
-      this.carouselContainerWidth.set(this.carouselContainer.nativeElement.offsetWidth)
     }
   }
 
@@ -129,6 +101,11 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
 
     if (changes['chordsDisplaySequence']) {
       this._chordsDisplaySequence.set(this.chordsDisplaySequence)
+      this._initChords()
+    }
+
+    if (changes['chords']) {
+      this._initChords()
     }
 
     this.refreshContainer()
@@ -138,15 +115,43 @@ export class ChordsCarouselComponent implements AfterViewInit, OnInit, OnChanges
     this.resizeObserver.disconnect()
   }
 
+  /**
+   * Refreshes the component to apply new scaling of chord cards
+   */
+  refreshContainer(): void {
+    if (this.carouselContainer !== undefined) {
+      this.carouselContainerWidth.set(this.carouselContainer.nativeElement.offsetWidth)
+    }
+  }
+
+  private _initChords() {
+    // Initialize starting chord
+    this.currentChordIndex = 0
+    this.currentChord.set(this.chords[this.currentChordIndex])
+
+    // Initialize next chords
+    const initialNextChords: Chord[] = [];
+    for (let i = 0; i < this.NEXT_CHORDS_SIZE; i++) {
+      switch (this._chordsDisplaySequence()) {
+        case ChordsDisplaySequence.IN_ORDER:
+          initialNextChords.push(this._getNextChordByIndex(this.currentChordIndex + i));
+          this.lastNextChordIndex++
+          break
+        case ChordsDisplaySequence.RANDOM:
+          initialNextChords.push(this._getRandomChord());
+          break
+      }
+    }
+    this.nextChords.set(initialNextChords)
+    this.previousChords.set([...new Array(this.PREVIOUS_CHORDS_COUNT).fill(undefined)])
+  }
+
   moveNextChord = () => {
+    const newCurrentChord = this.nextChords()[0];
     // Update Previous chords
     this._updatePreviousChords()
-
-    const newCurrentChord = this.nextChords()[0];
-
     // Update Next chords
     this._moveNextChord()
-
     // Update Current chord
     this.currentChord.set(newCurrentChord)
   }

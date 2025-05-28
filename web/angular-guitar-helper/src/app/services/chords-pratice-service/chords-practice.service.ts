@@ -32,6 +32,7 @@ export class ChordsPracticeService {
     if (chords.length < 3) {
       throw new Error('At least 3 chords are required for practice.');
     }
+
     this.practiceSetup.update(setup => ({
       chords: chords,
     }));
