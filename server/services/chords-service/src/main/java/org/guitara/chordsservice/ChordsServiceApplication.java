@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +25,6 @@ public class ChordsServiceApplication {
 		SpringApplication.run(ChordsServiceApplication.class, args);
 	}
 
-
 	@Bean
 	public ApplicationRunner init() {
 		return args -> {
@@ -32,35 +32,28 @@ public class ChordsServiceApplication {
 			System.out.println("Chords Service Application has started successfully.");
 
 			Chord chord = new Chord();
-			chord.setTitle("E");
 
-			chord.setChordOpenClose(List.of(
-				ChordOpenCloseState.OPEN_NOTE,
-				ChordOpenCloseState.NO_CHANGE,
-				ChordOpenCloseState.NO_CHANGE,
-				ChordOpenCloseState.NO_CHANGE,
-				ChordOpenCloseState.OPEN_NOTE,
-				ChordOpenCloseState.OPEN_NOTE
+			chord.setName("E");
+
+			chord.setFirstFretReference(GuitarFret.FRET_1);
+
+			chord.setMutedOpenStrings(Set.of(
+				new GuitarStringState(GuitarString.e, GuitarStringOpenCloseState.OPEN),
+				new GuitarStringState(GuitarString.B, GuitarStringOpenCloseState.OPEN),
+				new GuitarStringState(GuitarString.E, GuitarStringOpenCloseState.OPEN)
 			));
 
-			chord.setPushedFretNotes(Set.of(
-				new FretPushed(FretNote.f1_G, GuitarFinger.INDEX),
-				new FretPushed(FretNote.f2_A, GuitarFinger.MIDDLE),
-				new FretPushed(FretNote.f2_D, GuitarFinger.RING)
+			chord.setPositionsPushed(Set.of(
+					new GuitarPositionPushed(GuitarFret.FRET_1, GuitarString.G ,Finger.INDEX),
+					new GuitarPositionPushed(GuitarFret.FRET_2, GuitarString.A ,Finger.MIDDLE),
+					new GuitarPositionPushed(GuitarFret.FRET_2, GuitarString.D ,Finger.RING)
 			));
 
-//			chord.setBarreFrets(List.of(
-//				new Barre(GuitarNote.f1_G, GuitarNote.f1_B, GuitarFinger.INDEX),
-//				new Barre(GuitarNote.f2_A, GuitarNote.f2_D, GuitarFinger.MIDDLE),
-//				new Barre(GuitarNote.f2_D, GuitarNote.f2_G, GuitarFinger.RING),
-//				new Barre(GuitarNote.f3_B, GuitarNote.f3_E, GuitarFinger.PINKY),
-//				new Barre(GuitarNote.f4_E, GuitarNote.f4_A, GuitarFinger.RING)
-//			));
+			chord.setBarreFrets(Set.of(
+				new GuitarBarrePushed(GuitarFret.FRET_1, GuitarString.e, GuitarString.E, Finger.INDEX)
+			));
 
-			chord.setFretStartingNumber(1);
-
-			Chord entity = this.chordsRepository.save(chord);
-			System.out.println("Saved chord: " + entity.getTitle() + " with ID: " + entity.getId());
+			this.chordsRepository.save(chord);
 		};
 	}
 }

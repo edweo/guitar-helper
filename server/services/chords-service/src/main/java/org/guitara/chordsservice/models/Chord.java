@@ -1,19 +1,17 @@
 package org.guitara.chordsservice.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.guitara.chordsservice.types.Barre;
-import org.guitara.chordsservice.types.ChordOpenCloseState;
-import org.guitara.chordsservice.types.FretPushed;
+import org.guitara.chordsservice.types.GuitarBarrePushed;
+import org.guitara.chordsservice.types.GuitarFret;
+import org.guitara.chordsservice.types.GuitarPositionPushed;
+import org.guitara.chordsservice.types.GuitarStringState;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,27 +22,29 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Chord {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String title;
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 50, message = "Name must be between 1 and 50 characters")
+    private String name;
+
+    private GuitarFret firstFretReference;
 
     @NotNull(message = "openCloseStates cannot be null")
-    @Size(min = 6, max = 6, message = "Array must have exactly 6 elements")
-    private List<ChordOpenCloseState> chordOpenClose;
+    @Size(max = 6, message = "Array must have between 0 and 6 elements")
+    @ElementCollection
+    private Set<GuitarStringState> mutedOpenStrings = new HashSet<>();
 
     @NotNull(message = "pushedFretNotes cannot be null")
     @ElementCollection
-    private Set<FretPushed> pushedFretNotes;
+    @Size(max = 30, message = "Array must have between 0 and 22 elements")
+    private Set<GuitarPositionPushed> positionsPushed = new HashSet<>();
 
-    @Min(value = 1, message = "Fret starting number must be at least 1")
-    @Max(value = 22, message = "Fret starting number must be at most 22")
-    private int fretStartingNumber;
-
-//    @NotNull(message = "barreFrets cannot be null")
-    @Size(min = 5, max = 5, message = "Array must have exactly 5 elements")
+    @NotNull(message = "barreFrets cannot be null")
+    @Size(max = 5, message = "Array must have exactly 5 elements")
     @ElementCollection
-    private List<Barre> barreFrets;
+    private Set<GuitarBarrePushed> barreFrets = new HashSet<>();
 }

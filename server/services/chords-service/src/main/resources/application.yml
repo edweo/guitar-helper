@@ -9,3 +9,9 @@ spring:
 server:
   servlet:
     context-path: /api
+
+springdoc:
+  swagger-ui.path: /swagger-ui
+  api-docs.path: /api-docs
+  show-actuator: true
+  packages-to-scan: org.guitara.chordsservice

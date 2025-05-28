@@ -5,17 +5,19 @@ import jakarta.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-public record FretPushed(FretNote fretNote, GuitarFinger guitarFinger) {
-
+public record GuitarStringState(
+        GuitarString guitarString,
+        GuitarStringOpenCloseState openCloseState
+) {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        FretPushed that = (FretPushed) o;
-        return that.fretNote.getValue().equals(fretNote.getValue());
+        GuitarStringState that = (GuitarStringState) o;
+        return guitarString == that.guitarString;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fretNote.getValue());
+        return Objects.hash(guitarString);
     }
 }

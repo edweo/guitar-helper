@@ -1,9 +1,10 @@
 package org.guitara.chordsservice.types;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
-public enum GuitarFinger {
+public enum Finger {
     INDEX(1),
     MIDDLE(2),
     RING(3),
@@ -11,7 +12,12 @@ public enum GuitarFinger {
 
     private final int value;
 
-    GuitarFinger(int value) {
+    Finger(int value) {
         this.value = value;
+    }
+
+    @JsonValue
+    public int getValue() {
+        return value;
     }
 }
