@@ -33,10 +33,6 @@ export class ChordsOverviewComponent implements OnDestroy {
   private readonly subKeysChordsGroupCustom!: Subscription
 
   constructor() {
-
-
-    console.log('type of', PageBackButtonComponent)
-
     this.topBarService.showTopBar()
     this.topBarService.setLeftContent([
       {component: PageBackButtonComponent},
