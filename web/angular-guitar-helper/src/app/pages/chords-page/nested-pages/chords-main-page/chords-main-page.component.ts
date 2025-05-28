@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
-import {CardInfoImageComponent} from "../../../../components/card-info-image/card-info-image.component";
+import {CardInfoImageComponent} from "../../../../components/other/card-info-image/card-info-image.component";
 import {Router} from '@angular/router';
-import {TopBarService} from '../../../../services/top-bar-service/top-bar.service';
+import {TopBarService} from '../../../../services/app/top-bar-service/top-bar.service';
 
 @Component({
   selector: 'app-chords-main-page',

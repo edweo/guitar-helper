@@ -1,4 +1,4 @@
-import {Chord} from '../models/chord';
+import {Chord} from './chord/chord';
 
 export interface ChordGroup {
   name: string,

@@ -1,19 +1,18 @@
 import {Component, inject, OnDestroy, signal} from '@angular/core';
-import {TopBarService} from '../../../../services/top-bar-service/top-bar.service';
-import {PageBackButtonComponent} from '../../../../components/page-back-button/page-back-button.component';
-import {TextIconButtonComponent} from '../../../../components/text-icon-button/text-icon-button.component';
+import {TopBarService} from '../../../../services/app/top-bar-service/top-bar.service';
+import {PageBackButtonComponent} from '../../../../components/app/page-back-button/page-back-button.component';
+import {TextIconButtonComponent} from '../../../../components/buttons/text-icon-button/text-icon-button.component';
 import {ComponentType} from '@angular/cdk/portal';
-import {Chord} from '../../../../models/chord';
-import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
+import {Chord} from '../../../../types/chord/chord';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatChip, MatChipSet} from '@angular/material/chips';
-import {ChordsService} from '../../../../services/chords-service/chords.service';
-import {PageFrameComponent} from '../../../../components/page-frame/page-frame.component';
+import {ChordsService} from '../../../../services/chords/chords-service/chords.service';
+import {PageFrameComponent} from '../../../../components/app/page-frame/page-frame.component';
 import {Router} from '@angular/router';
-import {ChordsPracticeService} from '../../../../services/chords-pratice-service/chords-practice.service';
-import {ChordsGalleryComponent} from '../../../../components/chords-gallery/chords-gallery.component';
+import {ChordsPracticeService} from '../../../../services/chords/chords-pratice-service/chords-practice.service';
+import {ChordsGalleryComponent} from '../../../../components/page/chords-page/chords-gallery/chords-gallery.component';
 
 enum GalleryChordsOption {
   DEFAULT = 'default',

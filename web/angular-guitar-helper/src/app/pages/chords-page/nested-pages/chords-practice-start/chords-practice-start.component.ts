@@ -1,30 +1,30 @@
 import {
   Component,
   inject,
-  OnDestroy, OnInit,
+  OnDestroy,
   signal,
   ViewChild
 } from '@angular/core';
-import {TopBarService} from '../../../../services/top-bar-service/top-bar.service';
-import {PageBackButtonComponent} from '../../../../components/page-back-button/page-back-button.component';
+import {TopBarService} from '../../../../services/app/top-bar-service/top-bar.service';
+import {PageBackButtonComponent} from '../../../../components/app/page-back-button/page-back-button.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {MobileModeService} from '../../../../services/mobile-mode-service/mobile-mode.service';
-import {PageFrameComponent} from '../../../../components/page-frame/page-frame.component';
+import {MobileModeService} from '../../../../services/app/mobile-mode-service/mobile-mode.service';
+import {PageFrameComponent} from '../../../../components/app/page-frame/page-frame.component';
 import {ComponentType} from '@angular/cdk/portal';
-import {IconButtonComponent} from '../../../../components/icon-button/icon-button.component';
+import {IconButtonComponent} from '../../../../components/buttons/icon-button/icon-button.component';
 import {
   ChordsCarouselComponent,
-} from '../../../../components/chords-carousel/chords-carousel.component';
+} from '../../../../components/page/chords-page/chords-carousel/chords-carousel.component';
 import {NgStyle} from '@angular/common';
-import {ChordsPracticeService} from '../../../../services/chords-pratice-service/chords-practice.service';
+import {ChordsPracticeService} from '../../../../services/chords/chords-pratice-service/chords-practice.service';
 import {
   ChordsPracticeTuneService
-} from '../../../../services/chords-practice-tune-service/chords-practice-tune.service';
+} from '../../../../services/chords/chords-practice-tune-service/chords-practice-tune.service';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {
   ChordsPracticeTuneOptionsComponent
-} from '../../../../components/chords-practice-tune-options/chords-practice-tune-options.component';
+} from '../../../../components/page/chords-page/chords-practice-tune-options/chords-practice-tune-options.component';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import {Subscription} from 'rxjs';
 

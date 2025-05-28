@@ -1,14 +1,14 @@
 import {Component, inject, OnDestroy, signal, WritableSignal} from '@angular/core';
-import {ChordCardComponent} from '../../../../components/chord-card/chord-card.component';
-import {TopBarService} from '../../../../services/top-bar-service/top-bar.service';
-import {PageBackButtonComponent} from '../../../../components/page-back-button/page-back-button.component';
-import {ChordsService} from '../../../../services/chords-service/chords.service';
+import {ChordCardComponent} from '../../../../components/page/chords-page/chord-card/chord-card.component';
+import {TopBarService} from '../../../../services/app/top-bar-service/top-bar.service';
+import {PageBackButtonComponent} from '../../../../components/app/page-back-button/page-back-button.component';
+import {ChordsService} from '../../../../services/chords/chords-service/chords.service';
 import {ChordsSelectionButtonComponent} from './components/chords-selection-button/chords-selection-button.component';
 import {ComponentType} from '@angular/cdk/portal';
 import {ChordGroup} from '../../../../types/chord_group';
 import {ChordsSelectionMenuItem} from './types/chords_selection_menu_item';
 import {Observable, Subscription} from 'rxjs';
-import {PageFrameComponent} from '../../../../components/page-frame/page-frame.component';
+import {PageFrameComponent} from '../../../../components/app/page-frame/page-frame.component';
 
 @Component({
   selector: 'app-chords-overview',
@@ -33,6 +33,10 @@ export class ChordsOverviewComponent implements OnDestroy {
   private readonly subKeysChordsGroupCustom!: Subscription
 
   constructor() {
+
+
+    console.log('type of', PageBackButtonComponent)
+
     this.topBarService.showTopBar()
     this.topBarService.setLeftContent([
       {component: PageBackButtonComponent},

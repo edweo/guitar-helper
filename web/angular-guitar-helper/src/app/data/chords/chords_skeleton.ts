@@ -1,8 +1,8 @@
-import {Chord} from '../../models/chord';
-import {ChordAddition} from '../../models/chord_open_close';
-import {FretNote} from '../../models/fret_note';
-import {FretPushed} from '../../models/fret_pushed';
-import {GuitarFinger} from '../../models/guitar_finger';
+import {Chord} from '../../types/chord/chord';
+import {ChordAddition} from '../../types/chord/chord_open_close';
+import {FretNote} from '../../types/chord/fret_note';
+import {FretPushed} from '../../types/chord/fret_pushed';
+import {GuitarFinger} from '../../types/guitar_finger';
 
 export const CHORDS_SKELETON: Chord[] = [
   {

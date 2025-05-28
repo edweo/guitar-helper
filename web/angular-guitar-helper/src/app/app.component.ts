@@ -1,17 +1,16 @@
-import {Component, inject, OnDestroy, ViewChild} from '@angular/core';
+import {Component, inject, OnDestroy} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {MatDrawer, MatDrawerMode, MatSidenavModule} from '@angular/material/sidenav';
+import {MatDrawerMode, MatSidenavModule} from '@angular/material/sidenav';
 import {MatNavList} from '@angular/material/list';
-import {NavItemComponent} from './components/nav-item/nav-item.component';
-import {NavMenuService} from './services/nav-menu-service/nav-menu.service';
-import {PageFrameComponent} from './components/page-frame/page-frame.component';
+import {NavItemComponent} from './components/app/nav-item/nav-item.component';
+import {NavMenuService} from './services/app/nav-menu-service/nav-menu.service';
 import {Subscription} from 'rxjs';
-import {MobileModeService} from './services/mobile-mode-service/mobile-mode.service';
+import {MobileModeService} from './services/app/mobile-mode-service/mobile-mode.service';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {NgStyle} from '@angular/common';
-import {TopBarService} from './services/top-bar-service/top-bar.service';
-import {TopBarComponent} from './components/top-bar/top-bar.component';
+import {TopBarService} from './services/app/top-bar-service/top-bar.service';
+import {TopBarComponent} from './components/app/top-bar/top-bar.component';
 
 @Component({
   selector: 'app-root',

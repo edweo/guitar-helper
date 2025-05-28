@@ -1,8 +1,8 @@
-import {FretNote} from '../../models/fret_note';
-import {Chord} from '../../models/chord';
-import {FretPushed} from '../../models/fret_pushed';
-import {ChordAddition} from '../../models/chord_open_close';
-import {GuitarFinger} from '../../models/guitar_finger';
+import {FretNote} from '../../types/chord/fret_note';
+import {Chord} from '../../types/chord/chord';
+import {FretPushed} from '../../types/chord/fret_pushed';
+import {ChordAddition} from '../../types/chord/chord_open_close';
+import {GuitarFinger} from '../../types/guitar_finger';
 
 export const CHORDS_E: Chord[] = [
   // {
