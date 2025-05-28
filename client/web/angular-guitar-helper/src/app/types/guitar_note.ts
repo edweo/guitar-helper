@@ -1,4 +1,4 @@
-export enum Guitar_note {
+export enum GuitarNote {
   e = 0,
   A = 1,
   D = 2,

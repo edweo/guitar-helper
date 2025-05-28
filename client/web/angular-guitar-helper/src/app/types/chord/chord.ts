@@ -8,6 +8,6 @@ export interface Chord {
   title: string,
   chordOpenClose: ChordOpenClose,
   pushedFretNotes: Map<FretNote, FretPushed>,
-  barreFrets: BarreFrets,
   fretStartingReference: number,
+  barreFrets: BarreFrets,
 }

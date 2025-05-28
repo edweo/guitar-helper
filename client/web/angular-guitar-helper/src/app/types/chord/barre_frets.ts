@@ -1,4 +1,4 @@
-import {Guitar_note} from '../guitar_note';
+import {GuitarNote} from '../guitar_note';
 import {GuitarFinger} from '../guitar_finger';
 
 /**
@@ -23,8 +23,8 @@ export type BarreFrets = [
  * Starting from the e note towards E
  */
 export interface Barre {
-  startNote: Guitar_note,
-  endNote: Guitar_note,
+  startNote: GuitarNote,
+  endNote: GuitarNote,
   fingerNumber: GuitarFinger,
 }
 
