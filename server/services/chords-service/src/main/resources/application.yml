@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: chords-service
+  main:
+    banner-mode: off
+  threads:
+    virtual:
+      enabled: true
+server:
+  servlet:
+    context-path: /api
