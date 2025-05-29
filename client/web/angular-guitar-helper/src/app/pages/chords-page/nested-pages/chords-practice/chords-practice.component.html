@@ -9,7 +9,9 @@
             <mat-chip disableRipple class="!hover:bg-transparent">{{selectedChords().size}} / {{MAX_CHORDS_PRACTICE}}</mat-chip>
           </mat-chip-set>
         </div>
-        <app-text-icon-button text="Library" matIcon="folder_check" [onClick]="testFunc" />
+
+<!--        TODO add library functionality-->
+<!--        <app-text-icon-button text="Library" matIcon="folder_check" [onClick]="testFunc" />-->
       </div>
       <div class="border-2 border-dashed p-3 rounded">
         @if (selectedChords().size > 0) {
@@ -47,7 +49,7 @@
         <mat-grid-list cols="1" rowHeight="100%">
           <mat-grid-tile>
             <div class="flex flex-1 h-full w-full">
-              <mat-tab-group preserveContent animationDuration="0ms">
+              <mat-tab-group preserveContent animationDuration="0ms" class="w-full">
                 @for (tab of (selectedChordsGallery() === GalleryChordsOption.DEFAULT
                     ? chordsService.keysChordGroupsDefault()
                     : chordsService.keysChordGroupsCustom()); let i = $index; track i) {

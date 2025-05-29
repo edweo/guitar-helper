@@ -1,13 +1,14 @@
 import {Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {DynamicComponent} from '../../../types/dynamic_component';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TopBarService {
   readonly isTopBarShown = signal<boolean>(false)
-  readonly title = signal<string | null>('')
+  readonly title = signal<string | null>(environment.appName)
 
   readonly leftContent = signal<DynamicComponent<any>[] | null>(null)
   readonly leftContent$ = toObservable(this.leftContent)
@@ -36,7 +37,7 @@ export class TopBarService {
   }
 
   resetAll = () => {
-    this.setTopBarTitle(null)
+    this.setTopBarTitle(environment.appName)
     this.setLeftContent(null)
     this.setRightContent(null)
     this.hideTopBar()
