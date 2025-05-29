@@ -15,16 +15,16 @@ import java.util.List;
     name = "chords-api",
     description = "API for managing guitar chords"
 )
-public class ChordsController {
+public class ChordsDefaultController {
 
     private final ChordsService chordsService;
 
-    public ChordsController(ChordsService chordsService) {
+    public ChordsDefaultController(ChordsService chordsService) {
         this.chordsService = chordsService;
     }
 
     @GetMapping(
-            path = "/v1/chords",
+            path = "/v1/chords/default",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Operation(

@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: chords-service
+          uri: lb://chords-service
+          predicates:
+            - Path=/api/v**/chords/**
+          filters:
+            - StripPrefix=0

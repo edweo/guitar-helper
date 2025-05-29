@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: chords-service
+          uri: http://localhost:8211
+          predicates:
+            - Path=/api/v**/chords/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG
