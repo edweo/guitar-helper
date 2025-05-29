@@ -6,6 +6,9 @@ spring:
   threads:
     virtual:
       enabled: true
+  profiles:
+    default: dev
+
 server:
   servlet:
     context-path: /api
