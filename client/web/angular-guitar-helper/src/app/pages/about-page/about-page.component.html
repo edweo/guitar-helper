@@ -1,7 +1,15 @@
-<p>about-page works!</p>
+<app-page-frame>
+  <div class="flex flex-1 flex-col justify-center items-center">
+    <img ngSrc="/guitar_about.webp" alt="Guitar about" priority width="250" height="250" />
 
-<app-text-icon-button
-  matIcon="home"
-  text="Get Chords"
-  [onClick]="onClickBack"
-/>
+    <div class="flex flex-col justify-center items-center mt-8">
+      <h1 class="font-semibold text-2xl">{{environment.appName}}</h1>
+      <p class="mt-1">
+        Version:
+        <span class="text-blue-400 font-semibold">{{environment.version}}</span>
+      </p>
+    </div>
+
+    <p class="mt-8">Copyright © 2025 Guitara</p>
+  </div>
+</app-page-frame>

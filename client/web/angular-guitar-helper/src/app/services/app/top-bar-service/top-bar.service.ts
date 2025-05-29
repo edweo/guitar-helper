@@ -6,8 +6,8 @@ import {DynamicComponent} from '../../../types/dynamic_component';
   providedIn: 'root'
 })
 export class TopBarService {
-  readonly isTopBarShown = signal<boolean>(true)
-  readonly title = signal<string | null>("Guitara")
+  readonly isTopBarShown = signal<boolean>(false)
+  readonly title = signal<string | null>('')
 
   readonly leftContent = signal<DynamicComponent<any>[] | null>(null)
   readonly leftContent$ = toObservable(this.leftContent)
