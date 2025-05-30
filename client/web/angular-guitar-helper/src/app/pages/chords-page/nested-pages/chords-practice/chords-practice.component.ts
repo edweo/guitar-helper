@@ -30,7 +30,6 @@ enum GalleryChordsOption {
     MatButtonToggle,
     MatChipSet,
     MatChip,
-    TextIconButtonComponent,
     PageFrameComponent,
     ChordsGalleryComponent,
   ],
