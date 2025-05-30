@@ -1,14 +1,5 @@
 spring:
-  application:
-    name: chords-service
-  main:
-    banner-mode: off
-  threads:
-    virtual:
-      enabled: true
   profiles:
     default: dev
-
-server:
-  servlet:
-    context-path: /api
+  config:
+    import: configserver:http://root:secret@localhost:7777
