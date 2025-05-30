@@ -12,7 +12,10 @@ spring:
     config:
         server:
           git:
-            uri: https://github.com/edweo/guitara-config-repo
+            uri: https://github.com/edweo/guitar-helper
+            search-paths:
+              - server/configs
+              - server/configs/{application}
             clone-on-start: true
             skip-ssl-validation: true
   security:

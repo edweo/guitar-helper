@@ -11,8 +11,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-  config:
-    import: configserver:http://root:secret@localhost:7777
+  cloud:
+    config:
+      enabled: false
+
+springdoc:
+  swagger-ui.path: /swagger-ui
+  api-docs.path: /api-docs
+  show-actuator: true
+  packages-to-scan: org.guitara.chordsservice
 
 server:
   port: 8211

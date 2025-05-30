@@ -16,7 +16,6 @@ import java.util.List;
     description = "API for managing guitar chords"
 )
 public class ChordsDefaultController {
-
     private final ChordsService chordsService;
 
     public ChordsDefaultController(ChordsService chordsService) {
