@@ -15,6 +15,40 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: chords_db
 
+  keycloak-db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    ports:
+      - '5233:5432'
+    volumes:
+      - keycloak-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: keycloak_db
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.5
+    restart: always
+    ports:
+      - '7555:8080'
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db/keycloak_db
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: admin
+    depends_on:
+      - keycloak-db
+    command:
+      - start-dev
+
 volumes:
   chords-service-db:
+    driver: local
+  keycloak-db:
     driver: local

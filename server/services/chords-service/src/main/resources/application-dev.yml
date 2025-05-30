@@ -11,6 +11,12 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7555/realms/guitara
+          jwk-set-uri: http://localhost:7555/realms/guitara/protocol/openid-connect/certs
 
 springdoc:
   swagger-ui.path: /swagger-ui
@@ -21,8 +27,13 @@ springdoc:
 server:
   port: 8211
 
+
 management:
   endpoints:
     web:
       cors:
         allowed-origins: http://localhost:4200
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
