@@ -1,1 +1,2 @@
-chordsServiceVar: 1341
+server:
+  port: 80
