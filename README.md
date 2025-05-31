@@ -7,8 +7,9 @@ Application for becoming a better guitar player. Practice chords or tablature pl
 - TypeScript/Angular
 - TailwindCSS/Angular Material
 - Java/Spring Boot
-- OpenAPI/Swagger
+- OpenAPI
 - Keycloak
+- Docker
 
 <div>
   <img src="https://github.com/edweo/guitar-helper/blob/main/readme/1.png" alt="Image" width="200" />
