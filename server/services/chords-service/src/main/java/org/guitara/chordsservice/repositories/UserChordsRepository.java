@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UserChordsRepository extends ListCrudRepository<UserChord, Chord> {
+
   List<UserChord> findAllByUsername(String username);
+
 }
