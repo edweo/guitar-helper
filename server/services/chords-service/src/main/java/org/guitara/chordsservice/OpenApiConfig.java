@@ -1,29 +1,42 @@
 package org.guitara.chordsservice;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
+@SecurityScheme(
+        name = "bearerAuth",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer",
+        description = "Use the JWT token obtained from the authentication service to access protected endpoints."
+)
 @Configuration
 public class OpenApiConfig {
 
-    @Bean
-    @Profile("dev")
-    public OpenAPI openAPIDev() {
-        Server server = new Server();
-        server.setUrl("http://localhost:8080/api");
-        return new OpenAPI().servers(List.of(server));
-    }
+    @Value("${spring.application.name}")
+    private String appName;
 
     @Bean
-    @Profile("prod")
-    public OpenAPI openAPIProd() {
-        Server server = new Server();
-        server.setUrl("http://chords-service");
-        return new OpenAPI().servers(List.of(server));
+    public OpenAPI openAPIDev() {
+        Server serverDev = new Server();
+        serverDev.setUrl("http://localhost:8080");
+
+        Server serverProd = new Server();
+        serverProd.setUrl("http://" + appName);
+
+        return new OpenAPI()
+                .info(new io.swagger.v3.oas.models.info.Info()
+                        .title("Guitara Chords Service API")
+                        .version("1.0.0")
+                        .description("API for managing guitar chords, both default and user-specific.")
+                )
+                .servers(List.of(serverDev, serverProd));
     }
 }

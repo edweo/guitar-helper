@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ChordsService {
+public class DefaultChordsService {
     private final ChordsRepository chordsRepository;
 
-    public ChordsService(ChordsRepository chordsRepository) {
+    public DefaultChordsService(ChordsRepository chordsRepository) {
         this.chordsRepository = chordsRepository;
     }
 
