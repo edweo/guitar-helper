@@ -1,20 +1,17 @@
 package org.guitara.chordsservice.controllers;
 
-import com.nimbusds.jwt.JWT;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.guitara.JwtUtils;
 import org.guitara.chordsservice.models.Chord;
 import org.guitara.chordsservice.services.ChordsService;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
-import java.text.ParseException;
 import java.util.List;
 
 @Tag(
@@ -42,8 +39,7 @@ public class ChordsDefaultController {
 
     @GetMapping("v1/test")
     @PreAuthorize("isAuthenticated()")
-    public String test(Authentication authentication) throws ParseException {
-        JwtAuthenticationToken jwtToken = (JwtAuthenticationToken) authentication;
-        return "Chords service is running! " + jwtToken.getTokenAttributes().get("preferred_username");
+    public String test(Authentication authentication) {
+        return "Chords service is running! " + JwtUtils.getUsernameFromToken(authentication).orElseThrow();
     }
 }
