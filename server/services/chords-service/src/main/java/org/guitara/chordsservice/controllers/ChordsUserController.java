@@ -1,17 +1,20 @@
 package org.guitara.chordsservice.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.guitara.chordsservice.dto.ChordNoIdDto;
 import org.guitara.chordsservice.models.Chord;
 import org.guitara.chordsservice.services.UserChordsService;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Tag(
     name = "chords-user-api",
@@ -59,5 +62,29 @@ public class ChordsUserController {
           Authentication authentication
   ) {
     return userChordsService.createUserChord(chord, authentication);
+  }
+
+  @Operation(
+          operationId = "deleteUserChord",
+          summary = "Delete a user chord",
+          description = "Allows the authenticated user to delete a specific chord by its ID.",
+          security = @SecurityRequirement(name = "bearerAuth")
+  )
+  @ApiResponses({
+          @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                  responseCode = "404",
+                  description = "Chord not found"
+          )
+  })
+  @DeleteMapping(
+          path = "v1/chords/user/{chordId}"
+  )
+  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<Void> deleteUserChord(
+          @PathVariable UUID chordId,
+          Authentication authentication
+  ) {
+    userChordsService.deleteUserChord(chordId, authentication);
+    return ResponseEntity.ok().build();
   }
 }
