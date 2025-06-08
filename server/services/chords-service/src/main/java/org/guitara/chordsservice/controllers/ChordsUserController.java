@@ -73,18 +73,56 @@ public class ChordsUserController {
   @ApiResponses({
           @io.swagger.v3.oas.annotations.responses.ApiResponse(
                   responseCode = "404",
-                  description = "Chord not found"
+                  description = "Chord not found",
+                  content = @io.swagger.v3.oas.annotations.media.Content(
+                          mediaType = MediaType.APPLICATION_JSON_VALUE,
+                          schema = @io.swagger.v3.oas.annotations.media.Schema(
+                                  implementation = org.guitara.chordsservice.messages.SimpleErrorResponse.class
+                          )
+                  )
           )
   })
   @DeleteMapping(
-          path = "v1/chords/user/{chordId}"
+          path = "v1/chords/user/{id}"
   )
   @PreAuthorize("isAuthenticated()")
   public ResponseEntity<Void> deleteUserChord(
-          @PathVariable UUID chordId,
+          @PathVariable UUID id,
           Authentication authentication
   ) {
-    userChordsService.deleteUserChord(chordId, authentication);
+    userChordsService.deleteUserChord(id, authentication);
     return ResponseEntity.ok().build();
+  }
+
+  @Operation(
+          operationId = "updateUserChord",
+          summary = "Update a user chord",
+          description = "Allows the authenticated user to update an existing chord by its ID.",
+          security = @SecurityRequirement(name = "bearerAuth")
+  )
+  @ApiResponses({
+          @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                  responseCode = "404",
+                  description = "Chord not found",
+                  content = @io.swagger.v3.oas.annotations.media.Content(
+                          mediaType = MediaType.APPLICATION_JSON_VALUE,
+                          schema = @io.swagger.v3.oas.annotations.media.Schema(
+                                  implementation = org.guitara.chordsservice.messages.SimpleErrorResponse.class
+                          )
+                  )
+          )
+  })
+  @PutMapping(
+          path = "v1/chords/user/{id}",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  @PreAuthorize("isAuthenticated()")
+  public Chord updateUserChord(
+          @PathVariable UUID id,
+          @RequestBody ChordNoIdDto chord,
+          Authentication authentication
+  ) {
+    return userChordsService.updateUserChord(id, chord, authentication);
   }
 }

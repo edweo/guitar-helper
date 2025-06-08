@@ -43,9 +43,25 @@ public class UserChordsService {
 
   public void deleteUserChord(UUID chordId, Authentication authentication) {
     UserChord userChord = userChordsRepository.findByUsernameAndId(
-            JwtUtils.getUsernameFromToken(authentication).orElseThrow(),
+            JwtUtils.getUsernameFromToken(authentication).orElseThrow(UserNotFoundException::new),
             chordId
     ).orElseThrow(ChordDoesNotExistException::new);
     userChordsRepository.delete(userChord);
+  }
+
+  public Chord updateUserChord(
+          UUID chordId,
+          ChordNoIdDto chord,
+          Authentication authentication
+  ) {
+    UserChord userChord = userChordsRepository.findByUsernameAndId(
+            JwtUtils.getUsernameFromToken(authentication).orElseThrow(UserNotFoundException::new),
+            chordId
+    ).orElseThrow(ChordDoesNotExistException::new);
+
+    Chord updatedChord = chordMapper.toChord(chord);
+    updatedChord.setId(userChord.getId());
+    userChord.setChord(updatedChord);
+    return userChordsRepository.save(userChord).getChord();
   }
 }
