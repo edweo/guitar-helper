@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Tag(
-    name = "chords-user-api",
-    description = "API for managing user-specific guitar chords"
+    name = "Chords User API",
+    description = "API for managing user created guitar chords"
 )
 @RestController
 @RequestMapping("/api")
@@ -34,7 +34,7 @@ public class ChordsUserController {
       operationId = "getUserChords",
       summary = "Get all user chords",
       description = "Retrieves a list of guitar chords specific to the authenticated user.",
-      security = @SecurityRequirement(name = "bearerAuth")
+      security = @SecurityRequirement(name = "userAuth")
   )
   @GetMapping(
           path = "v1/chords/user",
@@ -49,7 +49,7 @@ public class ChordsUserController {
           operationId = "createUserChord",
           summary = "Create a new chord for the user",
           description = "Allows the authenticated user to create a new guitar chord.",
-          security = @SecurityRequirement(name = "bearerAuth")
+          security = @SecurityRequirement(name = "userAuth")
   )
   @PostMapping(
           path = "v1/chords/user",
@@ -68,7 +68,7 @@ public class ChordsUserController {
           operationId = "deleteUserChord",
           summary = "Delete a user chord",
           description = "Allows the authenticated user to delete a specific chord by its ID.",
-          security = @SecurityRequirement(name = "bearerAuth")
+          security = @SecurityRequirement(name = "userAuth")
   )
   @ApiResponses({
           @io.swagger.v3.oas.annotations.responses.ApiResponse(
@@ -98,7 +98,7 @@ public class ChordsUserController {
           operationId = "updateUserChord",
           summary = "Update a user chord",
           description = "Allows the authenticated user to update an existing chord by its ID.",
-          security = @SecurityRequirement(name = "bearerAuth")
+          security = @SecurityRequirement(name = "userAuth")
   )
   @ApiResponses({
           @io.swagger.v3.oas.annotations.responses.ApiResponse(

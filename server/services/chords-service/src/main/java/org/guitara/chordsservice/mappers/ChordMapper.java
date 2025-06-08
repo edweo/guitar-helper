@@ -1,7 +1,9 @@
 package org.guitara.chordsservice.mappers;
 
 import org.guitara.chordsservice.dto.ChordNoIdDto;
+import org.guitara.chordsservice.dto.DefaultChordNoIdDto;
 import org.guitara.chordsservice.models.Chord;
+import org.guitara.chordsservice.models.DefaultChord;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +26,14 @@ public final class ChordMapper {
         chordNoIdDto.mutedOpenStrings(),
         chordNoIdDto.positionsPushed(),
         chordNoIdDto.barreFrets()
+    );
+  }
+
+  public DefaultChord toDefaultChord(DefaultChordNoIdDto chordNoIdDto) {
+    return new DefaultChord(
+        null, // ID will be set later when saving to the database
+        toChord(chordNoIdDto.chord()),
+        chordNoIdDto.group()
     );
   }
 }

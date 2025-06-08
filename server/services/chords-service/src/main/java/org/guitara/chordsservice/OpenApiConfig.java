@@ -11,11 +11,18 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @SecurityScheme(
-        name = "bearerAuth",
+        name = "userAuth",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "bearer",
         description = "Use the JWT token obtained from the authentication service to access protected endpoints."
+)
+@SecurityScheme(
+        name = "adminAuth",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer",
+        description = "Use the JWT token with admin scope to access endpoints that require admin privileges."
 )
 @Configuration
 public class OpenApiConfig {
