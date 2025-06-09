@@ -1,0 +1,18 @@
+<mat-grid-list cols="5" rowHeight="1:1.2" class="w-full">
+  <!--Padding left-->
+  @if (barreStartNumber() > 0) {
+    <mat-grid-tile [colspan]="barreStartNumber()" class=" rounded-3xl" />
+  }
+
+  <mat-grid-tile [colspan]="barreEndNumber()-barreStartNumber()">
+    <div class="bg-black flex justify-center items-center w-full h-[77.15%] rounded-full">
+      <p class="text-white">{{barre.fingerNumber}}</p>
+    </div>
+  </mat-grid-tile>
+
+  <!--Padding right-->
+  @if (barreEndNumber() < 5) {
+    <mat-grid-tile [colspan]="5-barreEndNumber()" class="rounded-3xl" />
+  }
+</mat-grid-list>
+

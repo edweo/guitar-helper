@@ -70,6 +70,12 @@ export class AboutPageComponent {
         startNote: GuitarBarrePushed.StartNoteEnum.E,
         endNote: GuitarBarrePushed.EndNoteEnum.E2,
         fingerNumber: GuitarBarrePushed.FingerNumberEnum._4
+      },
+      {
+        fret: GuitarBarrePushed.FretEnum._5,
+        startNote: GuitarBarrePushed.StartNoteEnum.A,
+        endNote: GuitarBarrePushed.EndNoteEnum.B,
+        fingerNumber: GuitarBarrePushed.FingerNumberEnum._3
       }
     ])
   }

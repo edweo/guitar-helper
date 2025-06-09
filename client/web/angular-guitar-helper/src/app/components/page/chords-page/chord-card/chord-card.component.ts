@@ -9,12 +9,13 @@ import {
 import {MatCard} from '@angular/material/card';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {
-  Chord,
+  Chord, GuitarBarrePushed,
   GuitarPositionPushed,
   GuitarStringState
 } from '../../../../../../generated-sources/openapi/chords-service-openapi';
 import {OpenMutedStringComponent} from '../open-muted-string/open-muted-string.component';
 import {GuitarPositionPushedComponent} from '../guitar-position-pushed/guitar-position-pushed.component';
+import {BarreChordRowComponent} from '../barre-chord-row/barre-chord-row.component';
 
 @Component({
   selector: 'app-chord-card',
@@ -22,7 +23,6 @@ import {GuitarPositionPushedComponent} from '../guitar-position-pushed/guitar-po
     MatCard,
     MatGridList,
     MatGridTile,
-    GuitarPositionPushedComponent,
   ],
   templateUrl: './chord-card.component.html',
   styleUrl: './chord-card.component.css',
@@ -36,6 +36,8 @@ export class ChordCardComponent implements AfterViewInit {
   openMutedStringsTable = new Map<GuitarStringState.GuitarStringEnum, ViewContainerRef>()
   @ViewChildren('positionPushedElement', {read: ViewContainerRef}) positionPushedRefs!: QueryList<ViewContainerRef>
   positionsPushedTable = new Map<string, ViewContainerRef>()
+  @ViewChildren('barrePushedElement', {read: ViewContainerRef}) barrePushedRefs!: QueryList<ViewContainerRef>
+  barrePushedTable = new Map<GuitarBarrePushed.FretEnum, ViewContainerRef>()
 
   ngAfterViewInit() {
     this._initOpenMutedStrings()
@@ -44,6 +46,24 @@ export class ChordCardComponent implements AfterViewInit {
     this._initPositionPushedStrings()
 
     // TODO Init barre frets table
+    this._initBarrePushed()
+  }
+
+  _initBarrePushed() {
+    // Create a map of barre pushed frets to their ViewContainerRefs
+    this.barrePushedRefs.forEach((item: ViewContainerRef) => {
+      const fret = item.element.nativeElement.classList[0] as GuitarBarrePushed.FretEnum
+      this.barrePushedTable.set(fret, item)
+    })
+
+    // Set barre frets according to chord configuration
+    this.chord.barreFrets.forEach((barre: GuitarBarrePushed) => {
+      const elementRef = this.barrePushedTable.get(barre.fret!)
+      if (elementRef !== undefined) {
+        const componentRef = elementRef.createComponent(BarreChordRowComponent)
+        componentRef.instance.barre = barre
+      }
+    })
   }
 
   _initPositionPushedStrings() {
