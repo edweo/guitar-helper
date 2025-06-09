@@ -1,12 +1,19 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  QueryList,
+  ViewChildren, ViewContainerRef
+} from '@angular/core';
 import {MatCard} from '@angular/material/card';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
-import {MatIcon} from '@angular/material/icon';
 import {
   Chord,
   GuitarPositionPushed,
   GuitarStringState
 } from '../../../../../../generated-sources/openapi/chords-service-openapi';
+import {OpenMutedStringComponent} from '../open-muted-string/open-muted-string.component';
 
 interface Tile {
   col: number;
@@ -20,16 +27,45 @@ interface Tile {
     MatCard,
     MatGridList,
     MatGridTile,
-    MatIcon,
   ],
   templateUrl: './chord-card.component.html',
   styleUrl: './chord-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChordCardComponent {
+export class ChordCardComponent implements AfterViewInit {
   @Input({required: true}) chord!: Chord
 
   tiles: Tile[] = this.generateTiles()
+
+  // HTML element references
+  @ViewChildren('openMutedStringElement', {read: ViewContainerRef}) openMutedStringsRefs!: QueryList<ViewContainerRef>
+  openMutedStringsTable = new Map<GuitarStringState.GuitarStringEnum, ViewContainerRef>()
+
+  ngAfterViewInit() {
+    this._initOpenMutedStrings()
+
+    // TODO Init pushed frets table
+
+    // TODO Init barre frets table
+  }
+
+  _initOpenMutedStrings() {
+    this.openMutedStringsRefs.forEach((item: ViewContainerRef) => {
+      const stringClass: GuitarStringState.GuitarStringEnum = item.element.nativeElement.classList[0]
+      this.openMutedStringsTable.set(stringClass, item)
+    })
+    this.chord.mutedOpenStrings.forEach(state => {
+      const elementRef = this.openMutedStringsTable.get(state.guitarString!)
+      if (elementRef !== undefined) {
+        const componentRef = elementRef.createComponent(OpenMutedStringComponent)
+        if (state.openCloseState === GuitarStringState.OpenCloseStateEnum._0) {
+          componentRef.instance.state = GuitarStringState.OpenCloseStateEnum._0
+        } else {
+          componentRef.instance.state = GuitarStringState.OpenCloseStateEnum._1
+        }
+      }
+    })
+  }
 
   generateTiles(): Tile[] {
     const tiles: Tile[] = []
@@ -52,4 +88,5 @@ export class ChordCardComponent {
   // }
 
   protected readonly GuitarStringState = GuitarStringState;
+  protected readonly Object = Object;
 }

@@ -80,16 +80,12 @@
   <div class="flex flex-col items-center">
     <!--TODO create fret reference point-->
 
-    <!--Open frets-->
+    <!--Open/closed strings-->
     <div class="w-full">
       <mat-grid-list cols="6" rowHeight="1:1" class="w-full mb-[-8px]">
-        @for (chordAddition of chord.mutedOpenStrings; let i = $index; track i) {
+        @for (guitarString of Object.values(GuitarStringState.GuitarStringEnum); let i = $index; track i) {
           <mat-grid-tile>
-            @if (chordAddition.openCloseState === GuitarStringState.OpenCloseStateEnum._0) {
-              <mat-icon class="!h-full !w-full text-center !text-4xl">close</mat-icon>
-            } @else if (chordAddition.openCloseState === GuitarStringState.OpenCloseStateEnum._1) {
-              <mat-icon class="!h-full !w-full text-center !text-4xl">radio_button_unchecked</mat-icon>
-            }
+            <span #openMutedStringElement class="{{guitarString}} hidden"></span>
           </mat-grid-tile>
         }
       </mat-grid-list>
