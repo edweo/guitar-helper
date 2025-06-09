@@ -1,3 +1,81 @@
+<!--<mat-card appearance="outlined" class="!bg-white inline-flex w-72 p-4">-->
+<!--  <div class="flex flex-col items-center">-->
+<!--    &lt;!&ndash;TODO create fret reference point&ndash;&gt;-->
+
+<!--    &lt;!&ndash;Open frets&ndash;&gt;-->
+<!--    <div class="w-full">-->
+<!--      <mat-grid-list cols="6" rowHeight="1:1" class="w-full mb-[-8px]">-->
+<!--        @for (chordAddition of chord.chordOpenClose; let i = $index; track i) {-->
+<!--          <mat-grid-tile>-->
+<!--            @if (chordAddition === ChordAddition.MUTED_NOTE) {-->
+<!--              <mat-icon class="!h-full !w-full text-center !text-4xl">close</mat-icon>-->
+<!--            } @else if (chordAddition === ChordAddition.OPEN_NOTE) {-->
+<!--              <mat-icon class="!h-full !w-full text-center !text-4xl">radio_button_unchecked</mat-icon>-->
+<!--            }-->
+<!--          </mat-grid-tile>-->
+<!--        }-->
+<!--      </mat-grid-list>-->
+<!--    </div>-->
+
+<!--    <div class="flex items-center justify-center w-full relative mt-2">-->
+<!--      &lt;!&ndash;Chords grid&ndash;&gt;-->
+<!--      <div class="w-10/12">-->
+<!--        <mat-grid-list cols="5" rowHeight="1:1.1" class="bg-black w-full border-t-1 border-x-1">-->
+<!--          @for (tile of tiles; let i = $index; track i) {-->
+<!--            <mat-grid-tile class="bg-white" />-->
+<!--          }-->
+<!--        </mat-grid-list>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Pushed frets&ndash;&gt;-->
+<!--      <div class=" flex absolute w-full h-full bottom-0 left-0">-->
+<!--        <mat-grid-list cols="6" rowHeight="1:1.1" class="w-full">-->
+<!--          @for (fretNote of allFrets(); let i = $index; track i) {-->
+<!--            <mat-grid-tile>-->
+<!--              @if (chord.pushedFretNotes.has(getFret(fretNote))) {-->
+<!--                <div class="bg-black flex justify-center items-center w-[85%] h-[77.15%] rounded-full">-->
+<!--                  <p class="text-white">{{getPushedFretNumber(fretNote)}}</p>-->
+<!--                </div>-->
+<!--              }-->
+<!--            </mat-grid-tile>-->
+<!--          }-->
+<!--        </mat-grid-list>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Barre frets&ndash;&gt;-->
+<!--      <div class="flex absolute w-10/12 h-full bottom-0 left-[22px]">-->
+<!--        <mat-grid-list cols="5" rowHeight="1:1.1" class=" w-full">-->
+<!--          @for (barre of chord.barreFrets; let i = $index; track i) {-->
+<!--            @if (barre !== null) {-->
+<!--              &lt;!&ndash;Padding left&ndash;&gt;-->
+<!--              @if (barre.startNote > 0) {-->
+<!--                <mat-grid-tile [colspan]="barre.startNote" class=" rounded-3xl" />-->
+<!--              }-->
+
+<!--              <mat-grid-tile [colspan]="barre.endNote-barre.startNote">-->
+<!--                <div class="bg-black flex justify-center items-center w-full h-[77.15%] rounded-full">-->
+<!--                  <p class="text-white">{{barre.fingerNumber}}</p>-->
+<!--                </div>-->
+<!--              </mat-grid-tile>-->
+
+<!--              &lt;!&ndash;Padding right&ndash;&gt;-->
+<!--              @if (barre.endNote < 5) {-->
+<!--                <mat-grid-tile [colspan]="5-barre.endNote" class="rounded-3xl" />-->
+<!--              }-->
+<!--            } @else {-->
+<!--              <mat-grid-tile colspan="5" class="rounded-3xl" />-->
+<!--            }-->
+<!--          }-->
+<!--        </mat-grid-list>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <h1 class="font-bold text-4xl mt-2">{{chord.title}}</h1>-->
+<!--  </div>-->
+<!--</mat-card>-->
+
+
+
 <mat-card appearance="outlined" class="!bg-white inline-flex w-72 p-4">
   <div class="flex flex-col items-center">
     <!--TODO create fret reference point-->
@@ -5,11 +83,11 @@
     <!--Open frets-->
     <div class="w-full">
       <mat-grid-list cols="6" rowHeight="1:1" class="w-full mb-[-8px]">
-        @for (chordAddition of chord.chordOpenClose; let i = $index; track i) {
+        @for (chordAddition of chord.mutedOpenStrings; let i = $index; track i) {
           <mat-grid-tile>
-            @if (chordAddition === ChordAddition.MUTED_NOTE) {
+            @if (chordAddition.openCloseState === GuitarStringState.OpenCloseStateEnum._0) {
               <mat-icon class="!h-full !w-full text-center !text-4xl">close</mat-icon>
-            } @else if (chordAddition === ChordAddition.OPEN_NOTE) {
+            } @else if (chordAddition.openCloseState === GuitarStringState.OpenCloseStateEnum._1) {
               <mat-icon class="!h-full !w-full text-center !text-4xl">radio_button_unchecked</mat-icon>
             }
           </mat-grid-tile>
@@ -28,48 +106,50 @@
       </div>
 
       <!--Pushed frets-->
+
+<!--      TODO double loop each fret and note - then check if the note is pushed in the set-->
       <div class=" flex absolute w-full h-full bottom-0 left-0">
         <mat-grid-list cols="6" rowHeight="1:1.1" class="w-full">
-          @for (fretNote of allFrets(); let i = $index; track i) {
-            <mat-grid-tile>
-              @if (chord.pushedFretNotes.has(getFret(fretNote))) {
-                <div class="bg-black flex justify-center items-center w-[85%] h-[77.15%] rounded-full">
-                  <p class="text-white">{{getPushedFretNumber(fretNote)}}</p>
-                </div>
-              }
-            </mat-grid-tile>
-          }
+<!--          @for (fret of allFrets(); let i = $index; track i) {-->
+<!--            <mat-grid-tile>-->
+<!--              @if (chord.positionsPushed.has(fret)) {-->
+<!--                <div class="bg-black flex justify-center items-center w-[85%] h-[77.15%] rounded-full">-->
+<!--                  <p class="text-white">{{getPushedFretNumber(fretNote)}}</p>-->
+<!--                </div>-->
+<!--              }-->
+<!--            </mat-grid-tile>-->
+<!--          }-->
         </mat-grid-list>
       </div>
 
       <!--Barre frets-->
       <div class="flex absolute w-10/12 h-full bottom-0 left-[22px]">
         <mat-grid-list cols="5" rowHeight="1:1.1" class=" w-full">
-          @for (barre of chord.barreFrets; let i = $index; track i) {
-            @if (barre !== null) {
-              <!--Padding left-->
-              @if (barre.startNote > 0) {
-                <mat-grid-tile [colspan]="barre.startNote" class=" rounded-3xl" />
-              }
+<!--          @for (barre of chord.barreFrets; let i = $index; track i) {-->
+<!--            @if (barre !== null) {-->
+<!--              &lt;!&ndash;Padding left&ndash;&gt;-->
+<!--              @if (barre.startNote > 0) {-->
+<!--                <mat-grid-tile [colspan]="barre.startNote" class=" rounded-3xl" />-->
+<!--              }-->
 
-              <mat-grid-tile [colspan]="barre.endNote-barre.startNote">
-                <div class="bg-black flex justify-center items-center w-full h-[77.15%] rounded-full">
-                  <p class="text-white">{{barre.fingerNumber}}</p>
-                </div>
-              </mat-grid-tile>
+<!--              <mat-grid-tile [colspan]="barre.endNote-barre.startNote">-->
+<!--                <div class="bg-black flex justify-center items-center w-full h-[77.15%] rounded-full">-->
+<!--                  <p class="text-white">{{barre.fingerNumber}}</p>-->
+<!--                </div>-->
+<!--              </mat-grid-tile>-->
 
-              <!--Padding right-->
-              @if (barre.endNote < 5) {
-                <mat-grid-tile [colspan]="5-barre.endNote" class="rounded-3xl" />
-              }
-            } @else {
-              <mat-grid-tile colspan="5" class="rounded-3xl" />
-            }
-          }
+<!--              &lt;!&ndash;Padding right&ndash;&gt;-->
+<!--              @if (barre.endNote < 5) {-->
+<!--                <mat-grid-tile [colspan]="5-barre.endNote" class="rounded-3xl" />-->
+<!--              }-->
+<!--            } @else {-->
+<!--              <mat-grid-tile colspan="5" class="rounded-3xl" />-->
+<!--            }-->
+<!--          }-->
         </mat-grid-list>
       </div>
     </div>
 
-    <h1 class="font-bold text-4xl mt-2">{{chord.title}}</h1>
+<!--    <h1 class="font-bold text-4xl mt-2">{{chord.title}}</h1>-->
   </div>
 </mat-card>

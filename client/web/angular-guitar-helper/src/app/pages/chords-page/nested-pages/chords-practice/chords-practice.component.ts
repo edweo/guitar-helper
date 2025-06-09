@@ -1,18 +1,21 @@
-import {Component, inject, OnDestroy, signal} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import {TopBarService} from '../../../../services/app/top-bar-service/top-bar.service';
 import {PageBackButtonComponent} from '../../../../components/app/page-back-button/page-back-button.component';
 import {TextIconButtonComponent} from '../../../../components/buttons/text-icon-button/text-icon-button.component';
 import {ComponentType} from '@angular/cdk/portal';
-import {Chord} from '../../../../types/chord/chord';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatChip, MatChipSet} from '@angular/material/chips';
-import {ChordsService} from '../../../../services/chords/chords-service/chords.service';
 import {PageFrameComponent} from '../../../../components/app/page-frame/page-frame.component';
 import {Router} from '@angular/router';
 import {ChordsPracticeService} from '../../../../services/chords/chords-pratice-service/chords-practice.service';
 import {ChordsGalleryComponent} from '../../../../components/page/chords-page/chords-gallery/chords-gallery.component';
+import {
+  Chord,
+  ChordsDefaultAPIService,
+  DefaultChord
+} from '../../../../../../generated-sources/openapi/chords-service-openapi';
 
 enum GalleryChordsOption {
   DEFAULT = 'default',
@@ -36,7 +39,7 @@ enum GalleryChordsOption {
   templateUrl: './chords-practice.component.html',
   styleUrl: './chords-practice.component.css'
 })
-export class ChordsPracticeComponent implements OnDestroy {
+export class ChordsPracticeComponent implements OnDestroy, OnInit {
   protected readonly GalleryChordsOption = GalleryChordsOption;
 
   // Constants
@@ -47,12 +50,14 @@ export class ChordsPracticeComponent implements OnDestroy {
   private readonly isInsufficientChordsSelected = signal<boolean>(true)
   readonly selectedChordsGallery = signal<GalleryChordsOption>(GalleryChordsOption.DEFAULT)
   readonly selectedChords = signal<Set<Chord>>(new Set())
+  readonly defaultChords = signal<Record<string, DefaultChord[]>>({})
+  readonly userChords = signal<Chord[]>([]);
 
   // Services
   readonly topBarService = inject(TopBarService)
-  readonly chordsService = inject(ChordsService)
   private readonly chordsPracticeService = inject(ChordsPracticeService)
   private readonly router = inject(Router);
+  private readonly chordsDefaultAPIService = inject(ChordsDefaultAPIService);
 
   constructor() {
     this.topBarService.showTopBar()
@@ -72,6 +77,18 @@ export class ChordsPracticeComponent implements OnDestroy {
         }
       }
     ])
+  }
+
+  ngOnInit() {
+    // Fetch default chords from the API
+    this.chordsDefaultAPIService.listChords().subscribe({
+      next: (response) => {
+        this.defaultChords.set(response);
+      },
+      error: (error) => {
+        console.error('Error fetching default chords:', error);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -110,10 +127,6 @@ export class ChordsPracticeComponent implements OnDestroy {
     return !this.selectedChords().has(chord);
   }
 
-  // TODO delete this test function
-  testFunc = () => {
-    console.log('test button')
-  }
-
   protected readonly Array = Array;
+  protected readonly Object = Object;
 }

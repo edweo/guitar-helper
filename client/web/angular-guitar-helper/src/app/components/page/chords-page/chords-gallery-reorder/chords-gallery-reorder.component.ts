@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ChordCardComponent} from '../chord-card/chord-card.component';
-import {Chord} from '../../../../types/chord/chord';
 import {NgClass, NgStyle} from '@angular/common';
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
+import {Chord} from '../../../../../../generated-sources/openapi/chords-service-openapi';
 
 @Component({
   selector: 'app-chords-gallery-reorder',

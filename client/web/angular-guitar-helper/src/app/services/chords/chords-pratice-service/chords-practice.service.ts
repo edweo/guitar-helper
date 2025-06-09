@@ -1,8 +1,7 @@
 import {Injectable, signal} from '@angular/core';
 import {ChordsPracticeSetup} from '../../../types/chords_practice_setup';
-import {Chord} from '../../../types/chord/chord';
-import {CHORDS_E} from '../../../data/chords/chords_e';
 import {delayAwait} from '../../../utilities/delay';
+import {Chord} from '../../../../../generated-sources/openapi/chords-service-openapi';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,7 @@ export class ChordsPracticeService {
   // Practice setup
   readonly practiceSetup = signal<ChordsPracticeSetup>({
     name: '',
-    chords: [...CHORDS_E]
+    chords: []
     // chords: []
   })
 

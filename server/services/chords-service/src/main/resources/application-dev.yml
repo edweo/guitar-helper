@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -27,12 +27,12 @@ springdoc:
 server:
   port: 8211
 
-
 management:
   endpoints:
     web:
       cors:
         allowed-origins: http://localhost:4200
+
 logging:
   level:
     org.springframework.security: DEBUG

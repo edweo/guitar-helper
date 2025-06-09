@@ -1,6 +1,7 @@
 package org.guitara.chordsservice.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.guitara.chordsservice.dto.DefaultChordNoIdDto;
@@ -77,7 +78,9 @@ public class ChordsDefaultController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize("hasAuthority('SCOPE_admin')")
-    public DefaultChord createDefaultChord(@RequestBody DefaultChordNoIdDto chord) {
+    public DefaultChord createDefaultChord(
+            @RequestBody DefaultChordNoIdDto chord
+    ) {
         return this.defaultChordsService.createDefaultChord(chord);
     }
 }

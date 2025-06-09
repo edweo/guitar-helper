@@ -2,14 +2,14 @@
   <div class="flex flex-1 flex-col">
     <div class="h-full overflow-scroll">
       @if (currentChordGroup() !== undefined) {
-        @if (currentChordGroup()!.chords.length === 0) {
+        @if (currentChordGroup()!.length === 0) {
           <div class="flex h-full items-center justify-center">
             <h1>Chord group has no chords yet</h1>
           </div>
         } @else {
           <!--Display chord group-->
           <div class="flex flex-wrap flex-row justify-center items-center gap-3 max-h-0">
-            @for (chord of currentChordGroup()!.chords; let i = $index; track i) {
+            @for (chord of currentChordGroup()!; let i = $index; track i) {
               <div class="flex w-[144px] h-[179px]">
                 <app-chord-card
                   [chord]="chord"

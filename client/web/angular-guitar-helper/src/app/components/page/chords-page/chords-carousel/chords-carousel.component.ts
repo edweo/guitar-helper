@@ -9,8 +9,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import {ChordCardComponent} from '../chord-card/chord-card.component';
-import {Chord} from '../../../../types/chord/chord';
 import {NgStyle} from '@angular/common';
+import {Chord} from '../../../../../../generated-sources/openapi/chords-service-openapi';
 
 export enum ChordsDisplaySequence {
   IN_ORDER,

@@ -2,9 +2,11 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {MatCard} from '@angular/material/card';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatIcon} from '@angular/material/icon';
-import {FretNote} from '../../../../types/chord/fret_note';
-import {ChordAddition} from '../../../../types/chord/chord_open_close';
-import {Chord} from '../../../../types/chord/chord';
+import {
+  Chord,
+  GuitarPositionPushed,
+  GuitarStringState
+} from '../../../../../../generated-sources/openapi/chords-service-openapi';
 
 interface Tile {
   col: number;
@@ -41,13 +43,13 @@ export class ChordCardComponent {
     return tiles
   }
 
-  allFrets = () => Object.values(FretNote)
+  allFrets = () => Object.values(GuitarPositionPushed.FretEnum)
 
-  getFret = (fret: string) => FretNote[fret as keyof typeof FretNote]
+  // getFret = (fret: string) => FretNote[fret as keyof typeof FretNote]
 
-  getPushedFretNumber(fretNote: FretNote) {
-    return this.chord.pushedFretNotes.get(fretNote)?.fingerNumber
-  }
+  // getPushedFretNumber(fretNote: FretNote) {
+  //   return this.chord.pushedFretNotes.get(fretNote)?.fingerNumber
+  // }
 
-  protected readonly ChordAddition = ChordAddition;
+  protected readonly GuitarStringState = GuitarStringState;
 }

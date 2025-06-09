@@ -2,13 +2,12 @@ import {Component, inject, OnDestroy, signal, WritableSignal} from '@angular/cor
 import {ChordCardComponent} from '../../../../components/page/chords-page/chord-card/chord-card.component';
 import {TopBarService} from '../../../../services/app/top-bar-service/top-bar.service';
 import {PageBackButtonComponent} from '../../../../components/app/page-back-button/page-back-button.component';
-import {ChordsService} from '../../../../services/chords/chords-service/chords.service';
 import {ChordsSelectionButtonComponent} from './components/chords-selection-button/chords-selection-button.component';
 import {ComponentType} from '@angular/cdk/portal';
-import {ChordGroup} from '../../../../types/chord_group';
 import {ChordsSelectionMenuItem} from './types/chords_selection_menu_item';
 import {Observable, Subscription} from 'rxjs';
 import {PageFrameComponent} from '../../../../components/app/page-frame/page-frame.component';
+import {Chord} from '../../../../../../generated-sources/openapi/chords-service-openapi';
 
 @Component({
   selector: 'app-chords-overview',
@@ -20,12 +19,11 @@ import {PageFrameComponent} from '../../../../components/app/page-frame/page-fra
   styleUrl: './chords-overview.component.css'
 })
 export class ChordsOverviewComponent implements OnDestroy {
-  readonly currentChordGroup: WritableSignal<ChordGroup | undefined> = signal(undefined)
+  readonly currentChordGroup: WritableSignal<Chord[] | undefined> = signal(undefined)
   private readonly chordMenuItemsGroupDefault: WritableSignal<ChordsSelectionMenuItem[]> = signal([])
   private readonly chordMenuItemsGroupCustom: WritableSignal<ChordsSelectionMenuItem[]> = signal([])
 
   // Services
-  readonly chordsService = inject(ChordsService)
   readonly topBarService = inject(TopBarService)
 
   // Subscriptions
@@ -50,8 +48,9 @@ export class ChordsOverviewComponent implements OnDestroy {
       }
     ])
 
-    this.subKeysChordsGroupDefault = this._subscribeMenuItems(this.chordsService.keysChordGroupsDefault$, this.chordMenuItemsGroupDefault)
-    this.subKeysChordsGroupCustom = this._subscribeMenuItems(this.chordsService.keysChordGroupsCustom$, this.chordMenuItemsGroupCustom)
+    // TODO clean up this code
+    // this.subKeysChordsGroupDefault = this._subscribeMenuItems(this.chordsService.keysChordGroupsDefault$, this.chordMenuItemsGroupDefault)
+    // this.subKeysChordsGroupCustom = this._subscribeMenuItems(this.chordsService.keysChordGroupsCustom$, this.chordMenuItemsGroupCustom)
   }
 
   ngOnDestroy(): void {
@@ -61,7 +60,8 @@ export class ChordsOverviewComponent implements OnDestroy {
   }
 
   private _changeCurrentChordGroup = (groupName: string) => {
-    this.currentChordGroup.set(this.chordsService.getChordGroupDefault(groupName)!.asReadonly()())
+    // TODO clean up this code
+    // this.currentChordGroup.set(this.chordsService.getChordGroupDefault(groupName)!.asReadonly()())
     this.topBarService.setTopBarTitle('Group: ' + groupName)
   }
 
