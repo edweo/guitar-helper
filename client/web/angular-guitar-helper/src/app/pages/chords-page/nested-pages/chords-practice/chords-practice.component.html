@@ -68,18 +68,23 @@
 <!--                  </mat-tab>-->
 <!--                }-->
 
-<!--                @for (tab of Object.keys(defaultChords()).sort(); let i = $index; track i) {-->
-<!--                  <mat-tab [label]="tab">-->
-<!--                    <div class="p-3">-->
-<!--                      <app-chords-gallery-->
-<!--                        [chords]="defaultChords()[tab]"-->
-<!--                        [wrapChords]="true"-->
-<!--                        [chordOnClick]="addChordToSelection"-->
-<!--                        [filterChordsPredicate]="predicateIsChordNotSelected"-->
-<!--                      />-->
-<!--                    </div>-->
-<!--                  </mat-tab>-->
-<!--                }-->
+
+                @if (Object.keys(defaultChords()).length > 0) {
+                  @for (tab of Object.keys(defaultChords()).sort(); let i = $index; track i) {
+                    <mat-tab [label]="tab">
+                      <div class="p-3">
+                        <app-chords-gallery
+                          [chords]="getChordsFromDefault(defaultChords()[tab])"
+                          [wrapChords]="true"
+                          [chordOnClick]="addChordToSelection"
+                          [filterChordsPredicate]="predicateIsChordNotSelected"
+                        />
+                      </div>
+                    </mat-tab>
+                  }
+                }
+
+
 
               </mat-tab-group>
             </div>

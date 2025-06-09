@@ -51,7 +51,6 @@ export class ChordsPracticeComponent implements OnDestroy, OnInit {
   readonly selectedChordsGallery = signal<GalleryChordsOption>(GalleryChordsOption.DEFAULT)
   readonly selectedChords = signal<Set<Chord>>(new Set())
   readonly defaultChords = signal<Record<string, DefaultChord[]>>({})
-  readonly userChords = signal<Chord[]>([]);
 
   // Services
   readonly topBarService = inject(TopBarService)
@@ -84,15 +83,20 @@ export class ChordsPracticeComponent implements OnDestroy, OnInit {
     this.chordsDefaultAPIService.listChords().subscribe({
       next: (response) => {
         this.defaultChords.set(response);
+
       },
       error: (error) => {
-        console.error('Error fetching default chords:', error);
+        // console.error('Error fetching default chords:', error);
       }
     });
   }
 
   ngOnDestroy(): void {
     this.topBarService.resetAll()
+  }
+
+  getChordsFromDefault(defaultChords: DefaultChord[]): Chord[] {
+    return defaultChords.map(c => c.chord!)
   }
 
   handleChordsGalleryChange = (event: MatButtonToggleChange) => {
