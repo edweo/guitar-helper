@@ -57,6 +57,11 @@ export class AboutPageComponent {
         fret: GuitarPositionPushed.FretEnum._3,
         string: GuitarPositionPushed.StringEnum.D,
         finger: GuitarPositionPushed.FingerEnum._3
+      },
+      {
+        fret: GuitarPositionPushed.FretEnum._3,
+        string: GuitarPositionPushed.StringEnum.B,
+        finger: GuitarPositionPushed.FingerEnum._4
       }
     ]),
     barreFrets: new Set<GuitarBarrePushed>([

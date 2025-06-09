@@ -95,26 +95,23 @@
       <!--Chords grid-->
       <div class="w-10/12">
         <mat-grid-list cols="5" rowHeight="1:1.1" class="bg-black w-full border-t-1 border-x-1">
-          @for (tile of tiles; let i = $index; track i) {
+          @for (num of Array(25); let i = $index; track i) {
             <mat-grid-tile class="bg-white" />
           }
         </mat-grid-list>
       </div>
 
       <!--Pushed frets-->
-
 <!--      TODO double loop each fret and note - then check if the note is pushed in the set-->
       <div class=" flex absolute w-full h-full bottom-0 left-0">
         <mat-grid-list cols="6" rowHeight="1:1.1" class="w-full">
-<!--          @for (fret of allFrets(); let i = $index; track i) {-->
-<!--            <mat-grid-tile>-->
-<!--              @if (chord.positionsPushed.has(fret)) {-->
-<!--                <div class="bg-black flex justify-center items-center w-[85%] h-[77.15%] rounded-full">-->
-<!--                  <p class="text-white">{{getPushedFretNumber(fretNote)}}</p>-->
-<!--                </div>-->
-<!--              }-->
-<!--            </mat-grid-tile>-->
-<!--          }-->
+          @for (num of Array(5); let i = $index; track i) {
+            @for (string of Object.values(GuitarPositionPushed.StringEnum); let j = $index; track j) {
+              <mat-grid-tile>
+                <span #positionPushedElement class="{{`${i+1}`}} {{string}} hidden"></span>
+              </mat-grid-tile>
+            }
+          }
         </mat-grid-list>
       </div>
 
@@ -146,6 +143,6 @@
       </div>
     </div>
 
-<!--    <h1 class="font-bold text-4xl mt-2">{{chord.title}}</h1>-->
+    <h1 class="font-bold text-4xl mt-2">{{chord.name}}</h1>
   </div>
 </mat-card>
