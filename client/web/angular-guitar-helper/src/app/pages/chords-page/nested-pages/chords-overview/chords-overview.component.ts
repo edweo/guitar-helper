@@ -5,7 +5,6 @@ import {PageBackButtonComponent} from '../../../../components/app/page-back-butt
 import {ChordsSelectionButtonComponent} from './components/chords-selection-button/chords-selection-button.component';
 import {ComponentType} from '@angular/cdk/portal';
 import {ChordsSelectionMenuItem} from './types/chords_selection_menu_item';
-import {Observable, Subscription} from 'rxjs';
 import {PageFrameComponent} from '../../../../components/app/page-frame/page-frame.component';
 import {Chord} from '../../../../../../generated-sources/openapi/chords-service-openapi';
 
@@ -26,10 +25,6 @@ export class ChordsOverviewComponent implements OnDestroy {
   // Services
   readonly topBarService = inject(TopBarService)
 
-  // Subscriptions
-  private readonly subKeysChordsGroupDefault!: Subscription
-  private readonly subKeysChordsGroupCustom!: Subscription
-
   constructor() {
     this.topBarService.showTopBar()
     this.topBarService.setLeftContent([
@@ -47,37 +42,9 @@ export class ChordsOverviewComponent implements OnDestroy {
         }
       }
     ])
-
-    // TODO clean up this code
-    // this.subKeysChordsGroupDefault = this._subscribeMenuItems(this.chordsService.keysChordGroupsDefault$, this.chordMenuItemsGroupDefault)
-    // this.subKeysChordsGroupCustom = this._subscribeMenuItems(this.chordsService.keysChordGroupsCustom$, this.chordMenuItemsGroupCustom)
   }
 
   ngOnDestroy(): void {
     this.topBarService.resetAll()
-    this.subKeysChordsGroupDefault.unsubscribe()
-    this.subKeysChordsGroupCustom.unsubscribe()
-  }
-
-  private _changeCurrentChordGroup = (groupName: string) => {
-    // TODO clean up this code
-    // this.currentChordGroup.set(this.chordsService.getChordGroupDefault(groupName)!.asReadonly()())
-    this.topBarService.setTopBarTitle('Group: ' + groupName)
-  }
-
-  private _subscribeMenuItems(
-    menuItemsObs: Observable<string[]>,
-    chordsMenuSignal: WritableSignal<ChordsSelectionMenuItem[]>
-  ): Subscription {
-    return menuItemsObs.subscribe(menuItems => {
-      const newMenuItems: ChordsSelectionMenuItem[] = []
-      menuItems.forEach(menuItem => {
-        newMenuItems.push({
-          text: menuItem,
-          onClick: () => this._changeCurrentChordGroup(menuItem)
-        })
-      })
-      chordsMenuSignal.set(newMenuItems)
-    })
   }
 }
