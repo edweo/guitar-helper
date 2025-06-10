@@ -1,4 +1,4 @@
-import {Injectable, signal} from '@angular/core';
+import {computed, Injectable, signal} from '@angular/core';
 import {AppUser} from '../../../types/AppUser';
 
 @Injectable({
@@ -6,12 +6,8 @@ import {AppUser} from '../../../types/AppUser';
 })
 export class UserService {
 
-  readonly isLoggedIn = signal<boolean>(false);
   readonly user = signal<AppUser | undefined>(undefined)
-
-  setIsLoggedIn(isLoggedIn: boolean): void {
-    this.isLoggedIn.set(isLoggedIn);
-  }
+  readonly isLoggedIn = computed<boolean>(() => this.user() !== undefined);
 
   setUser(user: AppUser | undefined): void {
     this.user.set(user);
