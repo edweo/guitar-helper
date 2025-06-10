@@ -1,0 +1,20 @@
+<mat-tab-group preserveContent animationDuration="0ms" class="w-full">
+  @if (tabs.length > 0) {
+    @for (tab of tabs; let i = $index; track i) {
+      <mat-tab [label]="tab">
+        <div class="p-3">
+          <app-chords-gallery
+            [chords]="chords[tab]"
+            [wrapChords]="true"
+            [chordOnClick]="chordOnClick"
+            [filterChordsPredicate]="filterChordsPredicate"
+          />
+        </div>
+      </mat-tab>
+    }
+  } @else {
+    <h1>No chords to display</h1>
+  }
+</mat-tab-group>
+
+

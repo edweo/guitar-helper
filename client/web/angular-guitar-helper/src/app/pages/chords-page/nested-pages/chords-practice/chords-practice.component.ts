@@ -3,7 +3,6 @@ import {TopBarService} from '../../../../services/app/top-bar-service/top-bar.se
 import {PageBackButtonComponent} from '../../../../components/app/page-back-button/page-back-button.component';
 import {TextIconButtonComponent} from '../../../../components/buttons/text-icon-button/text-icon-button.component';
 import {ComponentType} from '@angular/cdk/portal';
-import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatChip, MatChipSet} from '@angular/material/chips';
@@ -14,19 +13,21 @@ import {ChordsGalleryComponent} from '../../../../components/page/chords-page/ch
 import {
   Chord,
   ChordsDefaultAPIService,
-  DefaultChord
 } from '../../../../../../generated-sources/openapi/chords-service-openapi';
+import {UserService} from '../../../../services/app/user-service/user.service';
+import {
+  ChordsTabGalleryComponent
+} from '../../../../components/page/chords-page/chords-tab-gallery/chords-tab-gallery.component';
+import {convertDefaultChords} from '../../../../utilities/chords_converter';
 
 enum GalleryChordsOption {
   DEFAULT = 'default',
-  CUSTOM = 'custom'
+  USER = 'user'
 }
 
 @Component({
   selector: 'app-chords-practice',
   imports: [
-    MatTabGroup,
-    MatTab,
     MatGridList,
     MatGridTile,
     MatButtonToggleGroup,
@@ -35,6 +36,7 @@ enum GalleryChordsOption {
     MatChip,
     PageFrameComponent,
     ChordsGalleryComponent,
+    ChordsTabGalleryComponent,
   ],
   templateUrl: './chords-practice.component.html',
   styleUrl: './chords-practice.component.css'
@@ -50,13 +52,15 @@ export class ChordsPracticeComponent implements OnDestroy, OnInit {
   private readonly isInsufficientChordsSelected = signal<boolean>(true)
   readonly selectedChordsGallery = signal<GalleryChordsOption>(GalleryChordsOption.DEFAULT)
   readonly selectedChords = signal<Set<Chord>>(new Set())
-  readonly defaultChords = signal<Record<string, DefaultChord[]>>({})
+  readonly defaultChords = signal<Record<string, Chord[]> | null>(null)
+  readonly userChords = signal<Record<string, Chord[]> | null>(null)
 
   // Services
   readonly topBarService = inject(TopBarService)
   private readonly chordsPracticeService = inject(ChordsPracticeService)
   private readonly router = inject(Router);
   private readonly chordsDefaultAPIService = inject(ChordsDefaultAPIService);
+  readonly userService = inject(UserService)
 
   constructor() {
     this.topBarService.showTopBar()
@@ -82,10 +86,10 @@ export class ChordsPracticeComponent implements OnDestroy, OnInit {
     // Fetch default chords from the API
     this.chordsDefaultAPIService.listChords().subscribe({
       next: (response) => {
-        this.defaultChords.set(response);
-
+        this.defaultChords.set(convertDefaultChords(response));
       },
       error: (error) => {
+        // TODO handle error appropriately, e.g., show a notification
         // console.error('Error fetching default chords:', error);
       }
     });
@@ -93,10 +97,6 @@ export class ChordsPracticeComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.topBarService.resetAll()
-  }
-
-  getChordsFromDefault(defaultChords: DefaultChord[]): Chord[] {
-    return defaultChords.map(c => c.chord!)
   }
 
   handleChordsGalleryChange = (event: MatButtonToggleChange) => {
