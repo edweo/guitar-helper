@@ -10,6 +10,8 @@ Application for becoming a better guitar player. Practice chords or tablature pl
 - OpenAPI
 - Keycloak
 - Docker
+- Grafana
+- Prometheus
 
 <div>
   <img src="https://github.com/edweo/guitar-helper/blob/main/readme/1.png" alt="Image" width="200" />
