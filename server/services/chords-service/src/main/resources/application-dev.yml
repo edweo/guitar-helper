@@ -30,8 +30,13 @@ server:
 management:
   endpoints:
     web:
+      exposure:
+        include: health, metrics, prometheus
       cors:
         allowed-origins: http://localhost:4200
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 logging:
   level:

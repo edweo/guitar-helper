@@ -47,8 +47,41 @@ services:
     command:
       - start-dev
 
+  # Observability
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    depends_on:
+      - prometheus
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Editor
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    ports:
+      - '9090:9090'
+    volumes:
+      - ../observability/prometheus:/etc/prometheus
+      - prometheus-storage:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus-dev.yml"
+
 volumes:
   chords-service-db:
     driver: local
   keycloak-db:
+    driver: local
+  grafana-storage:
+    driver: local
+  prometheus-storage:
     driver: local
