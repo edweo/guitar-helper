@@ -2,31 +2,9 @@ version: '3.9'
 name: 'guitara'
 
 services:
-  chords-service-db:
-    image: postgres:14.18
-    restart: always
-    shm_size: 128mb
-    ports:
-      - '5133:5432'
-    volumes:
-      - chords-service-db:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: admin
-      POSTGRES_USER: admin
-      POSTGRES_DB: chords_db
+  # Services
 
-  keycloak-db:
-    image: postgres:14.18
-    restart: always
-    shm_size: 128mb
-    ports:
-      - '5233:5432'
-    volumes:
-      - keycloak-db:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: admin
-      POSTGRES_USER: admin
-      POSTGRES_DB: keycloak_db
+  # Security
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.2.5
@@ -75,6 +53,34 @@ services:
       - prometheus-storage:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus-dev.yml"
+
+  # Database
+
+  keycloak-db:
+    image: postgres:14.18
+    restart: always
+    shm_size: 128mb
+    ports:
+      - '5233:5432'
+    volumes:
+      - keycloak-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: keycloak_db
+
+  chords-service-db:
+    image: postgres:14.18
+    restart: always
+    shm_size: 128mb
+    ports:
+      - '5133:5432'
+    volumes:
+      - chords-service-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: chords_db
 
 volumes:
   chords-service-db:
