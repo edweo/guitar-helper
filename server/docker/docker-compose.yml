@@ -3,7 +3,7 @@ name: 'guitara'
 
 services:
   chords-service-db:
-    image: postgres
+    image: postgres:14.18
     restart: always
     shm_size: 128mb
     ports:
@@ -16,7 +16,7 @@ services:
       POSTGRES_DB: chords_db
 
   keycloak-db:
-    image: postgres
+    image: postgres:14.18
     restart: always
     shm_size: 128mb
     ports:
@@ -50,7 +50,7 @@ services:
   # Observability
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:12.0.2
     container_name: grafana
     depends_on:
       - prometheus
@@ -65,7 +65,7 @@ services:
       - grafana-storage:/var/lib/grafana
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.4.2
     container_name: prometheus
     restart: always
     ports:
