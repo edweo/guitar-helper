@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.guitara.chordsservice.dto.DefaultChordNoIdDto;
+import org.guitara.chordsservice.metrics.ChordsDefaultControllerMetrics;
 import org.guitara.chordsservice.models.DefaultChord;
 import org.guitara.chordsservice.services.DefaultChordsService;
 import org.guitara.chordsservice.types.NoteGroup;
@@ -23,9 +24,11 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ChordsDefaultController {
     private final DefaultChordsService defaultChordsService;
+    private final ChordsDefaultControllerMetrics metrics;
 
-    public ChordsDefaultController(DefaultChordsService chordsService) {
+    public ChordsDefaultController(DefaultChordsService chordsService, ChordsDefaultControllerMetrics metrics) {
         this.defaultChordsService = chordsService;
+      this.metrics = metrics;
     }
 
     @Operation(
@@ -35,6 +38,7 @@ public class ChordsDefaultController {
     )
     @GetMapping(path = "v1/chords/default", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<NoteGroup, List<DefaultChord>> getChords() {
+        this.metrics.incrementChordsDefaultListAll();
         return defaultChordsService.getAllDefaultChords();
     }
 
