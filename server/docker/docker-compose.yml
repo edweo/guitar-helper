@@ -49,7 +49,7 @@ services:
     ports:
       - '9090:9090'
     volumes:
-      - ../observability/prometheus:/etc/prometheus
+      - ../observability/prometheus/prometheus-dev.yml:/etc/prometheus/prometheus-dev.yml
       - prometheus-storage:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus-dev.yml"
