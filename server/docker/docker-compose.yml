@@ -82,10 +82,25 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: chords_db
 
+  notifications-service-db:
+    image: postgres:14.18
+    restart: always
+    shm_size: 128mb
+    ports:
+      - '5143:5432'
+    volumes:
+      - notifications-service-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: notifications_db
+
 volumes:
   chords-service-db:
     driver: local
   keycloak-db:
+    driver: local
+  notifications-service-db:
     driver: local
   grafana-storage:
     driver: local

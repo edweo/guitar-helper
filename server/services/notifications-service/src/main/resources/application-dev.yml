@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5143/notifications_db
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7555/realms/guitara
+          jwk-set-uri: http://localhost:7555/realms/guitara/protocol/openid-connect/certs
+
+springdoc:
+  swagger-ui.path: /swagger-ui
+  api-docs.path: /api-docs
+  show-actuator: true
+  packages-to-scan: org.guitara.notificationsservice
+
+server:
+  port: 8311
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+      cors:
+        allowed-origins: http://localhost:4200
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
