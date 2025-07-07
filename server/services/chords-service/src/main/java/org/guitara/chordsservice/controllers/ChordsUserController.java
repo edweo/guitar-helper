@@ -37,7 +37,7 @@ public class ChordsUserController {
       security = @SecurityRequirement(name = "userAuth")
   )
   @GetMapping(
-          path = "v1/chords/user",
+          path = "/v1/user-chords",
           produces = MediaType.APPLICATION_JSON_VALUE
   )
   @PreAuthorize("isAuthenticated()")
@@ -52,7 +52,7 @@ public class ChordsUserController {
           security = @SecurityRequirement(name = "userAuth")
   )
   @PostMapping(
-          path = "v1/chords/user",
+          path = "/v1/user-chords",
           consumes = MediaType.APPLICATION_JSON_VALUE,
           produces = MediaType.APPLICATION_JSON_VALUE
   )
@@ -83,7 +83,7 @@ public class ChordsUserController {
           )
   })
   @DeleteMapping(
-          path = "v1/chords/user/{id}"
+          path = "/v1/user-chords/{id}"
   )
   @PreAuthorize("isAuthenticated()")
   public ResponseEntity<Void> deleteUserChord(
@@ -113,7 +113,7 @@ public class ChordsUserController {
           )
   })
   @PutMapping(
-          path = "v1/chords/user/{id}",
+          path = "/v1/user-chords/{id}",
           consumes = MediaType.APPLICATION_JSON_VALUE,
           produces = MediaType.APPLICATION_JSON_VALUE
   )

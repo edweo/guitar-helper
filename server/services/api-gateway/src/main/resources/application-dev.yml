@@ -5,7 +5,15 @@ spring:
         - id: chords-service
           uri: http://localhost:8211
           predicates:
-            - Path=/api/v**/chords/**
+            - Path=/chords/api/v**/**
+          filters:
+            - StripPrefix=1
+        - id: notifications-service
+          uri: http://localhost:8311
+          predicates:
+            - Path=/notifications/api/v**/**
+          filters:
+            - StripPrefix=1
 
 server:
   port: 8080

@@ -1,7 +1,6 @@
 package org.guitara.chordsservice.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.guitara.chordsservice.dto.DefaultChordNoIdDto;
@@ -36,7 +35,7 @@ public class ChordsDefaultController {
         summary = "List all chords",
         description = "Retrieves a list of all guitar chords available in the system."
     )
-    @GetMapping(path = "v1/chords/default", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/v1/default-chords", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<NoteGroup, List<DefaultChord>> getChords() {
         this.metrics.incrementChordsDefaultListAll();
         return defaultChordsService.getAllDefaultChords();
@@ -48,7 +47,7 @@ public class ChordsDefaultController {
         description = "Retrieves all default chord group names available."
     )
     @GetMapping(
-            path = "v1/chords/default/groups",
+            path = "v1/default-chords/groups",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public NoteGroup[] getDefaultChordGroups() {
@@ -61,7 +60,7 @@ public class ChordsDefaultController {
             description = "Retrieves all default chords belonging to a specific group."
     )
     @GetMapping(
-            path = "v1/chords/default/groups/{group}",
+            path = "v1/default-chords/groups/{group}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<DefaultChord> getDefaultChordsOfGroup(
@@ -77,7 +76,7 @@ public class ChordsDefaultController {
             security = @SecurityRequirement(name = "adminAuth")
     )
     @PostMapping(
-            path = "v1/chords/default",
+            path = "v1/default-chords",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
