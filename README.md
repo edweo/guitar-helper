@@ -4,9 +4,12 @@ Application for becoming a better guitar player. Practice chords or tablature pl
 [Link to DEMO](https://edweo.github.io/guitar-helper)
 
 ### Technologies
-- TypeScript/Angular
-- TailwindCSS/Angular Material
-- Java/Spring Boot
+- Angular
+- Angular Material
+- TypeScript
+- TailwindCSS
+- Java
+- Spring Boot
 - OpenAPI
 - Keycloak
 - Docker
