@@ -37,8 +37,15 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
+    enabled: true
 
 logging:
   level:
     org.springframework.security: DEBUG
     org.springframework.web: DEBUG
+
+tracing:
+  url: http://localhost:4318/v1/traces
