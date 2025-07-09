@@ -4,18 +4,27 @@ Application for becoming a better guitar player. Practice chords or tablature pl
 [Link to DEMO](https://edweo.github.io/guitar-helper)
 
 ### Technologies
-- Angular
-- Angular Material
-- TypeScript
-- TailwindCSS
-- Java
-- Spring Boot
-- OpenAPI
-- Keycloak
-- Docker
-- Grafana
-- Prometheus
-- Jaeger
+- **Front-end**
+  - Angular
+  - TypeScript
+  - Angular Material
+  - TailwindCSS
+- **Back-end**
+  - Java
+  - Spring Boot
+  - Microservices
+  - REST API
+  - OpenAPI
+- **Security**
+  - Keycloak
+  - Spring Security
+  - JWT
+- **Containerization**
+  - Docker
+- **Observability**
+  - Grafana
+  - Prometheus (metrics)
+  - Jaeger (tracing)
 
 <div>
   <img src="https://github.com/edweo/guitar-helper/blob/main/readme/1.png" alt="Image" width="200" />
