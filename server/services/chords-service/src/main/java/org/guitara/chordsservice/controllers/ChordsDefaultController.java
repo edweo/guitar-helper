@@ -8,6 +8,8 @@ import org.guitara.chordsservice.metrics.ChordsDefaultControllerMetrics;
 import org.guitara.chordsservice.models.DefaultChord;
 import org.guitara.chordsservice.services.DefaultChordsService;
 import org.guitara.chordsservice.types.NoteGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class ChordsDefaultController {
+    private final Logger LOG = LoggerFactory.getLogger(ChordsDefaultController.class);
+
     private final DefaultChordsService defaultChordsService;
     private final ChordsDefaultControllerMetrics metrics;
 
@@ -38,6 +42,7 @@ public class ChordsDefaultController {
     @GetMapping(path = "/v1/default-chords", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<NoteGroup, List<DefaultChord>> getChords() {
         this.metrics.incrementChordsDefaultListAll();
+        LOG.info("Retrieving all default chords");
         return defaultChordsService.getAllDefaultChords();
     }
 

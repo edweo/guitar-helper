@@ -54,6 +54,17 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus-dev.yml"
 
+  loki:
+    image: grafana/loki:3.4.1
+    container_name: loki
+    restart: always
+    ports:
+      - '3100:3100'
+#    volumes:
+#      - ../observability/loki/loki-dev.yml:/etc/loki/loki-dev.yml
+#    command:
+#      - "-config.file=/etc/loki/loki-dev.yml"
+
   jaeger:
     image: jaegertracing/all-in-one:1.71.0
     container_name: jaeger

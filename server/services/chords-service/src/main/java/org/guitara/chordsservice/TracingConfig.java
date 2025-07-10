@@ -13,7 +13,6 @@ public class TracingConfig {
 
   @Bean
   public OtlpHttpSpanExporter otlpHttpSpanExporter() {
-    System.out.println("Tracing URL: " + traceUrl);
     return OtlpHttpSpanExporter.builder()
             .setEndpoint(traceUrl)
             .build();

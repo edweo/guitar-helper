@@ -17,6 +17,9 @@ spring:
         jwt:
           issuer-uri: http://localhost:7555/realms/guitara
           jwk-set-uri: http://localhost:7555/realms/guitara/protocol/openid-connect/certs
+  output:
+    ansi:
+      enabled: always
 
 springdoc:
   swagger-ui.path: /swagger-ui
